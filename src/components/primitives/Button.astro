@@ -1,0 +1,35 @@
+---
+/**
+ * Primary CTA — the black, square-cornered "Start a Project" button.
+ * Monochrome by design; hover inverts to white-on-black-outline.
+ * Renders an <a> (link) or <button> depending on whether `href` is given.
+ */
+interface Props {
+  href?: string;
+  label?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+const { href, label, type = 'button', class: className = '' } = Astro.props;
+
+const classes = [
+  'inline-flex items-center justify-center gap-2.5 select-none',
+  'border border-ink bg-ink px-3.5 py-3',
+  'font-sans font-semibold text-nav tracking-tighter text-white',
+  'transition-[background-color,color,transform] duration-200 ease-out',
+  'hover:bg-white hover:text-ink active:translate-y-px',
+  className,
+];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes}>
+      {label ?? <slot />}
+    </a>
+  ) : (
+    <button type={type} class:list={classes}>
+      {label ?? <slot />}
+    </button>
+  )
+}

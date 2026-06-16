@@ -1,0 +1,25 @@
+---
+import Section from '@components/primitives/Section.astro';
+import Container from '@components/primitives/Container.astro';
+import Button from '@components/primitives/Button.astro';
+import Reveal from '@components/primitives/Reveal.astro';
+import { site } from '@data/site';
+
+const { callToAction, cta } = site;
+---
+
+<Section id="start">
+  <Container>
+    <Reveal
+      class="flex flex-col items-center gap-9 rounded-cta bg-sunken px-6 py-[clamp(3rem,7vw,5.5rem)] text-center"
+    >
+      <div class="flex flex-col items-center gap-3">
+        <h2 class="text-display font-semibold leading-[var(--text-display--line-height)] tracking-tight text-heading">
+          {callToAction.title}
+        </h2>
+        <p class="max-w-[34ch] text-lead text-body">{callToAction.body}</p>
+      </div>
+      <Button href={cta.href} label={cta.label} />
+    </Reveal>
+  </Container>
+</Section>

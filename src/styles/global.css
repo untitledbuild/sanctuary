@@ -1,0 +1,169 @@
+/* =============================================================================
+   untitled build — global stylesheet
+   -----------------------------------------------------------------------------
+   Single source of truth for the design system. Everything downstream (every
+   .astro component) consumes these tokens — no section re-declares a colour,
+   font size, or radius. Pulled from the Figma spec and consolidated:
+   many near-identical greys/sizes in the file collapse into a few semantic
+   tokens here.
+   ========================================================================== */
+
+/* Self-hosted fonts (no external requests — good for a CDN-served static site).
+   Variable fonts cover every weight we use in one file. */
+@import '@fontsource-variable/roboto-flex';
+@import '@fontsource-variable/roboto-mono';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+
+@import 'tailwindcss';
+
+/* -----------------------------------------------------------------------------
+   Design tokens — generate Tailwind utilities (bg-*, text-*, font-*, rounded-*…)
+   -------------------------------------------------------------------------- */
+@theme {
+  /* ---- Colour ---------------------------------------------------------- */
+  --color-bg: #ffffff;
+  --color-ink: #000000;          /* buttons, strongest marks                */
+  --color-navy: #000920;         /* eyebrow labels + serif accents          */
+  --color-heading: #343434;      /* display headings                        */
+  --color-strong: #262626;       /* process-card copy                       */
+  --color-body: #595959;         /* body / lead paragraphs                  */
+  --color-link: #1a1a1a;         /* header nav link (named to avoid clashing
+                                    with the --text-nav size token)         */
+
+  /* surfaces — light → sunken → inner blocks */
+  --color-surface: #f7f7f7;      /* mockup frames, portfolio + feature cards */
+  --color-sunken: #efefef;       /* CTA panel                                */
+  --color-block: #eaeaea;        /* inner mockup content blocks              */
+  --color-block-soft: #e3e3e3;   /* gradient-block start                     */
+  --color-paper: #ebebeb;        /* founders' note paper                     */
+  --color-wordmark: #dcdcdc;     /* oversized footer wordmark                */
+
+  /* lines & hairlines */
+  --color-line: rgba(0, 0, 0, 0.35);   /* primary blueprint grid line  */
+  --color-line-soft: rgba(0, 0, 0, 0.13);/* faded grid line            */
+  --color-hairline: rgba(0, 0, 0, 0.1); /* card borders                */
+
+  /* ---- Type families --------------------------------------------------- */
+  --font-sans: 'Roboto Flex Variable', 'Roboto Flex', system-ui, -apple-system,
+    'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono Variable', 'Roboto Mono', ui-monospace,
+    'SFMono-Regular', monospace;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+
+  /* ---- Fluid type scale (mobile → 1440 desktop) ------------------------ */
+  /* clamp() keeps the design proportional at every width instead of pinning
+     to the 1440 canvas — this is the backbone of the responsive behaviour. */
+  --text-display: clamp(2.5rem, 1.45rem + 4.6vw, 4.0625rem);   /* 40 → 65 */
+  --text-display--line-height: 1.04;
+  --text-quote: clamp(2.25rem, 0.85rem + 5.7vw, 5rem);         /* 36 → 80 */
+  --text-quote--line-height: 1.2;
+  --text-note: clamp(2.5rem, 1.55rem + 4vw, 4.25rem);          /* 40 → 68 */
+  --text-note--line-height: 1.15;
+  --text-eyebrow: clamp(1.125rem, 0.95rem + 0.72vw, 1.675rem); /* 18 → 26.8 */
+  --text-eyebrow--line-height: 1.2;
+  --text-feature: clamp(1.25rem, 1.0rem + 1.05vw, 1.6875rem);  /* 20 → 27 */
+  --text-feature--line-height: 1.25;
+  --text-card: clamp(1.25rem, 1.07rem + 0.78vw, 1.625rem);     /* 20 → 26 */
+  --text-card--line-height: 1.39;
+  --text-name: clamp(1.375rem, 1.15rem + 0.92vw, 1.8125rem);   /* 22 → 29 */
+  --text-name--line-height: 1.2;
+  --text-lead: clamp(1.0625rem, 0.96rem + 0.46vw, 1.375rem);   /* 17 → 22 */
+  --text-lead--line-height: 1.5;
+  --text-nav: clamp(1rem, 0.94rem + 0.25vw, 1.375rem);         /* 16 → 22 */
+  --text-nav--line-height: 1.18;
+
+  /* ---- Letter-spacing -------------------------------------------------- */
+  --tracking-tight: -0.02em;   /* headings / body                  */
+  --tracking-tighter: -0.05em; /* button label                     */
+  --tracking-serif: -0.01em;   /* Instrument Serif display          */
+
+  /* ---- Radii ----------------------------------------------------------- */
+  --radius-card: 48px;     /* phone frame, portfolio + feature cards */
+  --radius-browser: 28px;  /* browser window                          */
+  --radius-block: 19px;    /* inner mockup blocks                     */
+  --radius-cta: 21px;      /* CTA panel                               */
+
+  /* ---- Elevation ------------------------------------------------------- */
+  --shadow-float: 0 24px 48px -12px rgba(0, 0, 0, 0.18),
+    0 4px 4px -2px rgba(0, 0, 0, 0.04); /* process step cards */
+}
+
+/* -----------------------------------------------------------------------------
+   Layout rhythm — plain custom props (not utilities). Consumed via
+   max-w-[var(--container)] etc. so the values live in exactly one place.
+   -------------------------------------------------------------------------- */
+:root {
+  --container: 65rem;                          /* 1040px content column      */
+  --container-pad: clamp(1.25rem, 5vw, 2rem);  /* responsive gutters         */
+  --section-y: clamp(4rem, 8vw, 8.5rem);       /* vertical rhythm per section */
+}
+
+/* -----------------------------------------------------------------------------
+   Base layer
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth; /* fallback when Lenis/JS is unavailable */
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    letter-spacing: var(--tracking-tight);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip; /* full-bleed / rotated elements never cause h-scroll */
+  }
+
+  h1, h2, h3, h4 {
+    color: var(--color-heading);
+    text-wrap: balance;
+  }
+
+  img, svg, video {
+    display: block;
+    max-width: 100%;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  /* Reveal-on-scroll initial state is applied ONLY when JS motion is active
+     (class set synchronously in <head>). No-JS and reduced-motion users get
+     fully visible content with zero layout shift. */
+  html.js-motion [data-reveal] {
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    html.js-motion [data-reveal] { opacity: 1; }
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+@layer utilities {
+  /* Dashed divider used between the process step cells. */
+  .border-dashed-line {
+    border-style: dashed;
+    border-color: var(--color-line);
+  }
+}
+
+/* The dashed blueprint construction grid lives in BlueprintGrid.astro
+   (inline SVG <pattern>) so the dashes stay crisp at any viewport size. */

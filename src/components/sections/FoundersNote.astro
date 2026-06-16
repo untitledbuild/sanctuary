@@ -1,0 +1,41 @@
+---
+import Section from '@components/primitives/Section.astro';
+import Container from '@components/primitives/Container.astro';
+import Reveal from '@components/primitives/Reveal.astro';
+import { site } from '@data/site';
+
+const { foundersNote } = site;
+const holes = Array.from({ length: 12 });
+---
+
+<Section id="founders-note">
+  <Container class="flex justify-center">
+    <Reveal
+      class="relative w-full max-w-[47rem] rotate-[-3deg] bg-paper px-7 py-14 shadow-[0_30px_70px_-24px_rgba(0,0,0,0.18)] sm:px-14 sm:py-20 lg:rotate-[-6.8deg]"
+    >
+      {/* binder holes */}
+      <div
+        class="absolute bottom-12 left-4 top-12 flex flex-col justify-between sm:left-7"
+        aria-hidden="true"
+      >
+        {holes.map(() => <span class="size-3.5 rounded-full bg-white sm:size-5" />)}
+      </div>
+
+      <div class="pl-8 sm:pl-14">
+        <h2 class="font-serif text-note leading-[var(--text-note--line-height)] tracking-serif text-navy">
+          {foundersNote.heading}
+        </h2>
+
+        <div class="mt-8 flex flex-col gap-5">
+          {foundersNote.body.map((paragraph) => (
+            <p class="text-lead text-strong">{paragraph}</p>
+          ))}
+        </div>
+
+        <p class="mt-10 font-serif text-lead italic tracking-serif text-navy">
+          — {foundersNote.signature}
+        </p>
+      </div>
+    </Reveal>
+  </Container>
+</Section>

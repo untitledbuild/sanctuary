@@ -1,0 +1,15 @@
+---
+/**
+ * Centred content column. The single place the page's max-width and responsive
+ * gutters are defined (--container / --container-pad in global.css).
+ */
+interface Props {
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+const { as: Tag = 'div', class: className = '' } = Astro.props;
+---
+
+<Tag class:list={['mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]', className]}>
+  <slot />
+</Tag>

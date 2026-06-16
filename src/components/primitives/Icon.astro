@@ -1,0 +1,83 @@
+---
+/**
+ * Inline SVG icon set (recreating the Untitled UI glyphs referenced in Figma).
+ * Stroke icons inherit `currentColor`; size via a `text`/`size` class on the
+ * parent or the `class` prop. Decorative by default (aria-hidden).
+ */
+import type { IconName } from '@data/site';
+
+interface Props {
+  name: IconName;
+  class?: string;
+  /** px size; defaults to 24 (the Figma icon box). */
+  size?: number;
+  title?: string;
+}
+
+const { name, class: className = '', size = 24, title } = Astro.props;
+---
+
+<svg
+  class={className}
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  focusable="false"
+  role={title ? 'img' : undefined}
+  aria-label={title}
+  aria-hidden={title ? undefined : 'true'}
+>
+  {name === 'search' && (
+    <>
+      <circle cx="11" cy="11" r="7"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </>
+  )}
+  {name === 'share' && (
+    <>
+      <circle cx="18" cy="5" r="3"></circle>
+      <circle cx="6" cy="12" r="3"></circle>
+      <circle cx="18" cy="19" r="3"></circle>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+    </>
+  )}
+  {name === 'users' && (
+    <>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+      <circle cx="9" cy="7" r="4"></circle>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+    </>
+  )}
+  {name === 'dataflow' && (
+    <>
+      <rect x="14" y="2" width="8" height="6" rx="1"></rect>
+      <rect x="2" y="16" width="8" height="6" rx="1"></rect>
+      <rect x="14" y="16" width="8" height="6" rx="1"></rect>
+      <path d="M18 8v3a2 2 0 0 1-2 2H8a2 2 0 0 0-2 2v1"></path>
+      <path d="M18 13v3"></path>
+    </>
+  )}
+  {name === 'user' && (
+    <>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </>
+  )}
+  {name === 'quote' && (
+    <g fill="currentColor" stroke="none">
+      <path
+        d="M4 14.2c0-4 2.6-7.1 6.7-8.2l.8 2.3C9.2 9 7.7 10.6 7.6 12.2c.4-.13.8-.2 1.2-.2 1.8 0 3.1 1.4 3.1 3.2 0 1.85-1.45 3.3-3.3 3.3C5.9 18.5 4 16.6 4 14.2Z"
+      ></path>
+      <path
+        d="M13.8 14.2c0-4 2.6-7.1 6.7-8.2l.8 2.3c-2.3.7-3.8 2.3-3.9 3.9.4-.13.8-.2 1.2-.2 1.8 0 3.1 1.4 3.1 3.2 0 1.85-1.45 3.3-3.3 3.3-2.4 0-4.3-1.9-4.3-4.3Z"
+      ></path>
+    </g>
+  )}
+</svg>

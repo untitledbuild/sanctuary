@@ -1,0 +1,17 @@
+---
+/**
+ * Brand lockup: "untitled" (sans) + "build" (serif italic).
+ * Size & colour are controlled by the caller via `class` (font-size + text-*),
+ * so the same component serves both the small header mark and the oversized
+ * footer wordmark.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['inline-flex items-baseline gap-[0.16em] leading-none', className]}>
+  <span class="font-sans font-semibold tracking-tight">untitled</span>
+  <span class="font-serif italic tracking-serif">build</span>
+</span>

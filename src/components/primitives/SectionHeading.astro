@@ -1,0 +1,40 @@
+---
+/**
+ * Eyebrow + display heading (+ optional lead paragraph).
+ * Shared by Process (centred), Why-Us and Selected Builds (left-aligned).
+ */
+import Eyebrow from './Eyebrow.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  align?: 'left' | 'center';
+  class?: string;
+  /** Extra classes for the <h2> (e.g. constrain its measure). */
+  titleClass?: string;
+}
+const {
+  eyebrow,
+  title,
+  lead,
+  align = 'left',
+  class: className = '',
+  titleClass = '',
+} = Astro.props;
+const center = align === 'center';
+---
+
+<div class:list={['flex flex-col', center ? 'items-center text-center' : 'items-start', className]}>
+  {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+  <h2 class:list={['mt-4 text-display font-semibold tracking-tight text-heading', titleClass]}>
+    {title}
+  </h2>
+  {
+    lead && (
+      <p class:list={['mt-7 max-w-[34ch] text-lead text-body', center && 'mx-auto']}>
+        {lead}
+      </p>
+    )
+  }
+</div>

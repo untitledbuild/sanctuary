@@ -1,0 +1,41 @@
+---
+/**
+ * Decorative dashed "blueprint" construction grid (the engineering motif behind
+ * the hero, testimonial and footer bands in Figma). Inline SVG <pattern> keeps
+ * the dashes crisp and the grid tiles to any viewport. Purely decorative.
+ */
+interface Props {
+  class?: string;
+  /** Cell size in px. */
+  gap?: number;
+  /** Line emphasis. */
+  tone?: 'soft' | 'strong';
+  /** Overall layer opacity. */
+  opacity?: number;
+}
+const { class: className = '', gap = 64, tone = 'soft', opacity = 1 } = Astro.props;
+
+// Unique pattern id per instance so multiple grids on one page don't collide.
+const pid = `bp-${crypto.randomUUID().slice(0, 8)}`;
+const stroke = tone === 'strong' ? 'var(--color-line)' : 'var(--color-line-soft)';
+---
+
+<svg
+  class:list={['pointer-events-none absolute inset-0 -z-10 h-full w-full', className]}
+  style={`opacity:${opacity}`}
+  aria-hidden="true"
+  preserveAspectRatio="none"
+>
+  <defs>
+    <pattern id={pid} width={gap} height={gap} patternUnits="userSpaceOnUse">
+      <path
+        d={`M${gap} 0 V${gap} M0 ${gap} H${gap}`}
+        fill="none"
+        stroke={stroke}
+        stroke-width="1"
+        stroke-dasharray="6 7"
+      ></path>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${pid})`}></rect>
+</svg>

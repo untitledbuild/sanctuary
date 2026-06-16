@@ -1,0 +1,53 @@
+---
+import Section from '@components/primitives/Section.astro';
+import Container from '@components/primitives/Container.astro';
+import SectionHeading from '@components/primitives/SectionHeading.astro';
+import Reveal from '@components/primitives/Reveal.astro';
+import { site } from '@data/site';
+
+const { process } = site;
+
+// Per-cell dashed borders reproduce the Figma "+" divider on the 2-col grid,
+// and degrade to simple horizontal rules when the grid collapses to 1 column.
+//            mobile (1 col)     desktop (2 col → cross)
+const cellBorders = [
+  'border-b sm:border-r', // top-left:  rule below + line right
+  'border-b', //              top-right: rule below
+  'border-b sm:border-b-0 sm:border-r', // bottom-left: line right only on sm
+  '', //                      bottom-right: none
+];
+---
+
+<Section id="process">
+  <Container>
+    <SectionHeading
+      align="center"
+      eyebrow={process.eyebrow}
+      title={process.title}
+      class="mx-auto max-w-[34rem]"
+    />
+
+    <div class="mt-[clamp(3rem,6vw,5.5rem)] grid grid-cols-1 sm:grid-cols-2">
+      {
+        process.steps.map((step, i) => (
+          <Reveal
+            class:list={[
+              'flex flex-col items-center gap-10 px-6 py-12 text-center sm:py-16',
+              'border-dashed border-line',
+              cellBorders[i],
+            ]}
+          >
+            {/* white step card — placeholder for a future step icon */}
+            <div
+              class="grid size-[clamp(7rem,14vw,10.875rem)] place-items-center rounded-[25px] border border-hairline bg-white shadow-float"
+              aria-hidden="true"
+            />
+            <p class="max-w-[16ch] text-card font-medium leading-[var(--text-card--line-height)] tracking-tight text-strong">
+              {step.text}
+            </p>
+          </Reveal>
+        ))
+      }
+    </div>
+  </Container>
+</Section>

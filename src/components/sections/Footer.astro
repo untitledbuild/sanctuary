@@ -1,0 +1,35 @@
+---
+import Container from '@components/primitives/Container.astro';
+import Wordmark from '@components/primitives/Wordmark.astro';
+import BlueprintGrid from '@components/primitives/BlueprintGrid.astro';
+import { site } from '@data/site';
+---
+
+<footer class="relative overflow-hidden pt-[clamp(3rem,7vw,6rem)]">
+  {/* dashed blueprint band behind the footer (matches the Figma footer grid) */}
+  <BlueprintGrid tone="strong" gap={56} opacity={0.5} />
+
+  <Container
+    class="relative flex flex-col gap-4 border-t border-hairline pb-[clamp(3rem,6vw,5rem)] pt-8 text-[0.95rem] text-body sm:flex-row sm:items-center sm:justify-between"
+  >
+    <p>{site.footer.copyright}</p>
+    <nav aria-label="Footer">
+      <ul class="flex items-center gap-6">
+        <li><a href="#projects" class="transition-opacity hover:opacity-60">Projects</a></li>
+        <li>
+          <a href={site.cta.href} class="transition-opacity hover:opacity-60">Start a Project</a>
+        </li>
+      </ul>
+    </nav>
+  </Container>
+
+  {/* oversized wordmark, bleeding off the bottom edge of the page */}
+  <div
+    class="relative flex justify-center overflow-hidden px-[var(--container-pad)]"
+    aria-hidden="true"
+  >
+    <Wordmark
+      class="-mb-[0.2em] whitespace-nowrap text-[clamp(3.5rem,20vw,18rem)] leading-none text-wordmark"
+    />
+  </div>
+</footer>

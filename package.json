@@ -1,0 +1,33 @@
+{
+  "name": "untitledbuild",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "untitled build — marketing landing page. Astro static site, deployable to any CDN.",
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "@fontsource-variable/roboto-flex": "^5.1.1",
+    "@fontsource-variable/roboto-mono": "^5.1.1",
+    "@fontsource/instrument-serif": "^5.1.1",
+    "@tailwindcss/vite": "^4.0.0",
+    "astro": "^5.1.0",
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.18",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.7.2"
+  }
+}

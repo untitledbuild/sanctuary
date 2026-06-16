@@ -1,0 +1,43 @@
+---
+import Section from '@components/primitives/Section.astro';
+import Container from '@components/primitives/Container.astro';
+import BlueprintGrid from '@components/primitives/BlueprintGrid.astro';
+import Icon from '@components/primitives/Icon.astro';
+import Reveal from '@components/primitives/Reveal.astro';
+import { site } from '@data/site';
+
+const { testimonial } = site;
+---
+
+<Section id="testimonial" class="overflow-hidden">
+  {/* dashed blueprint band behind the quote */}
+  <BlueprintGrid tone="strong" gap={56} opacity={0.55} />
+
+  <Container class="relative">
+    <Icon
+      name="quote"
+      class="w-[clamp(3.25rem,7vw,6.6rem)] text-navy opacity-40"
+    />
+
+    <Reveal
+      as="blockquote"
+      class="mx-auto mt-4 max-w-[20ch] text-center font-serif text-quote italic leading-[var(--text-quote--line-height)] tracking-serif text-navy"
+    >
+      {testimonial.quote}
+    </Reveal>
+
+    <Reveal class="mt-12 flex items-center justify-center gap-4 lg:justify-end">
+      <span
+        class="grid size-[clamp(3rem,5vw,4.25rem)] shrink-0 place-items-center overflow-hidden rounded-full border border-hairline bg-surface"
+      >
+        <Icon name="user" class="w-1/2 text-[#a4a7ae]" />
+      </span>
+      <span class="flex flex-col">
+        <span class="text-name tracking-tight text-ink">{testimonial.name}</span>
+        <span class="font-serif text-lead italic tracking-serif text-navy">
+          {testimonial.role}
+        </span>
+      </span>
+    </Reveal>
+  </Container>
+</Section>

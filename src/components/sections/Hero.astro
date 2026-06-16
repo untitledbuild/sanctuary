@@ -1,0 +1,50 @@
+---
+import Container from '@components/primitives/Container.astro';
+import Button from '@components/primitives/Button.astro';
+import Reveal from '@components/primitives/Reveal.astro';
+import PhoneMockup from '@components/mockups/PhoneMockup.astro';
+import BrowserMockup from '@components/mockups/BrowserMockup.astro';
+import { site } from '@data/site';
+
+const { hero, cta } = site;
+---
+
+<section id="top" class="relative pt-[clamp(2.5rem,6vw,4rem)]">
+  <Container>
+    <div class="flex max-w-[60rem] flex-col items-start">
+      <Reveal
+        as="h1"
+        class="whitespace-pre-line text-display font-semibold leading-[var(--text-display--line-height)] tracking-tight text-heading"
+      >
+        {hero.title}
+      </Reveal>
+      <Reveal as="p" delay={0.08} class="mt-7 max-w-[30ch] text-lead text-body">
+        {hero.subtitle}
+      </Reveal>
+      <Reveal delay={0.16} class="mt-9">
+        <Button href={cta.href} label={cta.label} />
+      </Reveal>
+    </div>
+  </Container>
+
+  {/*
+    Dual mockup band. Both frames are equal-height (as in Figma); a wrapper owns
+    the aspect ratio so the frames fill it. On desktop the row is height-driven
+    and runs wider than the container — bleeding off the right edge (clipped by
+    body's overflow-x: clip). On mobile it stacks.
+  */}
+  <Container class="relative mt-[clamp(3rem,7vw,5.5rem)] overflow-visible">
+    <Reveal
+      class="flex flex-col items-center gap-10 lg:h-[clamp(26rem,46vw,49rem)] lg:flex-row lg:items-stretch lg:gap-7"
+    >
+      <div
+        class="aspect-[400/785] w-[min(72%,280px)] shrink-0 lg:h-full lg:w-auto"
+      >
+        <PhoneMockup />
+      </div>
+      <div class="aspect-[1127/785] w-full shrink-0 lg:h-full lg:w-auto">
+        <BrowserMockup />
+      </div>
+    </Reveal>
+  </Container>
+</section>
