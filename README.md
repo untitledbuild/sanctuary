@@ -13,11 +13,8 @@ output can be dropped onto any CDN (or static host) and served from
 
 ## Why this stack
 
-The ticket suggested Astro but flagged two concerns — community support and
-animation libraries. Both are resolved:
-
-- **Community / longevity.** Astro is a mainstream, actively-maintained static
-  framework with first-party integrations. Low risk for a marketing site.
+- **Astro** — outputs pure static HTML/CSS/JS (zero JS by default), ideal for a
+  CDN-served marketing site; mainstream and actively maintained.
 - **Animations.** Astro emits standard HTML/CSS/JS, so *any* client library
   works. We use GSAP + ScrollTrigger (the industry standard, now fully free)
   driven by Lenis for smooth scroll. Swapping in Motion, Lottie, etc. later is
@@ -151,20 +148,26 @@ Verified at 390px (mobile) and 1440px (desktop).
 
 ---
 
-## Deployment (static → CDN / custom domain)
+## Deployment (static → GitHub Pages / CDN)
 
-`npm run build` produces a self-contained `dist/`. Upload its **contents** to any
-static host or CDN bucket and point `untitledbuild.com` at it.
+`npm run build` produces a self-contained `dist/`. It can go on any static host;
+this repo ships with automated GitHub Pages deployment.
 
-- `public/CNAME` → `dist/CNAME` carries the custom domain for GitHub Pages. For
-  other CDNs (Cloudflare, S3+CloudFront, Netlify…), configure the domain in that
-  provider instead; the `CNAME` file is harmless elsewhere.
-- `site` in `astro.config.mjs` is set to `https://untitledbuild.com` for correct
-  canonical URLs and the generated sitemap. Update it if the domain changes.
-
-> **CI/CD is intentionally out of scope** for now (per the ticket discussion).
-> The repo is structured so a GitHub Action (build → publish `dist/` to a
-> `gh-pages` branch, or push to any bucket) can be added later without changes.
+- **GitHub Pages (automated).** [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+  runs on every push to `main`: it builds with Astro and publishes `dist/`. Enable
+  it once under **Settings → Pages → Source: GitHub Actions**.
+- **Custom domain.** `public/CNAME` carries `untitledbuild.com` into every build.
+  Set the same domain in **Settings → Pages** and point DNS at GitHub Pages
+  (apex `A`/`AAAA` records, `www` `CNAME`), then enable *Enforce HTTPS*.
+- **Base path.** Asset URLs are decided at build time by `base` in `astro.config.mjs`,
+  which must match the serve path: **none** for a root custom domain (current
+  config), or `base: '/<repo>/'` (and remove `CNAME`) when serving from
+  `<org>.github.io/<repo>/`.
+- `site` in `astro.config.mjs` (`https://untitledbuild.com`) drives canonical URLs
+  and the generated sitemap — update it if the origin changes.
+- **Other hosts** (Cloudflare Pages, Netlify, S3+CloudFront…): point them at the repo
+  with build command `npm run build` and output dir `dist/`, or upload `dist/`
+  directly; configure the domain in that provider.
 
 ### Performance notes
 

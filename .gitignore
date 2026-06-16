@@ -25,3 +25,8 @@ pnpm-debug.log*
 !.vscode/extensions.json
 .idea/
 *.tsbuildinfo
+
+# Claude Code — local preview/dev-server config & personal settings
+# (a shared .claude/settings.json, if you add one, stays tracked)
+.claude/launch.json
+.claude/settings.local.json
