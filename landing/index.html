@@ -3,13 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>untitled build — You need software. We build it.</title>
-  <meta name="description" content="We design, build, and ship software for companies that need things done. One team, one process." />
+  <title>untitled build — The best-in-class software service provider</title>
+  <meta name="description" content="untitled build designs, builds, and ships production software. Hire vetted senior developers, spin up dedicated product teams, and launch in weeks — one team, one process." />
 
-  <!-- Fonts: Roboto Flex (sans) · Roboto Mono (labels) · Instrument Serif (accents) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Flex:opsz,wght@8..144,300..700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Flex:opsz,wght@8..144,300..700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -17,262 +16,499 @@
       theme: {
         extend: {
           colors: {
-            bg: '#ffffff',
-            ink: '#000000',
-            navy: '#000920',
-            heading: '#343434',
-            strong: '#262626',
-            body: '#595959',
-            surface: '#f7f7f7',
-            sunken: '#efefef',
-            block: '#eaeaea',
-            paper: '#ebebeb',
-            wordmark: '#dcdcdc',
+            ink: '#0B1020',
+            heading: '#171633',
+            body: '#475569',
+            muted: '#64748B',
+            indigo: { DEFAULT: '#6366F1', soft: '#818CF8' },
+            violet: '#7C3AED',
+            cyan: '#0891B2',
+            emerald: '#10B981',
+            amber: '#D97706',
           },
           fontFamily: {
             sans: ['"Roboto Flex"', 'system-ui', '-apple-system', 'sans-serif'],
             mono: ['"Roboto Mono"', 'ui-monospace', 'monospace'],
             serif: ['"Instrument Serif"', 'Georgia', 'serif'],
           },
-          maxWidth: { content: '65rem' },
-          borderRadius: { card: '48px', cta: '21px', block: '19px' },
-          letterSpacing: { tightish: '-0.02em', tighter2: '-0.05em' },
+          maxWidth: { content: '72rem' },
         },
       },
     };
   </script>
 
   <style>
-    body { background: #fff; color: #595959; font-family: 'Roboto Flex', system-ui, sans-serif; letter-spacing: -0.02em; -webkit-font-smoothing: antialiased; overflow-x: clip; }
-    .serif { font-family: 'Instrument Serif', Georgia, serif; letter-spacing: -0.01em; }
-    .label { font-family: 'Roboto Mono', monospace; letter-spacing: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #FBFBFE; color: #475569; font-family: 'Roboto Flex', system-ui, sans-serif; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+    .serif { font-family: 'Instrument Serif', Georgia, serif; }
+    .label { font-family: 'Roboto Mono', monospace; letter-spacing: .04em; }
 
-    /* Dashed blueprint construction grid (decorative motif) */
-    .blueprint { position: absolute; inset: 0; z-index: -10; pointer-events: none;
-      background-image:
-        repeating-linear-gradient(to right, rgba(0,0,0,.13) 0 1px, transparent 1px 64px),
-        repeating-linear-gradient(to bottom, rgba(0,0,0,.13) 0 1px, transparent 1px 64px);
-      /* dashed feel via mask is heavy; solid hairline grid reads clean + real */
-    }
-    .blueprint.dashed {
-      background-image: none;
-    }
+    /* ---------- Light gradient-mesh backdrop ---------- */
+    .mesh { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
+    .mesh span { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: .55; }
+    .mesh .m1 { width: 46vw; height: 46vw; left: -8vw; top: -12vh; background: radial-gradient(circle at 40% 40%, #C7D2FE, transparent 65%); animation: float1 20s ease-in-out infinite alternate; }
+    .mesh .m2 { width: 42vw; height: 42vw; right: -10vw; top: 4vh; background: radial-gradient(circle at 60% 40%, #BAE6FD, transparent 65%); animation: float2 24s ease-in-out infinite alternate; }
+    .mesh .m3 { width: 40vw; height: 40vw; left: 28vw; top: 38vh; background: radial-gradient(circle at 50% 50%, #C7F9E5, transparent 65%); animation: float3 28s ease-in-out infinite alternate; }
+    .mesh .m4 { width: 30vw; height: 30vw; right: 8vw; bottom: -6vh; background: radial-gradient(circle at 50% 50%, #EDE9FE, transparent 65%); animation: float1 26s ease-in-out infinite alternate; }
+    @keyframes float1 { to { transform: translate(8vw, 7vh); } }
+    @keyframes float2 { to { transform: translate(-7vw, 9vh); } }
+    @keyframes float3 { to { transform: translate(-6vw, -8vh); } }
+    .grain { position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: linear-gradient(rgba(99,102,241,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(99,102,241,.04) 1px, transparent 1px);
+      background-size: 60px 60px; mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 90%); }
 
-    .shadow-float { box-shadow: 0 24px 48px -12px rgba(0,0,0,.18), 0 4px 4px -2px rgba(0,0,0,.04); }
+    /* ---------- Liquid glass ---------- */
+    .glass { background: rgba(255,255,255,0.72); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0 1px 0 rgba(255,255,255,.7) inset, 0 20px 50px -24px rgba(49,46,129,.28); }
+    .glass-soft { background: rgba(255,255,255,0.55); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.7); }
 
-    [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); }
+    .gradient-text { background: linear-gradient(100deg, #6366F1, #7C3AED 40%, #0891B2 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* ---------- Syntax highlight (cool light theme) ---------- */
+    .code { color: #334155; }
+    .code .kw  { color: #7C3AED; font-weight: 500; }
+    .code .fn  { color: #0891B2; }
+    .code .str { color: #059669; }
+    .code .num { color: #D97706; }
+    .code .com { color: #94A3B8; font-style: italic; }
+    .code .punc{ color: #64748B; }
+    .code .var { color: #4338CA; }
+    .code .ok  { color: #10B981; font-weight: 600; }
+    .code .line { display: block; opacity: 0; transform: translateY(4px); }
+    .code .line.on { opacity: 1; transform: none; transition: opacity .35s ease, transform .35s ease; }
+    .caret { display:inline-block; width:7px; height:1.05em; vertical-align:-2px; background:#6366F1; margin-left:2px; animation: blink 1.1s steps(2) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ---------- Reveal + motion ---------- */
+    [data-reveal] { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
     [data-reveal].in { opacity: 1; transform: none; }
+    [data-tilt] { transition: transform .25s ease, box-shadow .25s ease; transform-style: preserve-3d; will-change: transform; }
+    .marquee { display: flex; gap: 3.5rem; width: max-content; animation: scrollx 32s linear infinite; }
+    .marquee:hover { animation-play-state: paused; }
+    @keyframes scrollx { to { transform: translateX(-50%); } }
+    .flow-dot { animation: flow 2.6s ease-in-out infinite; }
+    .flow-dot:nth-child(2){ animation-delay:.3s } .flow-dot:nth-child(3){ animation-delay:.6s } .flow-dot:nth-child(4){ animation-delay:.9s }
+    @keyframes flow { 0%,100%{ opacity:.25 } 50%{ opacity:1 } }
+
     @media (prefers-reduced-motion: reduce) {
+      .mesh span, .flow-dot { animation: none; }
+      .marquee { animation: none; }
       [data-reveal] { opacity: 1 !important; transform: none !important; transition: none; }
+      .code .line { opacity: 1; transform: none; }
+      .caret { animation: none; }
       html { scroll-behavior: auto; }
+      [data-tilt] { transition: none; }
     }
   </style>
 </head>
 
 <body class="font-sans text-body">
+  <div class="mesh" aria-hidden="true"><span class="m1"></span><span class="m2"></span><span class="m3"></span><span class="m4"></span></div>
+  <div class="grain" aria-hidden="true"></div>
 
-  <!-- ======================= HEADER ======================= -->
-  <header class="sticky top-0 z-50 border-b border-black/10 bg-bg/85 backdrop-blur">
-    <div class="mx-auto flex max-w-content items-center justify-between px-[clamp(1.25rem,5vw,2rem)] py-5">
-      <a href="#top" class="serif text-2xl tracking-tightish text-ink">untitled build</a>
-      <nav class="flex items-center gap-7">
-        <a href="#projects" class="label text-sm text-ink/90 transition-opacity hover:opacity-60">PROJECTS</a>
-        <a href="#start" class="rounded-full bg-ink px-5 py-2.5 text-sm font-medium tracking-tighter2 text-white transition-opacity hover:opacity-85">Start a Project</a>
-      </nav>
-    </div>
+  <!-- ======================= NAV ======================= -->
+  <header class="fixed inset-x-0 top-4 z-50 px-4">
+    <nav class="glass mx-auto flex max-w-content items-center justify-between gap-4 rounded-2xl px-5 py-3">
+      <a href="#top" class="serif text-2xl tracking-tight text-ink">untitled build</a>
+      <ul class="hidden items-center gap-7 text-sm font-medium text-body md:flex">
+        <li><a class="transition-colors hover:text-indigo" href="#services">Services</a></li>
+        <li><a class="transition-colors hover:text-indigo" href="#how">How it works</a></li>
+        <li><a class="transition-colors hover:text-indigo" href="#why">Why us</a></li>
+        <li><a class="transition-colors hover:text-indigo" href="#proof">Clients</a></li>
+      </ul>
+      <a href="#start" class="cursor-pointer rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo/20 transition-transform hover:-translate-y-0.5">Start a Project</a>
+    </nav>
   </header>
 
-  <main id="top">
+  <main id="top" class="relative">
     <!-- ======================= HERO ======================= -->
-    <section class="relative overflow-hidden">
-      <div class="blueprint"></div>
-      <div class="mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] pt-[clamp(3.5rem,8vw,6rem)] pb-[clamp(2rem,5vw,3rem)]">
-        <div class="flex max-w-[60rem] flex-col items-start">
-          <h1 data-reveal class="whitespace-pre-line text-[clamp(2.5rem,1.45rem+4.6vw,4.0625rem)] font-semibold leading-[1.04] tracking-tightish text-heading">You need software.
-We build it.</h1>
-          <p data-reveal class="mt-7 max-w-[30ch] text-[clamp(1.0625rem,0.96rem+0.46vw,1.375rem)] leading-relaxed text-body">
-            We design, build, and ship software for companies that need things done.
+    <section class="mx-auto max-w-content px-5 pt-36 pb-16 lg:pt-44">
+      <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_1fr]">
+        <div data-reveal>
+          <span class="glass-soft inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-violet">
+            <span class="h-1.5 w-1.5 rounded-full bg-emerald"></span>
+            The best-in-class software service provider
+          </span>
+          <h1 class="mt-6 text-5xl font-semibold leading-[1.03] tracking-tight text-heading sm:text-6xl">
+            You need software.<br /><span class="gradient-text">We build it.</span>
+          </h1>
+          <p class="mt-6 max-w-xl text-lg leading-relaxed text-body">
+            We design, build, and ship production software for companies that need things done.
+            Hire <span class="font-medium text-heading">vetted senior developers</span> or spin up a
+            <span class="font-medium text-heading">dedicated product team</span> — one team, one process, live in weeks.
           </p>
-          <a data-reveal href="#start" class="mt-9 rounded-full bg-ink px-7 py-3.5 text-base font-medium tracking-tighter2 text-white transition-opacity hover:opacity-85">Start a Project</a>
+
+          <div class="mt-8 flex flex-wrap items-center gap-4">
+            <a href="#start" class="cursor-pointer rounded-xl bg-indigo px-6 py-3.5 font-semibold text-white shadow-xl shadow-indigo/30 transition-transform hover:-translate-y-0.5">Start a Project →</a>
+            <a href="#how" class="glass cursor-pointer rounded-xl px-6 py-3.5 font-medium text-heading transition-transform hover:-translate-y-0.5">See how it works</a>
+          </div>
+
+          <dl class="mt-12 grid max-w-lg grid-cols-3 gap-6">
+            <div><dt class="text-3xl font-semibold text-heading"><span data-count="48" data-suffix="h">0</span></dt><dd class="mt-1 text-xs text-muted">to your first matched engineer</dd></div>
+            <div><dt class="text-3xl font-semibold text-heading"><span data-count="120" data-suffix="+">0</span></dt><dd class="mt-1 text-xs text-muted">products shipped to production</dd></div>
+            <div><dt class="text-3xl font-semibold text-heading"><span data-count="4.9" data-decimals="1">0</span>/5</dt><dd class="mt-1 text-xs text-muted">average client rating</dd></div>
+          </dl>
         </div>
 
-        <!-- Mockup band: solid-surface phone + browser, no gradients -->
-        <div data-reveal class="mt-[clamp(3rem,7vw,5rem)] flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-7">
-          <!-- phone -->
-          <div class="aspect-[400/785] w-[min(72%,260px)] shrink-0 rounded-card bg-surface p-3 shadow-float">
-            <div class="flex h-full w-full flex-col gap-3 overflow-hidden rounded-[36px] bg-white p-4">
-              <div class="mx-auto mt-1 h-1.5 w-16 rounded-full bg-block"></div>
-              <div class="mt-2 h-3 w-2/3 rounded bg-block"></div>
-              <div class="h-3 w-1/2 rounded bg-block"></div>
-              <div class="mt-3 h-24 w-full rounded-block bg-surface"></div>
-              <div class="h-3 w-3/4 rounded bg-block"></div>
-              <div class="h-3 w-2/5 rounded bg-block"></div>
-              <div class="mt-auto h-10 w-full rounded-full bg-ink"></div>
+        <!-- Animated code window + floating glass cards -->
+        <div data-reveal class="relative" data-parallax-wrap>
+          <div data-tilt class="glass relative overflow-hidden rounded-2xl">
+            <div class="flex items-center gap-2 border-b border-black/5 px-4 py-3">
+              <span class="h-3 w-3 rounded-full bg-[#FF5F57]"></span>
+              <span class="h-3 w-3 rounded-full bg-[#FEBC2E]"></span>
+              <span class="h-3 w-3 rounded-full bg-[#28C840]"></span>
+              <span class="ml-3 font-mono text-xs text-muted">untitled-build — assemble.ts</span>
+            </div>
+            <pre class="code overflow-x-auto px-5 py-5 font-mono text-[13px] leading-[1.7]" id="codeblock"><code><span class="line"><span class="com">// Tell us what you're building.</span></span><span class="line"><span class="kw">const</span> <span class="var">team</span> <span class="punc">=</span> <span class="kw">await</span> <span class="fn">untitledbuild</span><span class="punc">.</span><span class="fn">assemble</span><span class="punc">({</span></span><span class="line">  <span class="var">product</span><span class="punc">:</span> <span class="str">"fintech dashboard"</span><span class="punc">,</span></span><span class="line">  <span class="var">roles</span><span class="punc">:</span> <span class="punc">[</span><span class="str">"fullstack"</span><span class="punc">,</span> <span class="str">"design"</span><span class="punc">,</span> <span class="str">"devops"</span><span class="punc">],</span></span><span class="line">  <span class="var">stack</span><span class="punc">:</span> <span class="punc">[</span><span class="str">"react"</span><span class="punc">,</span> <span class="str">"node"</span><span class="punc">,</span> <span class="str">"postgres"</span><span class="punc">],</span></span><span class="line">  <span class="var">start</span><span class="punc">:</span> <span class="str">"this week"</span><span class="punc">,</span></span><span class="line"><span class="punc">});</span></span><span class="line"> </span><span class="line"><span class="kw">await</span> <span class="var">team</span><span class="punc">.</span><span class="fn">ship</span><span class="punc">();</span> <span class="com">// live in ~14 days</span></span><span class="line"><span class="ok">✓ matched 4 senior engineers</span> <span class="com">· 48h</span><span class="caret"></span></span></code></pre>
+          </div>
+
+          <!-- floating glass chips -->
+          <div data-tilt class="glass absolute -left-6 top-20 hidden rounded-xl px-4 py-3 sm:block" data-float="14">
+            <div class="flex items-center gap-3">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-emerald/15 text-emerald"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m20 6-11 11-5-5"/></svg></span>
+              <div><p class="text-xs font-semibold text-heading">Deploy passed</p><p class="text-[11px] text-muted">production · 1m ago</p></div>
             </div>
           </div>
-          <!-- browser -->
-          <div class="aspect-[1127/785] w-full shrink-0 rounded-[28px] bg-surface p-3 shadow-float lg:w-auto lg:flex-1">
-            <div class="flex h-full w-full flex-col overflow-hidden rounded-[19px] bg-white">
-              <div class="flex items-center gap-2 border-b border-black/10 px-4 py-3">
-                <span class="h-2.5 w-2.5 rounded-full bg-block"></span>
-                <span class="h-2.5 w-2.5 rounded-full bg-block"></span>
-                <span class="h-2.5 w-2.5 rounded-full bg-block"></span>
-                <span class="ml-3 h-2.5 w-40 rounded-full bg-surface"></span>
-              </div>
-              <div class="grid flex-1 grid-cols-[140px_1fr] gap-4 p-5">
-                <div class="space-y-3">
-                  <div class="h-3 w-full rounded bg-block"></div>
-                  <div class="h-3 w-2/3 rounded bg-block"></div>
-                  <div class="h-3 w-3/4 rounded bg-block"></div>
-                  <div class="mt-6 h-3 w-1/2 rounded bg-block"></div>
-                  <div class="h-3 w-2/3 rounded bg-block"></div>
-                </div>
-                <div class="space-y-4">
-                  <div class="h-28 w-full rounded-block bg-surface"></div>
-                  <div class="grid grid-cols-3 gap-4">
-                    <div class="h-20 rounded-block bg-surface"></div>
-                    <div class="h-20 rounded-block bg-surface"></div>
-                    <div class="h-20 rounded-block bg-surface"></div>
-                  </div>
-                  <div class="h-3 w-3/4 rounded bg-block"></div>
-                </div>
-              </div>
+          <div data-tilt class="glass absolute -right-4 bottom-10 hidden rounded-xl px-4 py-3 sm:block" data-float="-18">
+            <div class="flex items-center gap-3">
+              <span class="grid h-8 w-8 place-items-center rounded-lg bg-indigo/15 text-indigo"><svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>
+              <div><p class="text-xs font-semibold text-heading">Team assembled</p><p class="text-[11px] text-muted">4 engineers · 1 lead</p></div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trust marquee -->
+      <div data-reveal class="mt-20 overflow-hidden">
+        <p class="text-center text-xs uppercase tracking-[0.2em] text-muted">Our engineers have shipped at</p>
+        <div class="relative mt-6 [mask-image:linear-gradient(90deg,transparent,#000_12%,#000_88%,transparent)]">
+          <div class="marquee items-center text-muted">
+            <span class="font-mono text-lg font-semibold">stripe</span><span class="font-mono text-lg font-semibold">vercel</span>
+            <span class="font-mono text-lg font-semibold">datadog</span><span class="font-mono text-lg font-semibold">notion</span>
+            <span class="font-mono text-lg font-semibold">shopify</span><span class="font-mono text-lg font-semibold">linear</span>
+            <span class="font-mono text-lg font-semibold">ramp</span><span class="font-mono text-lg font-semibold">figma</span>
+            <!-- duplicate set for seamless loop -->
+            <span class="font-mono text-lg font-semibold">stripe</span><span class="font-mono text-lg font-semibold">vercel</span>
+            <span class="font-mono text-lg font-semibold">datadog</span><span class="font-mono text-lg font-semibold">notion</span>
+            <span class="font-mono text-lg font-semibold">shopify</span><span class="font-mono text-lg font-semibold">linear</span>
+            <span class="font-mono text-lg font-semibold">ramp</span><span class="font-mono text-lg font-semibold">figma</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ======================= PROCESS ======================= -->
-    <section class="mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] py-[clamp(4rem,8vw,8rem)]">
-      <p data-reveal class="label text-navy text-[clamp(1.125rem,0.95rem+0.72vw,1.675rem)]">PROCESS</p>
-      <h2 data-reveal class="mt-3 max-w-[18ch] text-[clamp(2rem,1.4rem+2.6vw,3.25rem)] font-semibold leading-[1.1] tracking-tightish text-heading">Keep it dead simple.</h2>
+    <!-- ======================= SERVICES (block-based bento) ======================= -->
+    <section id="services" class="mx-auto max-w-content px-5 py-20">
+      <div data-reveal class="max-w-2xl">
+        <span class="label text-sm font-medium text-indigo">// services</span>
+        <h2 class="mt-3 text-4xl font-semibold tracking-tight text-heading">Everything you need to build & scale software</h2>
+        <p class="mt-4 text-lg text-body">From one senior engineer to a full product squad — engagements that flex with your roadmap.</p>
+      </div>
 
-      <ol class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <li data-reveal class="rounded-card bg-surface p-7 shadow-float">
-          <span class="label text-sm text-body/70">01</span>
-          <p class="mt-4 text-[clamp(1.25rem,1.07rem+0.78vw,1.625rem)] leading-snug tracking-tightish text-strong">You tell us what you're trying to solve.</p>
-        </li>
-        <li data-reveal class="rounded-card bg-surface p-7 shadow-float">
-          <span class="label text-sm text-body/70">02</span>
-          <p class="mt-4 text-[clamp(1.25rem,1.07rem+0.78vw,1.625rem)] leading-snug tracking-tightish text-strong">We figure out the smartest way to build it.</p>
-        </li>
-        <li data-reveal class="rounded-card bg-surface p-7 shadow-float">
-          <span class="label text-sm text-body/70">03</span>
-          <p class="mt-4 text-[clamp(1.25rem,1.07rem+0.78vw,1.625rem)] leading-snug tracking-tightish text-strong">We build it. You launch it.</p>
-        </li>
-        <li data-reveal class="rounded-card bg-surface p-7 shadow-float">
-          <span class="label text-sm text-body/70">04</span>
-          <p class="mt-4 text-[clamp(1.25rem,1.07rem+0.78vw,1.625rem)] leading-snug tracking-tightish text-strong">Everyone acts like it was obvious.</p>
-        </li>
+      <div class="mt-12 grid gap-5 md:grid-cols-3">
+        <article data-reveal data-tilt class="glass cursor-pointer rounded-2xl p-7 md:col-span-2 md:row-span-2">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-indigo/12 text-indigo"><svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m8 6-6 6 6 6"/><path d="m16 6 6 6-6 6"/></svg></span>
+          <h3 class="mt-5 text-2xl font-semibold tracking-tight text-heading">Custom software development</h3>
+          <p class="mt-2 max-w-lg text-body">Web apps, platforms, and internal tools designed and built end to end. We own discovery, architecture, delivery, and the boring-but-critical parts — CI/CD, testing, observability.</p>
+          <ul class="mt-6 grid gap-2 text-sm text-body sm:grid-cols-2">
+            <li class="flex items-center gap-2"><span class="text-emerald">✓</span> Product discovery & UX</li>
+            <li class="flex items-center gap-2"><span class="text-emerald">✓</span> Cloud architecture</li>
+            <li class="flex items-center gap-2"><span class="text-emerald">✓</span> Weekly shipping cadence</li>
+            <li class="flex items-center gap-2"><span class="text-emerald">✓</span> You own all the IP</li>
+          </ul>
+        </article>
+
+        <article data-reveal data-tilt class="glass cursor-pointer rounded-2xl p-7">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-violet/12 text-violet"><svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
+          <h3 class="mt-5 text-xl font-semibold text-heading">Hire remote developers</h3>
+          <p class="mt-2 text-sm text-body">Plug vetted senior engineers into your team in your timezone — from the top 3.5% of our network.</p>
+        </article>
+
+        <article data-reveal data-tilt class="glass cursor-pointer rounded-2xl p-7">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-emerald/12 text-emerald"><svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-3 7h5l-3 13"/></svg></span>
+          <h3 class="mt-5 text-xl font-semibold text-heading">MVP in 30 days</h3>
+          <p class="mt-2 text-sm text-body">Idea to launch-ready product with real users by the end of the month. Fixed scope, fixed timeline.</p>
+        </article>
+
+        <article data-reveal data-tilt class="glass cursor-pointer rounded-2xl p-7">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-cyan/12 text-cyan"><svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 5h10s2-2 2-5a7 7 0 0 0-7-7Z"/><path d="M9 19h6M10 22h4"/></svg></span>
+          <h3 class="mt-5 text-xl font-semibold text-heading">AI & ML engineering</h3>
+          <p class="mt-2 text-sm text-body">RAG pipelines, agents, and LLM features shipped by engineers who've run them in production.</p>
+        </article>
+
+        <article data-reveal data-tilt class="glass cursor-pointer rounded-2xl p-7">
+          <span class="grid h-12 w-12 place-items-center rounded-xl bg-amber/12 text-amber"><svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5M12 22V12"/></svg></span>
+          <h3 class="mt-5 text-xl font-semibold text-heading">Cloud & DevOps</h3>
+          <p class="mt-2 text-sm text-body">Infra, observability, and zero-downtime deploys on AWS, GCP, or your stack of choice.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ======================= HOW IT WORKS ======================= -->
+    <section id="how" class="mx-auto max-w-content px-5 py-20">
+      <div data-reveal class="max-w-2xl">
+        <span class="label text-sm font-medium text-violet">// process</span>
+        <h2 class="mt-3 text-4xl font-semibold tracking-tight text-heading">Keep it dead simple.</h2>
+        <p class="mt-4 text-lg text-body">Four steps from brief to shipping. No vendor merry-go-round.</p>
+      </div>
+      <ol class="mt-12 grid gap-5 md:grid-cols-4">
+        <li data-reveal data-tilt class="glass cursor-default rounded-2xl p-6"><span class="label text-sm text-indigo">01</span><h3 class="mt-3 text-lg font-semibold text-heading">You tell us the problem</h3><p class="mt-2 text-sm text-body">A 20-minute call on what you're trying to solve.</p></li>
+        <li data-reveal data-tilt class="glass cursor-default rounded-2xl p-6"><span class="label text-sm text-violet">02</span><h3 class="mt-3 text-lg font-semibold text-heading">We find the smartest way</h3><p class="mt-2 text-sm text-body">Within 48h you meet a hand-picked team.</p></li>
+        <li data-reveal data-tilt class="glass cursor-default rounded-2xl p-6"><span class="label text-sm text-cyan">03</span><h3 class="mt-3 text-lg font-semibold text-heading">We build it. You launch it</h3><p class="mt-2 text-sm text-body">We ship in the first sprint — no long onboarding.</p></li>
+        <li data-reveal data-tilt class="glass cursor-default rounded-2xl p-6"><span class="label text-sm text-emerald">04</span><h3 class="mt-3 text-lg font-semibold text-heading">Everyone acts like it was obvious</h3><p class="mt-2 text-sm text-body">Scale up or pause month to month. No lock-in.</p></li>
       </ol>
     </section>
 
-    <!-- ======================= WHY US ======================= -->
-    <section class="mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] py-[clamp(4rem,8vw,8rem)]">
+    <!-- ======================= WHY US (real animated diagram) ======================= -->
+    <section id="why" class="mx-auto max-w-content px-5 py-20">
       <div class="grid items-center gap-12 lg:grid-cols-2">
-        <div>
-          <p data-reveal class="label text-navy text-[clamp(1.125rem,0.95rem+0.72vw,1.675rem)]">WHY US?</p>
-          <h2 data-reveal class="mt-3 max-w-[16ch] text-[clamp(2rem,1.4rem+2.6vw,3.25rem)] font-semibold leading-[1.1] tracking-tightish text-heading">Because software is already hard enough.</h2>
-          <p data-reveal class="mt-6 max-w-[44ch] text-[clamp(1.0625rem,0.96rem+0.46vw,1.375rem)] leading-relaxed text-body">
-            You shouldn't need five vendors, three freelancers, and seventeen Slack channels to get something built.
-          </p>
-          <div data-reveal class="mt-9 flex flex-wrap gap-4">
-            <span class="inline-flex items-center gap-3 rounded-full bg-surface px-5 py-3 text-[clamp(1.25rem,1.0rem+1.05vw,1.6875rem)] tracking-tightish text-strong">
-              <svg viewBox="0 0 24 24" class="h-6 w-6 text-ink" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
-              One team.
-            </span>
-            <span class="inline-flex items-center gap-3 rounded-full bg-surface px-5 py-3 text-[clamp(1.25rem,1.0rem+1.05vw,1.6875rem)] tracking-tightish text-strong">
-              <svg viewBox="0 0 24 24" class="h-6 w-6 text-ink" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H15a3 3 0 0 1 3 3v6.5"/></svg>
-              One process.
-            </span>
+        <div data-reveal>
+          <span class="label text-sm font-medium text-indigo">// why us</span>
+          <h2 class="mt-3 max-w-[16ch] text-4xl font-semibold tracking-tight text-heading">Because software is already hard enough.</h2>
+          <p class="mt-5 max-w-[46ch] text-lg leading-relaxed text-body">You shouldn't need five vendors, three freelancers, and seventeen Slack channels to get something built. We replace the chaos with one team that owns the problem with you.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <span class="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-medium text-heading"><svg viewBox="0 0 24 24" class="h-5 w-5 text-indigo" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> One team.</span>
+            <span class="glass inline-flex items-center gap-2 rounded-full px-5 py-2.5 font-medium text-heading"><svg viewBox="0 0 24 24" class="h-5 w-5 text-violet" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H15a3 3 0 0 1 3 3v6.5"/></svg> One process.</span>
           </div>
         </div>
-        <div data-reveal class="aspect-[4/3] w-full rounded-card bg-surface">
-          <div class="flex h-full w-full items-center justify-center">
-            <span class="label text-sm uppercase tracking-wide text-body/50">Illustration</span>
-          </div>
+
+        <!-- Animated SVG: many channels -> one team -->
+        <div data-reveal data-tilt class="glass rounded-2xl p-6">
+          <svg viewBox="0 0 420 280" class="h-auto w-full" role="img" aria-label="Diagram: five scattered channels converging into one team that ships to production">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#7C3AED"/></linearGradient>
+            </defs>
+            <!-- left scattered nodes -->
+            <g class="label" font-size="9" fill="#64748B" text-anchor="middle">
+              <g><rect x="14" y="24" width="86" height="30" rx="8" fill="#fff" stroke="#E2E8F0"/><text x="57" y="43">Vendor A</text></g>
+              <g><rect x="14" y="70" width="86" height="30" rx="8" fill="#fff" stroke="#E2E8F0"/><text x="57" y="89">Freelancer</text></g>
+              <g><rect x="14" y="116" width="86" height="30" rx="8" fill="#fff" stroke="#E2E8F0"/><text x="57" y="135">Agency</text></g>
+              <g><rect x="14" y="162" width="86" height="30" rx="8" fill="#fff" stroke="#E2E8F0"/><text x="57" y="181">Slack #17</text></g>
+              <g><rect x="14" y="208" width="86" height="30" rx="8" fill="#fff" stroke="#E2E8F0"/><text x="57" y="227">Contractor</text></g>
+            </g>
+            <!-- connecting paths with flowing dots -->
+            <g stroke="#C7D2FE" stroke-width="1.5" fill="none">
+              <path d="M100 39 C 170 39, 180 130, 250 140"/>
+              <path d="M100 85 C 170 85, 185 132, 250 140"/>
+              <path d="M100 131 C 175 131, 195 140, 250 140"/>
+              <path d="M100 177 C 175 177, 195 150, 250 140"/>
+              <path d="M100 223 C 170 223, 185 152, 250 140"/>
+            </g>
+            <g fill="#6366F1">
+              <circle class="flow-dot" cx="175" cy="78" r="3"/>
+              <circle class="flow-dot" cx="180" cy="108" r="3"/>
+              <circle class="flow-dot" cx="185" cy="140" r="3"/>
+              <circle class="flow-dot" cx="180" cy="165" r="3"/>
+            </g>
+            <!-- one team node -->
+            <g><rect x="250" y="112" width="100" height="56" rx="14" fill="url(#g1)"/><text x="300" y="138" font-family="Roboto Flex,sans-serif" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">untitled</text><text x="300" y="154" font-family="Roboto Flex,sans-serif" font-size="13" font-weight="600" fill="#fff" text-anchor="middle">build</text></g>
+            <!-- arrow to production -->
+            <path d="M350 140 H392" stroke="#10B981" stroke-width="2" fill="none"/>
+            <path d="M386 134 l8 6 -8 6" stroke="#10B981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="383" y="120" class="label" font-size="9" fill="#10B981" text-anchor="middle">ship</text>
+          </svg>
         </div>
+      </div>
+    </section>
+
+    <!-- ======================= METRICS BAND ======================= -->
+    <section class="mx-auto max-w-content px-5 py-10">
+      <div data-reveal class="glass grid grid-cols-2 gap-6 rounded-2xl p-8 md:grid-cols-4">
+        <div><p class="text-4xl font-semibold tracking-tight text-heading"><span data-count="120" data-suffix="+">0</span></p><p class="mt-1 text-sm text-muted">products shipped</p></div>
+        <div><p class="text-4xl font-semibold tracking-tight text-heading"><span data-count="3.5" data-decimals="1" data-suffix="%">0</span></p><p class="mt-1 text-sm text-muted">of applicants pass vetting</p></div>
+        <div><p class="text-4xl font-semibold tracking-tight text-heading"><span data-count="14" data-suffix=" days">0</span></p><p class="mt-1 text-sm text-muted">avg. time to first launch</p></div>
+        <div><p class="text-4xl font-semibold tracking-tight text-heading"><span data-count="98" data-suffix="%">0</span></p><p class="mt-1 text-sm text-muted">clients re-engage us</p></div>
+      </div>
+    </section>
+
+    <!-- ======================= TECH STACK ======================= -->
+    <section class="mx-auto max-w-content px-5 py-16">
+      <p data-reveal class="text-center text-xs uppercase tracking-[0.2em] text-muted">Senior across the modern stack</p>
+      <div data-reveal class="mt-6 flex flex-wrap justify-center gap-2.5">
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">TypeScript</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">React</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Next.js</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Node.js</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Python</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Go</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Swift</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">PostgreSQL</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Kubernetes</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">AWS</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">LangChain</span>
+        <span class="glass-soft rounded-lg px-4 py-2 font-mono text-sm text-heading">Terraform</span>
       </div>
     </section>
 
     <!-- ======================= TESTIMONIAL ======================= -->
-    <section class="relative overflow-hidden border-y border-black/10 bg-sunken">
-      <div class="blueprint" style="z-index:0; opacity:.5"></div>
-      <div class="relative mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] py-[clamp(4.5rem,9vw,8.5rem)]">
-        <svg viewBox="0 0 24 24" class="h-10 w-10 text-ink/15" fill="currentColor" aria-hidden="true"><path d="M10 7H6a4 4 0 0 0-4 4v6h8v-8H6c0-1.1.9-2 2-2h2V7Zm12 0h-4a4 4 0 0 0-4 4v6h8v-8h-4c0-1.1.9-2 2-2h2V7Z"/></svg>
-        <blockquote data-reveal class="serif mt-6 max-w-[18ch] text-[clamp(2.25rem,0.85rem+5.7vw,5rem)] leading-[1.15] tracking-tightish text-heading">
-          Probably the smoothest development project we've ever run.
-        </blockquote>
-        <figcaption data-reveal class="mt-8">
-          <span class="block text-[clamp(1.375rem,1.15rem+0.92vw,1.8125rem)] font-medium tracking-tightish text-strong">Tyler Good</span>
-          <span class="label mt-1 block text-sm text-body">CEO &amp; Founder, Ovvy AI Inc</span>
+    <section id="proof" class="mx-auto max-w-content px-5 py-20">
+      <div data-reveal data-tilt class="glass rounded-3xl p-8 sm:p-14">
+        <svg viewBox="0 0 24 24" class="h-10 w-10 text-indigo/25" fill="currentColor" aria-hidden="true"><path d="M10 7H6a4 4 0 0 0-4 4v6h8v-8H6c0-1.1.9-2 2-2h2V7Zm12 0h-4a4 4 0 0 0-4 4v6h8v-8h-4c0-1.1.9-2 2-2h2V7Z"/></svg>
+        <blockquote class="serif mt-5 max-w-[20ch] text-4xl leading-[1.15] tracking-tight text-heading sm:text-5xl">Probably the smoothest development project we've ever run.</blockquote>
+        <figcaption class="mt-8 flex items-center gap-4">
+          <span class="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-indigo to-violet font-semibold text-white">TG</span>
+          <span><span class="block text-lg font-medium text-heading">Tyler Good</span><span class="label block text-sm text-muted">CEO &amp; Founder, Ovvy AI Inc</span></span>
         </figcaption>
       </div>
     </section>
 
-    <!-- ======================= SELECTED BUILDS ======================= -->
-    <section id="projects" class="mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] py-[clamp(4rem,8vw,8rem)]">
-      <p data-reveal class="label text-navy text-[clamp(1.125rem,0.95rem+0.72vw,1.675rem)]">SELECTED BUILDS</p>
-      <h2 data-reveal class="mt-3 max-w-[24ch] text-[clamp(2rem,1.4rem+2.6vw,3.25rem)] font-semibold leading-[1.1] tracking-tightish text-heading">A few products, platforms, and systems we've helped bring to life.</h2>
-
-      <div class="mt-12 grid gap-5 sm:grid-cols-2">
-        <article data-reveal class="aspect-[16/10] rounded-card bg-surface transition-colors hover:bg-sunken"></article>
-        <article data-reveal class="aspect-[16/10] rounded-card bg-surface transition-colors hover:bg-sunken"></article>
-        <article data-reveal class="aspect-[16/10] rounded-card bg-surface transition-colors hover:bg-sunken"></article>
-        <article data-reveal class="aspect-[16/10] rounded-card bg-surface transition-colors hover:bg-sunken"></article>
-      </div>
-    </section>
-
     <!-- ======================= FOUNDERS' NOTE ======================= -->
-    <section class="mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] py-[clamp(4rem,8vw,8rem)]">
-      <div data-reveal class="rounded-card bg-paper p-[clamp(2rem,5vw,4.5rem)]">
-        <h2 class="serif text-[clamp(2.5rem,1.55rem+4vw,4.25rem)] leading-[1.15] tracking-tightish text-heading">Founders' note</h2>
-        <div class="mt-8 max-w-[58ch] space-y-6 text-[clamp(1.0625rem,0.96rem+0.46vw,1.375rem)] leading-relaxed text-strong">
+    <section class="mx-auto max-w-content px-5 py-20">
+      <div data-reveal class="glass-soft rounded-3xl p-8 sm:p-14">
+        <h2 class="serif text-5xl leading-[1.15] tracking-tight text-heading">Founders' note</h2>
+        <div class="mt-7 max-w-[60ch] space-y-5 text-lg leading-relaxed text-heading/80">
           <p>We started untitled build for a simple reason: getting good software made should not feel like running a small war.</p>
           <p>No vendor merry-go-round. No telephone game across seventeen channels. One team that owns the problem with you, from the first conversation to the thing in production.</p>
         </div>
-        <p class="label mt-10 text-sm text-body">The untitled build team</p>
+        <p class="label mt-9 text-sm text-muted">— The untitled build team</p>
       </div>
     </section>
 
-    <!-- ======================= CTA ======================= -->
-    <section id="start" class="mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] pb-[clamp(4rem,8vw,8rem)]">
-      <div data-reveal class="rounded-cta bg-sunken p-[clamp(2.5rem,6vw,5.5rem)] text-center">
-        <h2 class="text-[clamp(2.25rem,1.5rem+3vw,3.5rem)] font-semibold leading-[1.08] tracking-tightish text-heading">Got an idea?</h2>
-        <p class="mx-auto mt-5 max-w-[42ch] text-[clamp(1.0625rem,0.96rem+0.46vw,1.375rem)] leading-relaxed text-body">
-          Good. Most successful companies started with one. Let's build yours.
-        </p>
-        <a href="mailto:hello@untitledbuild.com" class="mt-9 inline-block rounded-full bg-ink px-8 py-4 text-base font-medium tracking-tighter2 text-white transition-opacity hover:opacity-85">Start a Project</a>
+    <!-- ======================= LEAD-GEN CTA ======================= -->
+    <section id="start" class="mx-auto max-w-content px-5 py-20">
+      <div data-reveal class="glass relative overflow-hidden rounded-3xl p-8 sm:p-12">
+        <div class="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-indigo/15 blur-3xl"></div>
+        <div class="relative grid gap-10 lg:grid-cols-2">
+          <div>
+            <h2 class="text-4xl font-semibold tracking-tight text-heading sm:text-5xl">Got an idea?</h2>
+            <p class="mt-5 max-w-md text-lg text-body">Good — most successful companies started with one. Book a free 20-minute scoping call and we'll map the team you need, with matched engineers within 48 hours.</p>
+            <ul class="mt-8 space-y-3 text-sm text-body">
+              <li class="flex items-center gap-3"><span class="text-emerald">✓</span> No upfront fees, cancel anytime</li>
+              <li class="flex items-center gap-3"><span class="text-emerald">✓</span> 2-week risk-free trial per engineer</li>
+              <li class="flex items-center gap-3"><span class="text-emerald">✓</span> You own all the IP</li>
+            </ul>
+          </div>
+          <form class="grid gap-4" novalidate>
+            <div>
+              <label for="name" class="mb-1.5 block text-sm font-medium text-heading">Name</label>
+              <input id="name" name="name" type="text" autocomplete="name" placeholder="Jane Founder" class="w-full rounded-xl border border-slate-200 bg-white/80 px-4 py-3 text-heading placeholder:text-slate-400 outline-none transition-colors focus:border-indigo focus:ring-2 focus:ring-indigo/25" />
+            </div>
+            <div>
+              <label for="email" class="mb-1.5 block text-sm font-medium text-heading">Work email</label>
+              <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@company.com" class="w-full rounded-xl border border-slate-200 bg-white/80 px-4 py-3 text-heading placeholder:text-slate-400 outline-none transition-colors focus:border-indigo focus:ring-2 focus:ring-indigo/25" />
+            </div>
+            <div>
+              <label for="project" class="mb-1.5 block text-sm font-medium text-heading">What do you need to build?</label>
+              <textarea id="project" name="project" rows="3" placeholder="e.g. a React + Node MVP, 2 senior engineers, start this month" class="w-full resize-none rounded-xl border border-slate-200 bg-white/80 px-4 py-3 text-heading placeholder:text-slate-400 outline-none transition-colors focus:border-indigo focus:ring-2 focus:ring-indigo/25"></textarea>
+            </div>
+            <button type="submit" class="flex cursor-pointer items-center justify-center gap-2 rounded-xl bg-indigo px-6 py-3.5 font-semibold text-white shadow-xl shadow-indigo/30 transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"><span data-label>Get my matched team</span></button>
+            <p data-form-msg role="status" aria-live="polite" class="hidden text-center text-sm font-medium text-emerald"></p>
+            <p class="text-center text-xs text-muted">We reply within one business day. No spam, ever.</p>
+          </form>
+        </div>
       </div>
     </section>
   </main>
 
   <!-- ======================= FOOTER ======================= -->
-  <footer class="relative overflow-hidden border-t border-black/10">
-    <div class="blueprint" style="opacity:.5"></div>
-    <div class="relative mx-auto max-w-content px-[clamp(1.25rem,5vw,2rem)] pt-[clamp(3rem,6vw,5rem)] pb-10">
-      <p class="serif select-none text-[clamp(3rem,9vw,7.5rem)] leading-none tracking-tighter2 text-wordmark">untitled build</p>
-      <div class="mt-10 flex flex-col items-start justify-between gap-4 border-t border-black/10 pt-6 text-sm text-body sm:flex-row sm:items-center">
-        <p>© 2026 untitled build. All rights reserved.</p>
+  <footer class="relative">
+    <div class="mx-auto max-w-content px-5 pt-10 pb-12">
+      <p class="serif select-none text-[clamp(3rem,9vw,7rem)] leading-none tracking-tight text-heading/10">untitled build</p>
+      <div class="mt-8 flex flex-col items-start justify-between gap-4 border-t border-slate-200 pt-6 text-sm text-muted sm:flex-row sm:items-center">
+        <p>© 2026 untitled build. The best-in-class software service provider.</p>
         <div class="flex gap-6">
-          <a href="#projects" class="label transition-opacity hover:opacity-60">PROJECTS</a>
-          <a href="#start" class="label transition-opacity hover:opacity-60">START A PROJECT</a>
+          <a href="#services" class="transition-colors hover:text-indigo">Services</a>
+          <a href="#start" class="transition-colors hover:text-indigo">Start a Project</a>
         </div>
       </div>
     </div>
   </footer>
 
   <script>
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ---- Staggered scroll reveal ----
     (function () {
-      const els = document.querySelectorAll('[data-reveal]');
-      if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        els.forEach((el) => el.classList.add('in')); return;
-      }
+      const els = [...document.querySelectorAll('[data-reveal]')];
+      if (!('IntersectionObserver' in window) || reduce) { els.forEach((el) => el.classList.add('in')); return; }
       const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: 0.1 });
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const group = [...e.target.parentElement.querySelectorAll(':scope > [data-reveal]')];
+          const i = Math.max(0, group.indexOf(e.target));
+          e.target.style.transitionDelay = (i * 70) + 'ms';
+          e.target.classList.add('in'); io.unobserve(e.target);
+        });
+      }, { threshold: 0.12 });
       els.forEach((el) => io.observe(el));
+    })();
+
+    // ---- Count-up stats ----
+    (function () {
+      const nums = document.querySelectorAll('[data-count]');
+      const run = (el) => {
+        const target = parseFloat(el.dataset.count);
+        const dec = parseInt(el.dataset.decimals || '0', 10);
+        const suffix = el.dataset.suffix || '';
+        if (reduce) { el.textContent = target.toFixed(dec) + suffix; return; }
+        const dur = 1300; const t0 = performance.now();
+        const tick = (t) => {
+          const p = Math.min(1, (t - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = (target * eased).toFixed(dec) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { run(e.target); io.unobserve(e.target); } });
+      }, { threshold: 0.6 });
+      nums.forEach((n) => io.observe(n));
+    })();
+
+    // ---- Code typing reveal ----
+    (function () {
+      const lines = document.querySelectorAll('#codeblock .line');
+      if (reduce) { lines.forEach((l) => l.classList.add('on')); return; }
+      const start = () => lines.forEach((l, i) => setTimeout(() => l.classList.add('on'), 180 + i * 230));
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { start(); io.unobserve(e.target); } });
+      }, { threshold: 0.4 });
+      const block = document.getElementById('codeblock');
+      if (block) io.observe(block);
+    })();
+
+    // ---- Pointer-tracking 3D tilt ----
+    (function () {
+      if (reduce || matchMedia('(hover: none)').matches) return;
+      document.querySelectorAll('[data-tilt]').forEach((el) => {
+        el.addEventListener('pointermove', (ev) => {
+          const r = el.getBoundingClientRect();
+          const px = (ev.clientX - r.left) / r.width - 0.5;
+          const py = (ev.clientY - r.top) / r.height - 0.5;
+          el.style.transform = `perspective(900px) rotateX(${(-py * 5).toFixed(2)}deg) rotateY(${(px * 6).toFixed(2)}deg) translateZ(0)`;
+        });
+        el.addEventListener('pointerleave', () => { el.style.transform = ''; });
+      });
+    })();
+
+    // ---- Parallax float on hero chips ----
+    (function () {
+      if (reduce) return;
+      const chips = document.querySelectorAll('[data-float]');
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        chips.forEach((c) => { c.style.transform = `translateY(${(y * (parseFloat(c.dataset.float) / 100)).toFixed(1)}px)`; });
+      }, { passive: true });
+    })();
+
+    // ---- Lead form ----
+    (function () {
+      const form = document.querySelector('#start form');
+      if (!form) return;
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button[type=submit]');
+        const label = btn.querySelector('[data-label]');
+        const msg = form.querySelector('[data-form-msg]');
+        const email = form.querySelector('#email');
+        if (!email.value || !email.checkValidity()) { email.focus(); email.classList.add('border-rose-400'); return; }
+        btn.disabled = true; label.textContent = 'Sending…';
+        setTimeout(() => {
+          form.querySelectorAll('input,textarea').forEach((i) => (i.value = ''));
+          btn.disabled = false; label.textContent = 'Get my matched team';
+          msg.textContent = '✓ Thanks — we’ll be in touch within one business day.'; msg.classList.remove('hidden');
+        }, 900);
+      });
     })();
   </script>
 </body>
