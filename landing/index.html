@@ -107,11 +107,13 @@
     .g-b { background: linear-gradient(140deg, #0891B2, #6366F1); }
     .g-c { background: linear-gradient(140deg, #10B981, #0891B2); }
     .g-d { background: linear-gradient(140deg, #7C3AED, #D97706); }
+    .g-e { background: linear-gradient(140deg, #D97706, #10B981); }
     /* per-avatar micro-patterns (small difference per card) */
     .p-dots::before { background-image: radial-gradient(rgba(255,255,255,.95) 1.6px, transparent 1.8px); background-size: 13px 13px; }
     .p-diag::before { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.95) 0 2px, transparent 2px 10px); }
     .p-grid::before { background-image: linear-gradient(rgba(255,255,255,.95) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.95) 1px, transparent 1px); background-size: 14px 14px; }
     .p-chev::before { background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.95) 0 2px, transparent 2px 11px); }
+    .p-cross::before { background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.95) 0 2px, transparent 2px 12px), repeating-linear-gradient(90deg, rgba(255,255,255,.95) 0 2px, transparent 2px 12px); }
 
     @media (prefers-reduced-motion: reduce) {
       .mesh span, .flow-dot { animation: none; }
@@ -357,8 +359,13 @@
 
       <div class="honeycomb mt-14 mb-8">
         <figure data-reveal class="cell text-center">
-          <div class="hex g-a p-dots" role="img" aria-label="Abir"><span class="mono">A</span></div>
-          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Abir</h3><p class="label mt-1 text-[13px] text-indigo">Engineering Lead</p><p class="mt-2 text-sm text-body">Owns architecture and delivery.</p></figcaption>
+          <div class="hex g-e p-cross" role="img" aria-label="Tyler"><span class="mono">T</span></div>
+          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Tyler</h3><p class="label mt-1 text-[13px] text-amber">CEO</p><p class="mt-2 text-sm text-body">Sets the vision and owns the outcome.</p></figcaption>
+        </figure>
+
+        <figure data-reveal class="cell text-center">
+          <div class="hex g-a p-dots" role="img" aria-label="Armany"><span class="mono">Ar</span></div>
+          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Armany</h3><p class="label mt-1 text-[13px] text-indigo">Mobile Lead</p><p class="mt-2 text-sm text-body">Ships polished iOS & Android apps.</p></figcaption>
         </figure>
 
         <figure data-reveal class="cell text-center">
