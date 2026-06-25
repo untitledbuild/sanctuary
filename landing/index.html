@@ -8,7 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Flex:opsz,wght@8..144,300..700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&family=Roboto+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -27,7 +27,8 @@
             amber: '#D97706',
           },
           fontFamily: {
-            sans: ['"Roboto Flex"', 'system-ui', '-apple-system', 'sans-serif'],
+            sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+            display: ['"Space Grotesk"', '"DM Sans"', 'sans-serif'],
             mono: ['"Roboto Mono"', 'ui-monospace', 'monospace'],
             serif: ['"Instrument Serif"', 'Georgia', 'serif'],
           },
@@ -39,8 +40,9 @@
 
   <style>
     html { scroll-behavior: smooth; }
-    body { background: #FBFBFE; color: #475569; font-family: 'Roboto Flex', system-ui, sans-serif; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; overflow-x: clip; }
-    .serif { font-family: 'Instrument Serif', Georgia, serif; }
+    body { background: #FBFBFE; color: #475569; font-family: 'DM Sans', system-ui, sans-serif; letter-spacing: -0.01em; -webkit-font-smoothing: antialiased; overflow-x: clip; }
+    h1, h2, h3 { font-family: 'Space Grotesk', 'DM Sans', sans-serif; letter-spacing: -0.025em; }
+    .serif { font-family: 'Instrument Serif', Georgia, serif; letter-spacing: -0.01em; }
     .label { font-family: 'Roboto Mono', monospace; letter-spacing: .04em; }
 
     /* ---------- Light gradient-mesh backdrop ---------- */
@@ -89,6 +91,28 @@
     .flow-dot:nth-child(2){ animation-delay:.3s } .flow-dot:nth-child(3){ animation-delay:.6s } .flow-dot:nth-child(4){ animation-delay:.9s }
     @keyframes flow { 0%,100%{ opacity:.25 } 50%{ opacity:1 } }
 
+    /* ---------- Honeycomb team ---------- */
+    .honeycomb { display: flex; flex-wrap: wrap; justify-content: center; gap: 2.25rem 1.75rem; }
+    .cell { width: 180px; }
+    @media (min-width: 768px) { .cell:nth-child(even) { transform: translateY(46px); } }
+    .hex { position: relative; width: 150px; height: 168px; margin: 0 auto;
+      clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+      display: grid; place-items: center; filter: drop-shadow(0 16px 28px rgba(49,46,129,.35));
+      transition: transform .3s cubic-bezier(.2,.7,.2,1); will-change: transform; }
+    .cell:hover .hex { transform: translateY(-6px) scale(1.03); }
+    .hex::before { content: ""; position: absolute; inset: 0; opacity: .22; mix-blend-mode: overlay; }
+    .hex .mono { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 2.6rem; color: #fff; line-height: 1; z-index: 1; text-shadow: 0 1px 2px rgba(0,0,0,.12); }
+    /* gradients */
+    .g-a { background: linear-gradient(140deg, #6366F1, #7C3AED); }
+    .g-b { background: linear-gradient(140deg, #0891B2, #6366F1); }
+    .g-c { background: linear-gradient(140deg, #10B981, #0891B2); }
+    .g-d { background: linear-gradient(140deg, #7C3AED, #D97706); }
+    /* per-avatar micro-patterns (small difference per card) */
+    .p-dots::before { background-image: radial-gradient(rgba(255,255,255,.95) 1.6px, transparent 1.8px); background-size: 13px 13px; }
+    .p-diag::before { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.95) 0 2px, transparent 2px 10px); }
+    .p-grid::before { background-image: linear-gradient(rgba(255,255,255,.95) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.95) 1px, transparent 1px); background-size: 14px 14px; }
+    .p-chev::before { background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.95) 0 2px, transparent 2px 11px); }
+
     @media (prefers-reduced-motion: reduce) {
       .mesh span, .flow-dot { animation: none; }
       .marquee { animation: none; }
@@ -97,6 +121,8 @@
       .caret { animation: none; }
       html { scroll-behavior: auto; }
       [data-tilt] { transition: none; }
+      .hex { transition: none; }
+      .cell:hover .hex { transform: none; }
     }
   </style>
 </head>
@@ -329,34 +355,26 @@
         <p class="mt-4 text-lg text-body">Senior operators across engineering, cloud, product, and design — hands on the keyboard, not just the roadmap.</p>
       </div>
 
-      <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <article data-reveal data-tilt class="glass cursor-default rounded-2xl p-7 text-center">
-          <span class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-indigo to-violet text-2xl font-semibold text-white">A</span>
-          <h3 class="mt-5 text-xl font-semibold text-heading">Abir</h3>
-          <p class="label mt-1 text-sm text-indigo">Engineering Lead</p>
-          <p class="mt-3 text-sm text-body">Owns architecture and delivery — turning fuzzy briefs into shipped, maintainable systems.</p>
-        </article>
+      <div class="honeycomb mt-14 mb-8">
+        <figure data-reveal class="cell text-center">
+          <div class="hex g-a p-dots" role="img" aria-label="Abir"><span class="mono">A</span></div>
+          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Abir</h3><p class="label mt-1 text-[13px] text-indigo">Engineering Lead</p><p class="mt-2 text-sm text-body">Owns architecture and delivery.</p></figcaption>
+        </figure>
 
-        <article data-reveal data-tilt class="glass cursor-default rounded-2xl p-7 text-center">
-          <span class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-cyan to-indigo text-2xl font-semibold text-white">A</span>
-          <h3 class="mt-5 text-xl font-semibold text-heading">Dr. Adil</h3>
-          <p class="label mt-1 text-sm text-cyan">Cloud &amp; Security Specialist</p>
-          <p class="mt-3 text-sm text-body">Builds resilient, compliant cloud infrastructure with security designed in from day one.</p>
-        </article>
+        <figure data-reveal class="cell text-center">
+          <div class="hex g-b p-diag" role="img" aria-label="Adil"><span class="mono">Ad</span></div>
+          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Dr. Adil</h3><p class="label mt-1 text-[13px] text-cyan">Cloud &amp; Security</p><p class="mt-2 text-sm text-body">Resilient, secure cloud by design.</p></figcaption>
+        </figure>
 
-        <article data-reveal data-tilt class="glass cursor-default rounded-2xl p-7 text-center">
-          <span class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-emerald to-cyan text-2xl font-semibold text-white">R</span>
-          <h3 class="mt-5 text-xl font-semibold text-heading">Roy</h3>
-          <p class="label mt-1 text-sm text-emerald">Full-Stack Engineer</p>
-          <p class="mt-3 text-sm text-body">End-to-end builder across frontend, backend, and everything that holds them together.</p>
-        </article>
+        <figure data-reveal class="cell text-center">
+          <div class="hex g-c p-grid" role="img" aria-label="Roy"><span class="mono">R</span></div>
+          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Roy</h3><p class="label mt-1 text-[13px] text-emerald">Full-Stack</p><p class="mt-2 text-sm text-body">End-to-end product builder.</p></figcaption>
+        </figure>
 
-        <article data-reveal data-tilt class="glass cursor-default rounded-2xl p-7 text-center">
-          <span class="mx-auto grid h-20 w-20 place-items-center rounded-full bg-gradient-to-br from-violet to-amber text-2xl font-semibold text-white">B</span>
-          <h3 class="mt-5 text-xl font-semibold text-heading">Bips</h3>
-          <p class="label mt-1 text-sm text-violet">Design Expert</p>
-          <p class="mt-3 text-sm text-body">Shapes product and interface — making complex software feel obvious to use.</p>
-        </article>
+        <figure data-reveal class="cell text-center">
+          <div class="hex g-d p-chev" role="img" aria-label="Bips"><span class="mono">B</span></div>
+          <figcaption class="mt-5"><h3 class="text-lg font-semibold text-heading">Bips</h3><p class="label mt-1 text-[13px] text-violet">Design Expert</p><p class="mt-2 text-sm text-body">Makes complex software obvious.</p></figcaption>
+        </figure>
       </div>
     </section>
 
