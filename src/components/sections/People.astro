@@ -11,7 +11,25 @@ import { site, type TeamMember } from '@data/site';
 
 const { title, subtitle, members } = site.people;
 const all = members as unknown as TeamMember[];
-const rows = [all.slice(0, 3), all.slice(3)];
+
+// Balance the team across two rows: the top row takes the extra when the count
+// is odd, so 4→2/2, 5→3/2, 6→3/3. 1–3 people stay on a single row. The column
+// count (capped at 3, the Figma max) drives each card's width, so the cards
+// fill the blueprint frame and any short bottom row centers.
+const n = all.length;
+const topCount = n <= 3 ? n : Math.ceil(n / 2);
+const cols = Math.min(topCount, 3) as 1 | 2 | 3;
+const rows = n <= 3 ? [all] : [all.slice(0, topCount), all.slice(topCount)];
+
+// Per-card width. Mobile is always 2-up; desktop matches `cols`. Gap is
+// 1.9375rem (so 2-col subtracts one gap, 3-col subtracts two). Class strings are
+// literal — built via a map, not string interpolation — so Tailwind emits them.
+const DESKTOP_BASIS: Record<1 | 2 | 3, string> = {
+  1: 'sm:basis-[calc((100%-3.875rem)/3)]',
+  2: 'sm:basis-[calc((100%-1.9375rem)/2)]',
+  3: 'sm:basis-[calc((100%-3.875rem)/3)]',
+};
+const cardBasis = `basis-[calc((100%-1.9375rem)/2)] ${DESKTOP_BASIS[cols]}`;
 
 // Horizontals overshoot the verticals by 12px each side → corners cross (Figma).
 const sep = 'dashed-h hidden sm:block -mx-[33px]';
@@ -42,9 +60,9 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
       <>
         {/* row-top dashed line */}
         <div class:list={[sep, r === 0 ? 'mt-[1.8rem]' : 'mt-[1.6rem]']}></div>
-        <ul class="mt-[1.6rem] grid grid-cols-2 gap-[1.9375rem] sm:grid-cols-3">
+        <ul class="mt-[1.6rem] flex flex-wrap justify-center gap-[1.9375rem]">
           {row.map((m, i) => (
-            <li class="flex flex-col" data-reveal data-reveal-delay={(i % 3) * 0.06}>
+            <li class:list={['flex flex-col', cardBasis]} data-reveal data-reveal-delay={(i % cols) * 0.06}>
               {/* portrait */}
               <div class="relative aspect-square overflow-hidden border-x border-b border-hairline bg-surface">
                 {m.image ? (
