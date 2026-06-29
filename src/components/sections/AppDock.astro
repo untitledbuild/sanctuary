@@ -1,0 +1,101 @@
+---
+/**
+ * "Us" — the app-icon dock. A bottom-aligned row of brand tiles that grow toward
+ * the centre `ub` tile, over a dashed "blueprint" grid, with a "Send Message"
+ * tooltip above that scrolls to the hero form. On scroll the tiles pop in from
+ * the edges inward, the centre `ub` last (motion.ts, via data-dock-dist).
+ *
+ * Logos are the REAL Figma exports (src/assets/logos/*.svg), inlined so they
+ * stay crisp and scale with the tile. Geometry from Figma: tiles 74/87/103/129,
+ * glyphs 48/60/72/83, gap 15, grid 1096×267 (36.75 cells, dash 9/9).
+ */
+import Container from '@components/primitives/Container.astro';
+import Tooltip from '@components/primitives/Tooltip.astro';
+import { site } from '@data/site';
+
+import spotify from '@/assets/logos/spotify.svg?raw';
+import chrome from '@/assets/logos/chrome.svg?raw';
+import gitlab from '@/assets/logos/gitlab.svg?raw';
+import notion from '@/assets/logos/notion.svg?raw';
+import ub from '@/assets/logos/ub.svg?raw';
+import figma from '@/assets/logos/figma.svg?raw';
+import vscode from '@/assets/logos/vscode.svg?raw';
+import datagrip from '@/assets/logos/datagrip.svg?raw';
+import confluence from '@/assets/logos/confluence.svg?raw';
+
+const { tiles, tooltip } = site.us;
+const center = (tiles.length - 1) / 2;
+
+const logos: Record<string, string> = {
+  spotify, chrome, gitlab, notion, ub, figma, vscode, datagrip, confluence,
+};
+
+const tileSize: Record<string, string> = {
+  sm: 'w-[4.625rem]',   /* 74  */
+  md: 'w-[5.4375rem]',  /* 87  */
+  lg: 'w-[6.4375rem]',  /* 103 */
+  xl: 'w-[8.0625rem]',  /* 129 */
+};
+// glyph wrapper size; the inlined svg is forced to fill it.
+const glyphClass: Record<string, string> = {
+  sm: 'w-[3rem] h-[3rem]',         /* 48 */
+  md: 'w-[3.75rem] h-[3.75rem]',   /* 60 */
+  lg: 'w-[4.5rem] h-[4.5rem]',     /* 72 */
+  xl: 'w-[5.1875rem] h-[4.0625rem]', /* 83×65 (ub) */
+};
+const fillSvg = '[&>svg]:block [&>svg]:h-full [&>svg]:w-full';
+
+// Dashed blueprint grid (36.75px cells → 2.297rem so it scales with the root).
+const gridBg =
+  "background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M10 0V10M0 10H10' fill='none' stroke='rgba(0,0,0,0.3)' stroke-width='0.5' stroke-dasharray='2.4 2.4'/%3E%3C/svg%3E\");" +
+  'background-size:2.297rem 2.297rem;' +
+  'mask-image:radial-gradient(ellipse 64% 88% at 50% 50%, #000 45%, transparent 100%);' +
+  '-webkit-mask-image:radial-gradient(ellipse 64% 88% at 50% 50%, #000 45%, transparent 100%)';
+---
+
+<section id="us" class="relative py-[clamp(2.5rem,5vw,4rem)]">
+  <Container width="grid">
+    <div class="relative flex h-[16.6875rem] items-center justify-center">
+      {/* dashed grid background */}
+      <div class="pointer-events-none absolute inset-0" style={gridBg} aria-hidden="true"></div>
+
+      {/* dock */}
+      <div class="relative flex flex-col items-center">
+        <a
+          href="#start"
+          class="relative z-10 mb-[1.25rem]"
+          aria-label="Send us a message"
+          data-cursor="link"
+          data-reveal
+        >
+          <Tooltip>{tooltip}</Tooltip>
+        </a>
+
+        <ul class="flex items-end justify-center gap-[0.9375rem]" data-dock>
+          {
+            tiles.map((tile, i) => {
+              const dist = Math.abs(i - center);
+              const isUb = tile.brand === 'ub';
+              return (
+                <li
+                  class:list={[
+                    'grid aspect-square place-items-center rounded-[var(--radius-tile)] border-[0.75px]',
+                    tileSize[tile.size],
+                    'border-hairline-soft bg-card',
+                    isUb ? 'shadow-[var(--shadow-tile-hero)]' : 'shadow-[var(--shadow-tile)]',
+                  ]}
+                  data-dock-tile
+                  data-dock-dist={dist}
+                  aria-label={tile.label}
+                  title={tile.label}
+                >
+                  <span class:list={[glyphClass[tile.size], fillSvg]} set:html={logos[tile.brand]} />
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+    </div>
+  </Container>
+</section>

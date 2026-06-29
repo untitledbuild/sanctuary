@@ -1,15 +1,31 @@
 ---
 /**
- * Centred content column. The single place the page's max-width and responsive
- * gutters are defined (--container / --container-pad in global.css).
+ * Centred content column. The single place the page's max-widths and responsive
+ * gutters are defined (the --grid / --container / --spine tokens in global.css).
+ *
+ * `width`:
+ *   - 'spine'     → ~690px text/card column (hero, people, work, CTA)
+ *   - 'grid'      → ~1096px decorative-grid width (default backdrop alignment)
+ *   - 'container' → ~1180px max page width (app-dock, whiteboard)
+ *   - 'wide'      → ~1290px (the tech-logo strip)
  */
+type Width = 'spine' | 'grid' | 'container' | 'wide';
 interface Props {
   as?: keyof HTMLElementTagNameMap;
+  width?: Width;
   class?: string;
 }
-const { as: Tag = 'div', class: className = '' } = Astro.props;
+const { as: Tag = 'div', width = 'grid', class: className = '' } =
+  Astro.props as Props;
+
+const maxw: Record<Width, string> = {
+  spine: 'max-w-[var(--spine)]',
+  grid: 'max-w-[var(--grid)]',
+  container: 'max-w-[var(--container)]',
+  wide: 'max-w-[80.625rem]',
+};
 ---
 
-<Tag class:list={['mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]', className]}>
+<Tag class:list={['mx-auto w-full px-[var(--container-pad)]', maxw[width], className]}>
   <slot />
 </Tag>

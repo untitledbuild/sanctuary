@@ -1,0 +1,74 @@
+---
+/**
+ * FigJam sticky note — coloured paper with a soft drop shadow, faint "glue"
+ * strip and handwritten (Caveat) content. Colour notes carry a small label in
+ * the TOP-RIGHT and a centred title; the checklist note carries a centred,
+ * upper-cased title above a checkbox list.
+ *
+ * Fonts use clamp(rem, cqw, rem): on the large desktop board (a container) the
+ * cqw term scales them with the board; when stacked on mobile (no container)
+ * the rem floor keeps them readable. `w` sets the note size (cqw on the board,
+ * overridden to full-width in the mobile grid).
+ */
+import type { StickyNote } from '@data/site';
+
+interface Props {
+  note: StickyNote;
+  w?: string;
+  class?: string;
+}
+const { note, w = '17cqw', class: className = '' } = Astro.props as Props;
+
+const bg: Record<StickyNote['color'], string> = {
+  blue: 'var(--color-note-blue)',
+  green: 'var(--color-note-green)',
+  yellow: 'var(--color-note-yellow)',
+  gray: 'var(--color-note-gray)',
+};
+const isChecklist = !!note.checklist;
+---
+
+<div
+  class:list={['absolute aspect-square', className]}
+  style={`left:${note.x}%;top:${note.y}%;width:${w}`}
+  data-note
+  data-from={note.from}
+  data-rotate={note.rotate}
+>
+  <div
+    class="relative flex h-full w-full flex-col p-[9%] shadow-[var(--shadow-note)]"
+    style={`background:${bg[note.color]};transform:rotate(${note.rotate}deg)`}
+  >
+    {/* faint glue strip */}
+    <span class="pointer-events-none absolute inset-x-0 top-0 h-[16%] bg-black/[0.02]"></span>
+
+    {isChecklist ? (
+      <>
+        <span class="text-center font-hand uppercase tracking-wide text-[clamp(0.9rem,1.4cqw,1.25rem)] leading-none text-black/65">
+          {note.title}
+        </span>
+        <ul class="mt-[8%] flex flex-col gap-[7%]">
+          {note.checklist!.map((item) => (
+            <li class="flex items-center gap-[5%]">
+              <span class="aspect-square w-[clamp(14px,1.5cqw,20px)] shrink-0 rounded-[3px] border border-black/55"></span>
+              <span class="font-hand text-[clamp(0.95rem,1.45cqw,1.35rem)] leading-none text-black/85">
+                {item}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </>
+    ) : (
+      <>
+        {note.badge && (
+          <span class="self-end font-hand text-[clamp(0.85rem,1.35cqw,1.25rem)] leading-none text-black/55">
+            {note.badge}
+          </span>
+        )}
+        <span class="flex flex-1 items-center justify-center text-center font-hand text-[clamp(1.15rem,2cqw,1.85rem)] leading-tight text-black/85">
+          {note.title}
+        </span>
+      </>
+    )}
+  </div>
+</div>

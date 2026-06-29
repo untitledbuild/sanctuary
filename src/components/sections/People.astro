@@ -1,0 +1,88 @@
+---
+/**
+ * "People" — team grid inside a dashed "blueprint" frame (left/right verticals +
+ * horizontals below the heading and bracketing each card row, per Figma). Each
+ * card is a square portrait (hairline sides+bottom, LinkedIn badge) over a mono
+ * name-plate that's nudged right of the image (Figma: image x407, plate x425).
+ * Frame shows on the 3-col desktop layout; mobile drops it.
+ */
+import Icon from '@components/primitives/Icon.astro';
+import { site, type TeamMember } from '@data/site';
+
+const { title, subtitle, members } = site.people;
+const all = members as unknown as TeamMember[];
+const rows = [all.slice(0, 3), all.slice(3)];
+
+// Horizontals overshoot the verticals by 12px each side → corners cross (Figma).
+const sep = 'dashed-h hidden sm:block -mx-[33px]';
+---
+
+<section id="people" class="relative py-[var(--section-y)]">
+  {/* spine column, no desktop padding so the frame overshoot lands exactly */}
+  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    {/* frame verticals */}
+    <div class="pointer-events-none absolute inset-y-[-0.75rem] left-[-21px] right-[-21px] hidden sm:block" aria-hidden="true">
+      <span class="dashed-v absolute inset-y-0 left-0"></span>
+      <span class="dashed-v absolute inset-y-0 right-0"></span>
+    </div>
+
+    <header data-reveal>
+      <h2 class="font-sans text-[2.5rem] font-semibold leading-[1.14] tracking-tight text-heading">
+        {title}
+      </h2>
+      <p class="mt-[0.8125rem] max-w-[28.5rem] font-sans text-[1.125rem] font-medium leading-[1.29] tracking-tight text-body">
+        {subtitle}
+      </p>
+    </header>
+
+    {/* dashed line below heading */}
+    <div class:list={[sep, 'mt-[1.3rem]']}></div>
+
+    {rows.map((row, r) => (
+      <>
+        {/* row-top dashed line */}
+        <div class:list={[sep, r === 0 ? 'mt-[1.8rem]' : 'mt-[1.6rem]']}></div>
+        <ul class="mt-[1.6rem] grid grid-cols-2 gap-[1.9375rem] sm:grid-cols-3">
+          {row.map((m, i) => (
+            <li class="flex flex-col" data-reveal data-reveal-delay={(i % 3) * 0.06}>
+              {/* portrait */}
+              <div class="relative aspect-square overflow-hidden border-x border-b border-hairline bg-surface">
+                {m.image ? (
+                  <img src={m.image} alt={m.name} class="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <span class="grid h-full w-full place-items-center text-gray-300">
+                    <Icon name="user" size={48} />
+                  </span>
+                )}
+                {m.linkedin && (
+                  <a
+                    href={m.linkedin}
+                    class="absolute right-[0.56rem] top-[0.52rem] grid h-[1.875rem] w-[1.875rem] place-items-center rounded-[0.232rem] bg-[#D6D6D6] text-white transition-colors hover:bg-[#0A66C2]"
+                    aria-label={`${m.name} on LinkedIn`}
+                    data-cursor="link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon name="linkedin" size={15} />
+                  </a>
+                )}
+              </div>
+              {/* name-plate + title, nudged right of the image (Figma offset) */}
+              <div class="ml-[8.78%] w-[97.07%]">
+                <div class="bg-plate px-[0.814rem] py-[0.465rem]">
+                  <span class="font-geist-mono text-[1.1625rem] font-medium tracking-tighter text-name">{m.name}</span>
+                </div>
+                <div class="px-[0.814rem] py-[0.465rem]">
+                  <span class="font-geist text-[1.046rem] tracking-tighter text-label">{m.title}</span>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </>
+    ))}
+
+    {/* closing dashed line */}
+    <div class:list={[sep, 'mt-[1.6rem]']}></div>
+  </div>
+</section>

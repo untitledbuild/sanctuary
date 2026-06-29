@@ -1,23 +1,40 @@
 ---
 /**
- * Decorative dashed "blueprint" construction grid (the engineering motif behind
- * the hero, testimonial and footer bands in Figma). Inline SVG <pattern> keeps
- * the dashes crisp and the grid tiles to any viewport. Purely decorative.
+ * Decorative dashed "blueprint" construction grid — the engineering motif that
+ * runs behind the whole page in the Figma. An inline SVG <pattern> keeps the
+ * dashes crisp and tiles to any viewport. Purely decorative (aria-hidden).
+ *
+ * `variant`:
+ *   - 'lines'   → full dashed grid (default), used as the page backdrop
+ *   - 'columns' → vertical dashed rules only (section dividers)
+ * Made parallax-capable via `data-parallax` so the backdrop drifts faster than
+ * the foreground (depth), unless reduced-motion.
  */
 interface Props {
   class?: string;
-  /** Cell size in px. */
   gap?: number;
-  /** Line emphasis. */
-  tone?: 'soft' | 'strong';
-  /** Overall layer opacity. */
+  tone?: 'soft' | 'line' | 'guide';
   opacity?: number;
+  variant?: 'lines' | 'columns';
+  parallax?: number;
 }
-const { class: className = '', gap = 64, tone = 'soft', opacity = 1 } = Astro.props;
+const {
+  class: className = '',
+  gap = 73,
+  tone = 'guide',
+  opacity = 1,
+  variant = 'lines',
+  parallax,
+} = Astro.props;
 
-// Unique pattern id per instance so multiple grids on one page don't collide.
 const pid = `bp-${crypto.randomUUID().slice(0, 8)}`;
-const stroke = tone === 'strong' ? 'var(--color-line)' : 'var(--color-line-soft)';
+const stroke =
+  tone === 'line'
+    ? 'var(--color-line)'
+    : tone === 'soft'
+      ? 'var(--color-line-soft)'
+      : 'var(--color-line-guide)';
+const d = variant === 'columns' ? `M${gap} 0 V${gap}` : `M${gap} 0 V${gap} M0 ${gap} H${gap}`;
 ---
 
 <svg
@@ -25,16 +42,11 @@ const stroke = tone === 'strong' ? 'var(--color-line)' : 'var(--color-line-soft)
   style={`opacity:${opacity}`}
   aria-hidden="true"
   preserveAspectRatio="none"
+  data-parallax={parallax}
 >
   <defs>
     <pattern id={pid} width={gap} height={gap} patternUnits="userSpaceOnUse">
-      <path
-        d={`M${gap} 0 V${gap} M0 ${gap} H${gap}`}
-        fill="none"
-        stroke={stroke}
-        stroke-width="1"
-        stroke-dasharray="6 7"
-      ></path>
+      <path d={d} fill="none" stroke={stroke} stroke-width="1" stroke-dasharray="6 7"></path>
     </pattern>
   </defs>
   <rect width="100%" height="100%" fill={`url(#${pid})`}></rect>

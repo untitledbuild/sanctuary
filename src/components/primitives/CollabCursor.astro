@@ -1,0 +1,54 @@
+---
+/**
+ * A live-collaborator cursor over the whiteboard — the cursor-02 glyph in the
+ * person's colour plus a rounded name pill (FigJam style). Positioned by the
+ * caller (absolute, % coords); given a gentle Y-pendulum loop in motion.ts via
+ * the `data-pendulum` hook.
+ */
+import type { Collaborator } from '@data/site';
+
+interface Props {
+  collab: Collaborator;
+  class?: string;
+}
+const { collab, class: className = '' } = Astro.props;
+
+const fills: Record<Collaborator['color'], string> = {
+  pink: 'var(--color-cursor-pink)',
+  cyan: 'var(--color-cursor-cyan)',
+  lime: 'var(--color-cursor-lime)',
+  orange: 'var(--color-cursor-orange)',
+};
+// Lime & cyan are light → use black label text for contrast.
+const darkText = collab.color === 'lime' || collab.color === 'cyan';
+const fill = fills[collab.color];
+---
+
+<div
+  class:list={['pointer-events-none absolute flex flex-col items-start gap-1', className]}
+  data-pendulum
+  style={`left:${collab.x}%;top:${collab.y}%`}
+>
+  <svg
+    class="w-[clamp(20px,1.9cqw,28px)]"
+    viewBox="0 0 24 24"
+    fill={fill}
+    aria-hidden="true"
+  >
+    <path
+      d="M4 3.2 19.4 10.8c.5.25.45.98-.08 1.16l-6.06 2-2.6 5.9c-.23.52-.98.46-1.13-.08L4 3.2Z"
+      stroke="#fff"
+      stroke-width="1.4"
+      stroke-linejoin="round"
+    ></path>
+  </svg>
+  <span
+    class:list={[
+      'translate-x-2 rounded-[var(--radius-pill)] px-[0.9em] py-[0.2em] font-inter text-[clamp(0.78rem,1.15cqw,0.9rem)] font-medium leading-[1.2]',
+      darkText ? 'text-black' : 'text-white',
+    ]}
+    style={`background:${fill}`}
+  >
+    {collab.name}
+  </span>
+</div>

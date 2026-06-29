@@ -9,6 +9,9 @@ The **untitled build** marketing landing page — a single-page, fully **static*
 any CDN at `untitledbuild.com`.
 
 - **Astro** (static output) · **Tailwind CSS v4** (CSS-first tokens) · **GSAP + ScrollTrigger** + **Lenis** (motion) · self-hosted Fontsource fonts.
+- **Contact form → Supabase**, direct from the browser with the PUBLIC anon key,
+  secured by an INSERT-only RLS policy. No server; the site stays fully static.
+  Setup + schema in [`infra/supabase/`](infra/supabase/).
 
 ## Commands
 
@@ -28,14 +31,24 @@ Always run `npm run check` and `npm run build` before considering a change done.
 - **Design tokens** → [`src/styles/global.css`](src/styles/global.css) `@theme` block:
   colors, fluid type scale (`--text-*` via `clamp()`), radii, shadows. Layout
   rhythm (`--container`, `--container-pad`, `--section-y`) is in `:root` below it.
-- **Primitives** (`src/components/primitives/`) — reused atoms: `Container`,
-  `Section`, `SectionHeading`, `Eyebrow`, `Button`, `Wordmark`, `Icon`,
-  `BlueprintGrid`, `Reveal`.
-- **Mockups** (`src/components/mockups/`) — `PhoneMockup`, `BrowserMockup`. Pure
-  CSS/SVG chrome; internals sized in `cqw` (container-query units) so they scale.
-- **Sections** (`src/components/sections/`) — one component per page band; composed in
+- **Primitives** (`src/components/primitives/`) — reused atoms: `Container`
+  (width variants: `spine`/`grid`/`container`/`wide`), `Button`, `Badge`,
+  `Avatar`, `Tooltip`, `Wordmark`, `Icon` (UI line icons; names in
+  `icon-names.ts`), `BrandIcon` (logos), `BlueprintGrid`, `StickyNote`,
+  `CollabCursor`. Scroll-reveal is a plain `data-reveal` attribute (no wrapper).
+- **Sections** (`src/components/sections/`) — one component per page band
+  (`Header`, `Hero` + `ContactForm`, `Testimonial`, `AppDock`, `Whiteboard`,
+  `People`, `TechLogos`, `Work`, `CallToAction`, `Footer`); composed in
   [`src/pages/index.astro`](src/pages/index.astro) inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro).
-- **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts) (loaded once in BaseLayout).
+- **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts): Lenis smooth
+  scroll, `data-reveal` reveals, `data-parallax` z-depth (front layers use a
+  small/negative factor), the app-dock pop-in (`data-dock-dist`), sticky-note
+  fly-in (`data-from`), cursor `data-pendulum`, and the custom cursor.
+- **Form** → [`src/scripts/form.ts`](src/scripts/form.ts) posts to Supabase
+  (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout).
+- **The "What" whiteboard** is a proportional CSS **container** (`cqw` sizes + `%`
+  positions, widened to ~1430px to mirror the Figma): the whole scene scales as
+  one locked unit on desktop, and falls back to a plain note stack under `md`.
 
 ## Conventions (please follow)
 
@@ -73,5 +86,8 @@ serve path:**
 ## Notes
 
 - A small dark pill at bottom-center in dev is Astro's dev toolbar (dev-only, not in `dist/`).
-- Known placeholders pending real assets: Selected Builds cards, Why-Us illustration,
-  Founders' note body, logo/favicon — all swappable via `site.ts` / asset slots.
+- Known placeholders pending real assets, all swappable via `site.ts`:
+  - **People**: 5 cards with random `pravatar` images / `TITLE` / `#` LinkedIn links.
+  - **Work**: project cards render a "UI MOCKUP" panel until `image` is set.
+  - **Supabase**: form no-ops gracefully until `PUBLIC_SUPABASE_*` are configured.
+  - **Brand logos** (`BrandIcon.astro`) are hand-built; refine against Figma exports if needed.

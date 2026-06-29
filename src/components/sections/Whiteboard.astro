@@ -1,0 +1,170 @@
+---
+/**
+ * "What" — the FigJam-style whiteboard.
+ *
+ * Desktop: a single proportional canvas (a CSS container, ~1430px max to mirror
+ * the Figma's near-full-width board). EVERYTHING inside is sized in `cqw` and
+ * positioned in `%`, so the whole scene scales as one locked unit at any width —
+ * chrome, heading, notes and cursors stay aligned together. The chrome (top bar
+ * + toolbar) is "front" on the z-axis → a slower parallax than the notes behind.
+ *
+ * Mobile (<md): the canvas is replaced by a plain stack — heading, features, and
+ * a 2-col note grid — so the scene stays legible without the chrome.
+ */
+import Container from '@components/primitives/Container.astro';
+import Icon from '@components/primitives/Icon.astro';
+import Avatar from '@components/primitives/Avatar.astro';
+import Button from '@components/primitives/Button.astro';
+import StickyNote from '@components/primitives/StickyNote.astro';
+import CollabCursor from '@components/primitives/CollabCursor.astro';
+import type { IconName } from '@components/primitives/icon-names';
+import { site } from '@data/site';
+
+const { title, subtitle, features, boardName, notes, collaborators } = site.what;
+
+const tools: { icon: IconName; active?: boolean }[] = [
+  { icon: 'cursor', active: true },
+  { icon: 'perspective' },
+  { icon: 'keyboard' },
+  { icon: 'cube' },
+  { icon: 'arrow-up-right' },
+  { icon: 'eraser' },
+  { icon: 'pencil' },
+  { icon: 'message' },
+  { icon: 'grid' },
+  { icon: 'plus' },
+];
+
+// cqw-scaled chrome atoms (clamped so they never get silly at the extremes).
+const ctrlBtn =
+  'grid aspect-square w-[clamp(28px,2.5cqw,36px)] place-items-center rounded-[var(--radius-control)] text-gray-600 transition-colors hover:bg-black/5';
+const ctrlIcon = 'w-[clamp(16px,1.4cqw,20px)] h-auto';
+const barWrap =
+  'flex items-center gap-[0.35cqw] rounded-[10px] border-[0.5px] border-black/20 bg-card p-[5px] shadow-[var(--shadow-control)]';
+const barText = 'font-sans tracking-tight text-ink text-[clamp(0.9rem,1.27cqw,1.14rem)]';
+---
+
+<section id="what" class="relative overflow-hidden py-[var(--section-y)]">
+  {/* ===================== Desktop: proportional canvas ===================== */}
+  <div class="hidden px-[var(--container-pad)] md:block">
+    <div
+      class="relative mx-auto aspect-[143/70] w-full max-w-[89.375rem] [container-type:inline-size]"
+    >
+      {/* Heading (top-left content on the board) */}
+      <div class="absolute left-[25%] top-[8%] z-20 w-[46%]" data-parallax="-0.04">
+        <h2
+          class="font-sans text-[clamp(1.75rem,3.1cqw,2.5rem)] font-semibold leading-[1.14] tracking-tight text-heading"
+          data-reveal
+        >
+          {title}
+        </h2>
+        <p
+          class="mt-[3%] max-w-[34ch] font-sans text-[clamp(0.95rem,1.3cqw,1.125rem)] font-medium leading-[1.45] tracking-tight text-body"
+          data-reveal
+          data-reveal-delay="0.06"
+        >
+          {subtitle}
+        </p>
+        <ul class="mt-[4%] flex items-center gap-[2.5cqw]" data-reveal data-reveal-delay="0.12">
+          {
+            features.map((f) => (
+              <li class="flex items-center gap-1.5">
+                <Icon name={f.icon as IconName} size={16} stroke={1.4} class="w-[clamp(14px,1.2cqw,17px)] h-auto text-ink" />
+                <span class="font-sans text-[clamp(1rem,1.3cqw,1.14rem)] tracking-tight text-heading">{f.label}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      {/* Top bar */}
+      <div class="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-start justify-between" data-parallax="-0.02">
+        <div class="flex items-center gap-[0.8cqw]">
+          <div class={barWrap}>
+            <span class:list={[barText, 'px-2']}>{boardName}</span>
+            <span class={ctrlBtn}><Icon name="edit" size={20} class={ctrlIcon} /></span>
+          </div>
+          <div class={barWrap}>
+            <span class={ctrlBtn}><Icon name="flip-backward" size={20} class={ctrlIcon} /></span>
+            <span class:list={[ctrlBtn, 'text-gray-300']}><Icon name="flip-forward" size={20} class={ctrlIcon} /></span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-[0.8cqw]">
+          <div class={barWrap}>
+            <span class="flex items-center pl-1 pr-1.5">
+              <Avatar size={36} ring class="-mr-2 w-[clamp(28px,2.5cqw,36px)]" />
+              <Avatar size={36} ring class="-mr-2 w-[clamp(28px,2.5cqw,36px)]" />
+              <Avatar size={36} ring class="w-[clamp(28px,2.5cqw,36px)]" />
+              <span class="ml-1.5 font-inter text-[clamp(0.7rem,1cqw,0.85rem)] font-semibold text-gray-500">+2</span>
+            </span>
+            <span class="grid aspect-square w-[clamp(28px,2.5cqw,36px)] place-items-center rounded-full border border-dashed border-gray-300 text-gray-400">
+              <Icon name="plus" size={16} stroke={1.8} class={ctrlIcon} />
+            </span>
+          </div>
+          <div class={barWrap}>
+            <span class="pointer-events-auto"><Button label="Share" class="!gap-1.5 !px-3 !py-2 !text-[clamp(0.8rem,1.1cqw,0.875rem)]" /></span>
+            <span class={ctrlBtn}><Icon name="settings" size={20} class={ctrlIcon} /></span>
+            <span class={ctrlBtn}><Icon name="search" size={20} class={ctrlIcon} /></span>
+            <span class={ctrlBtn}><Icon name="bell" size={20} class={ctrlIcon} /></span>
+          </div>
+          <div class={barWrap}>
+            <span class={ctrlBtn}><Icon name="info-square" size={20} class={ctrlIcon} /></span>
+          </div>
+        </div>
+      </div>
+
+      {/* Left toolbar */}
+      <div
+        class="absolute left-0 top-[27%] z-30 flex flex-col gap-0 rounded-[10px] border-[0.5px] border-black/20 bg-card p-[5px] shadow-[var(--shadow-control)]"
+        data-parallax="-0.03"
+      >
+        {
+          tools.map((t) => (
+            <span
+              class:list={[
+                'grid aspect-square w-[clamp(28px,2.5cqw,36px)] place-items-center rounded-[var(--radius-control)] transition-colors',
+                t.active ? 'bg-brand-tint text-brand' : 'text-gray-600 hover:bg-black/5',
+              ]}
+            >
+              <Icon name={t.icon} size={20} class={ctrlIcon} />
+            </span>
+          ))
+        }
+      </div>
+
+      {/* Notes + cursors */}
+      {notes.map((note) => <StickyNote note={note} w="16.5cqw" />)}
+      {collaborators.map((c) => <CollabCursor collab={c} />)}
+    </div>
+  </div>
+
+  {/* ========================= Mobile: plain stack ========================= */}
+  <Container width="container" class="md:hidden">
+    <h2 class="font-sans text-h2 font-semibold leading-[var(--text-h2--line-height)] tracking-tight text-heading" data-reveal>
+      {title}
+    </h2>
+    <p class="mt-4 font-sans text-lead font-medium leading-[1.45] tracking-tight text-body" data-reveal data-reveal-delay="0.06">
+      {subtitle}
+    </p>
+    <ul class="mt-5 flex flex-wrap items-center gap-6" data-reveal data-reveal-delay="0.12">
+      {
+        features.map((f) => (
+          <li class="flex items-center gap-1.5">
+            <Icon name={f.icon as IconName} size={16} stroke={1.4} class="text-ink" />
+            <span class="font-sans text-[1.1rem] tracking-tight text-heading">{f.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="mt-8 grid grid-cols-2 gap-4">
+      {
+        notes.map((note) => (
+          <div class="relative aspect-square [container-type:inline-size]">
+            <StickyNote note={note} w="100%" class="!static" />
+          </div>
+        ))
+      }
+    </div>
+  </Container>
+</section>

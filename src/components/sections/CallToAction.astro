@@ -1,25 +1,30 @@
 ---
-import Section from '@components/primitives/Section.astro';
+/**
+ * Closing call-to-action — a bordered card ("Got an idea?") with the SEND
+ * MESSAGE button that scrolls back to the hero form. Sits over the dashed grid.
+ */
 import Container from '@components/primitives/Container.astro';
 import Button from '@components/primitives/Button.astro';
-import Reveal from '@components/primitives/Reveal.astro';
 import { site } from '@data/site';
 
-const { callToAction, cta } = site;
+const { closing, cta } = site;
 ---
 
-<Section id="start">
-  <Container>
-    <Reveal
-      class="flex flex-col items-center gap-9 rounded-cta bg-sunken px-6 py-[clamp(3rem,7vw,5.5rem)] text-center"
+<section class="relative pt-[var(--section-y)] pb-[clamp(1.75rem,3vw,2.75rem)]">
+  <Container width="container">
+    <div
+      class="mx-auto flex max-w-[54.8125rem] flex-col items-start justify-between gap-8 border border-hairline-soft bg-card px-[2rem] py-[2.25rem] sm:flex-row sm:items-end"
+      data-reveal
     >
-      <div class="flex flex-col items-center gap-3">
-        <h2 class="text-display font-semibold leading-[var(--text-display--line-height)] tracking-tight text-heading">
-          {callToAction.title}
+      <div class="flex max-w-[21.25rem] flex-col gap-[0.875rem]">
+        <h2 class="font-sans text-[2.75rem] font-medium leading-[1.14] tracking-tight text-heading">
+          {closing.title}
         </h2>
-        <p class="max-w-[34ch] text-lead text-body">{callToAction.body}</p>
+        <p class="max-w-[17.625rem] font-sans text-[1.125rem] font-medium leading-[1.45] tracking-tight text-body">
+          {closing.subtitle}
+        </p>
       </div>
-      <Button href={cta.href} label={cta.label} />
-    </Reveal>
+      <Button href={cta.href} label={`[${cta.label}]`} class="w-full sm:w-auto sm:min-w-[17.5625rem]" />
+    </div>
   </Container>
-</Section>
+</section>

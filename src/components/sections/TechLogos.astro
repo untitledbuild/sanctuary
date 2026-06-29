@@ -1,0 +1,51 @@
+---
+/**
+ * Tech-stack strip — a centred line of credibility, then equal brand pills in a
+ * dashed "blueprint" row: a top + bottom horizontal line with vertical tick
+ * marks between the pills that overshoot (cross) both lines, per Figma
+ * (lines x102–1398 @ y2997/3072; ticks h88 crossing them). Frame on lg+; the
+ * pills wrap without the frame on smaller screens.
+ */
+import Container from '@components/primitives/Container.astro';
+import BrandIcon from '@components/primitives/BrandIcon.astro';
+import { site } from '@data/site';
+
+const { title, stack } = site.tech;
+---
+
+<section aria-label="Technologies we use" class="relative py-[clamp(2rem,4vw,3.5rem)]">
+  <Container width="wide" class="!max-w-[81rem]">
+    <p
+      class="mx-auto mb-[2.25rem] max-w-[28rem] text-center font-sans text-[1.25rem] font-medium leading-[1.29] tracking-tight text-faint"
+      data-reveal
+    >
+      {title}
+    </p>
+
+    <div class="relative" data-reveal data-reveal-delay="0.08">
+      {/* top & bottom blueprint lines (lg only) — full width, spilling past pills */}
+      <div class="dashed-h absolute inset-x-0 top-0 hidden lg:block"></div>
+      <div class="dashed-h absolute inset-x-0 bottom-0 hidden lg:block"></div>
+
+      <ul class="flex flex-wrap items-center justify-center gap-[0.875rem] lg:flex-nowrap lg:items-center lg:gap-0 lg:px-[0.8125rem] lg:py-[0.75rem]">
+        {
+          stack.map((t, i) => (
+            <>
+              {i > 0 && (
+                <li class="relative mx-[0.4375rem] hidden w-px shrink-0 self-center lg:block" aria-hidden="true">
+                  {/* absolute so it overflows the row instead of growing it →
+                      the tick overshoots (crosses) both lines, per Figma */}
+                  <span class="dashed-v absolute left-0 top-1/2 h-[6rem] -translate-y-1/2"></span>
+                </li>
+              )}
+              <li class="flex h-[3.25rem] min-w-[8.5rem] flex-1 items-center justify-center gap-2.5 rounded-[0.6875rem] bg-surface px-5">
+                <BrandIcon name={t.brand} size={24} />
+                <span class="font-sans text-[1rem] font-medium tracking-tight text-faint">{t.label}</span>
+              </li>
+            </>
+          ))
+        }
+      </ul>
+    </div>
+  </Container>
+</section>

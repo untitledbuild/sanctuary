@@ -1,0 +1,22 @@
+---
+/**
+ * Rust tooltip with a downward pointer — the "Send Message" bubble floating над
+ * the app-dock in the Figma. Decorative chrome around a slot of label text.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['relative inline-flex flex-col items-center', className]}>
+  <span
+    class="rounded-[0.625rem] bg-brand px-[1.125rem] py-[0.6rem] font-inter text-[0.9375rem] font-semibold leading-[1.4] text-white shadow-[var(--shadow-tooltip)]"
+  >
+    <slot />
+  </span>
+  <span
+    class="-mt-[0.45rem] h-[0.9rem] w-[0.9rem] rotate-45 rounded-[2px] bg-brand"
+    aria-hidden="true"
+  ></span>
+</span>

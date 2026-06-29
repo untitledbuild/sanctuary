@@ -1,0 +1,37 @@
+---
+/**
+ * Dashed "blueprint" grid background — the 36.75px dashed checker behind the
+ * app-dock and the closing CTA/footer band in Figma (Group 8/16/17; dash 9/9).
+ * Painted as a tiling data-URI so the dashes stay crisp and scale with the root
+ * (cell in rem). Absolute, decorative, behind content.
+ *
+ * `mask`: 'radial' (default, fades to edges) · 'vertical' (fades top/bottom) ·
+ * 'none'. `cell` is the square size in rem (default 2.297rem = 36.75px).
+ */
+interface Props {
+  class?: string;
+  cell?: number;
+  mask?: 'radial' | 'vertical' | 'none';
+}
+const { class: className = '', cell = 2.297, mask = 'radial' } = Astro.props;
+
+// One cell: dashed top + left edge (9/9 dash ≈ 2.45 units of a 10-unit tile).
+const tile =
+  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M10 0V10M0 10H10' fill='none' stroke='rgba(0,0,0,0.26)' stroke-width='0.5' stroke-dasharray='2.45 2.45'/%3E%3C/svg%3E\")";
+
+const masks: Record<string, string> = {
+  radial: 'radial-gradient(ellipse 78% 80% at 50% 50%, #000 52%, transparent 100%)',
+  vertical: 'linear-gradient(to bottom, transparent 0, #000 9%, #000 90%, transparent 100%)',
+  none: '',
+};
+const m = masks[mask];
+const style =
+  `background-image:${tile};background-size:${cell}rem ${cell}rem;` +
+  (m ? `-webkit-mask-image:${m};mask-image:${m};` : '');
+---
+
+<div
+  class:list={['pointer-events-none absolute inset-0 -z-10', className]}
+  style={style}
+  aria-hidden="true"
+></div>

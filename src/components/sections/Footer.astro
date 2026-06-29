@@ -1,35 +1,36 @@
 ---
+/**
+ * Footer — the oversized "untitled build" wordmark watermark (the Figma's
+ * closing flourish) above a slim utility row. The wordmark is clipped by the
+ * body's overflow so it can run edge-to-edge.
+ */
 import Container from '@components/primitives/Container.astro';
 import Wordmark from '@components/primitives/Wordmark.astro';
-import BlueprintGrid from '@components/primitives/BlueprintGrid.astro';
 import { site } from '@data/site';
+
+const year = 2026;
 ---
 
-<footer class="relative overflow-hidden pt-[clamp(3rem,7vw,6rem)]">
-  {/* dashed blueprint band behind the footer (matches the Figma footer grid) */}
-  <BlueprintGrid tone="strong" gap={56} opacity={0.5} />
-
-  <Container
-    class="relative flex flex-col gap-4 border-t border-hairline pb-[clamp(3rem,6vw,5rem)] pt-8 text-[0.95rem] text-body sm:flex-row sm:items-center sm:justify-between"
-  >
-    <p>{site.footer.copyright}</p>
-    <nav aria-label="Footer">
-      <ul class="flex items-center gap-6">
-        <li><a href="#projects" class="transition-opacity hover:opacity-60">Projects</a></li>
-        <li>
-          <a href={site.cta.href} class="transition-opacity hover:opacity-60">Start a Project</a>
-        </li>
-      </ul>
-    </nav>
+<footer class="relative overflow-hidden pt-[clamp(1.5rem,3vw,2.5rem)]">
+  {/* slim utility row */}
+  <Container width="container" class="flex flex-col items-center justify-between gap-3 sm:flex-row">
+    <a href="#top" data-cursor="link" aria-label={`${site.name} — top`} class="inline-block">
+      <Wordmark class="text-[1.1rem]" />
+    </a>
+    <div class="flex items-center gap-6">
+      <a
+        href={`mailto:${site.contactEmail}`}
+        class="font-sans text-[0.9rem] font-medium tracking-tight text-body transition-colors hover:text-brand"
+        data-cursor="link"
+      >
+        Contact
+      </a>
+      <p class="font-sans text-[0.85rem] tracking-tight text-body">© {year} {site.name}</p>
+    </div>
   </Container>
 
-  {/* oversized wordmark, bleeding off the bottom edge of the page */}
-  <div
-    class="relative flex justify-center overflow-hidden px-[var(--container-pad)]"
-    aria-hidden="true"
-  >
-    <Wordmark
-      class="-mb-[0.2em] whitespace-nowrap text-[clamp(3.5rem,20vw,18rem)] leading-none text-wordmark"
-    />
+  {/* oversized watermark (Figma: #DCDCDC) */}
+  <div class="pointer-events-none mt-[clamp(1.25rem,2.5vw,2rem)] flex justify-center select-none" aria-hidden="true">
+    <Wordmark mono class="whitespace-nowrap text-center text-[clamp(2.75rem,13.5vw,11rem)] leading-none text-wordmark" />
   </div>
 </footer>

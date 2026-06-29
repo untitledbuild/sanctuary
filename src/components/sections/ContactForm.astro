@@ -1,0 +1,82 @@
+---
+/**
+ * Contact form card (Figma "Frame 2147206201"). Real, functional inputs styled
+ * to the design. Submits straight to Supabase from the browser using the PUBLIC
+ * anon key — security is enforced by an INSERT-only RLS policy (see
+ * infra/supabase/schema.sql), so the site stays 100% static. The submit logic
+ * lives in src/scripts/form.ts, wired up by the matching ids/data-attrs here.
+ *
+ * `id="start"` is the scroll target for every "SEND MESSAGE" link on the page.
+ */
+import Button from '@components/primitives/Button.astro';
+import Icon from '@components/primitives/Icon.astro';
+import { site } from '@data/site';
+
+const { fields, projectTypes, submit, success, error } = site.hero.form;
+
+const fieldBase =
+  'w-full bg-field border-[0.75px] border-field-line px-[1.03125rem] py-[0.75rem] ' +
+  'font-geist text-[0.84375rem] tracking-tighter text-name placeholder:text-placeholder ' +
+  'outline-none transition-colors focus:border-brand';
+---
+
+<form
+  id="start"
+  class="flex w-full flex-col gap-[0.84375rem] border-[0.75px] border-hairline-soft bg-card p-[1.125rem] shadow-[var(--shadow-tile)]"
+  data-contact-form
+  novalidate
+>
+  {/* Honeypot — bots fill it, humans never see it. Rejected in form.ts. */}
+  <div class="absolute -left-[9999px]" aria-hidden="true">
+    <label>Leave this empty<input type="text" name="company" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <label class="sr-only" for="cf-name">Full name</label>
+  <input id="cf-name" name="name" type="text" autocomplete="name" placeholder={`[${fields.name}]`} class={fieldBase} />
+
+  <label class="sr-only" for="cf-email">Email</label>
+  <input id="cf-email" name="email" type="email" required autocomplete="email" placeholder={`[${fields.email}]`} class={fieldBase} />
+
+  <label class="sr-only" for="cf-type">Project type</label>
+  <div class="relative">
+    <select
+      id="cf-type"
+      name="project_type"
+      class:list={[fieldBase, 'cursor-pointer appearance-none pr-10 text-placeholder [&:valid]:text-name']}
+      required
+      data-cursor="link"
+    >
+      <option value="" disabled selected>{`[${fields.projectType}]`}</option>
+      {projectTypes.map((t) => <option value={t}>{t}</option>)}
+    </select>
+    <Icon name="chevron-down" size={18} stroke={1.5} class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-black/50" />
+  </div>
+
+  <label class="sr-only" for="cf-message">Message</label>
+  <textarea id="cf-message" name="message" rows={4} placeholder={`[${fields.message}]`} class:list={[fieldBase, 'min-h-[6.75rem] resize-none']}></textarea>
+
+  <Button type="submit" label={`[${submit}]`} block data-submit-label={`[${submit}]`} />
+
+  <p
+    class="hidden text-center font-geist text-[0.8rem] tracking-tighter"
+    role="status"
+    aria-live="polite"
+    data-form-status
+    data-success={success}
+    data-error={error}
+  ></p>
+</form>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

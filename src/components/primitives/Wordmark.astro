@@ -1,17 +1,19 @@
 ---
 /**
- * Brand lockup: "untitled" (sans) + "build" (serif italic).
- * Size & colour are controlled by the caller via `class` (font-size + text-*),
- * so the same component serves both the small header mark and the oversized
- * footer wordmark.
+ * Brand lockup: "untitled" (sans, ink) + "build" (serif italic, rust).
+ * Size is controlled by the caller via `class` (font-size).
+ *
+ * `mono` makes both words inherit `currentColor` instead — used for the
+ * oversized single-tone footer watermark.
  */
 interface Props {
   class?: string;
+  mono?: boolean;
 }
-const { class: className = '' } = Astro.props;
+const { class: className = '', mono = false } = Astro.props;
 ---
 
 <span class:list={['inline-flex items-baseline gap-[0.16em] leading-none', className]}>
-  <span class="font-sans font-semibold tracking-tight">untitled</span>
-  <span class="font-serif italic tracking-serif">build</span>
+  <span class:list={['font-sans font-semibold tracking-tight', !mono && 'text-ink']}>untitled</span>
+  <span class:list={['font-serif italic tracking-serif', !mono && 'text-brand']}>build</span>
 </span>

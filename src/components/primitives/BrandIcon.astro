@@ -1,0 +1,152 @@
+---
+/**
+ * Brand / product logos — the app-dock tiles, the tech-stack strip, GitHub and
+ * our own `ub` monogram. Each is a self-contained coloured SVG on a 24×24 grid
+ * (sized via the `size` prop). Iconic marks (Chrome, Figma, GitLab, Spotify)
+ * keep their multi-colour identity; the rest use their official brand hue.
+ *
+ * Decorative (aria-hidden) — every tile/pill carries its own visible/labelled
+ * text or an aria-label on the wrapper.
+ */
+import type { BrandName, TechName } from '@data/site';
+
+interface Props {
+  name: BrandName | TechName;
+  size?: number;
+  class?: string;
+}
+const { name, size = 24, class: className = '' } = Astro.props;
+const box = `0 0 24 24`;
+---
+
+<svg class={className} width={size} height={size} viewBox={box} fill="none" aria-hidden="true" focusable="false">
+  {/* ---- App dock --------------------------------------------------- */}
+  {name === 'spotify' && (
+    <>
+      <circle cx="12" cy="12" r="11" fill="#1ED760" />
+      <path d="M6.8 10.4c3.4-1 7.6-.8 10.6 1M7.4 13.6c2.8-.8 6-.6 8.4.9M8 16.5c2.2-.6 4.6-.4 6.5.8" stroke="#fff" stroke-width="1.6" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'chrome' && (
+    <>
+      <circle cx="12" cy="12" r="11" fill="#fff" />
+      <path d="M12 1a11 11 0 0 1 9.53 5.5H12a5.5 5.5 0 0 0-4.76 8.25L3.2 7.78A11 11 0 0 1 12 1Z" fill="#EA4335" />
+      <path d="M21.53 6.5A11 11 0 0 1 12 23l4.76-8.25A5.5 5.5 0 0 0 12 6.5h9.53Z" fill="#FBBC05" />
+      <path d="M12 23A11 11 0 0 1 3.2 7.78l4.04 6.97A5.5 5.5 0 0 0 12 17.5L12 23Z" fill="#34A853" />
+      <circle cx="12" cy="12" r="4" fill="#fff" />
+      <circle cx="12" cy="12" r="3.2" fill="#4285F4" />
+    </>
+  )}
+  {name === 'gitlab' && (
+    <>
+      <path d="m12 22 3.2-9.8H8.8L12 22Z" fill="#E24329" />
+      <path d="M12 22 8.8 12.2H4.3L12 22Z" fill="#FC6D26" />
+      <path d="M4.3 12.2 3.3 15.3a.7.7 0 0 0 .25.78L12 22 4.3 12.2Z" fill="#FCA326" />
+      <path d="M4.3 12.2h4.5L6.86 6.2a.35.35 0 0 0-.67 0L4.3 12.2Z" fill="#E24329" />
+      <path d="m12 22 3.2-9.8h4.5L12 22Z" fill="#FC6D26" />
+      <path d="m19.7 12.2 1 3.1a.7.7 0 0 1-.25.78L12 22l7.7-9.8Z" fill="#FCA326" />
+      <path d="M19.7 12.2h-4.5l1.94-6a.35.35 0 0 1 .67 0l1.89 6Z" fill="#E24329" />
+    </>
+  )}
+  {name === 'notion' && (
+    <>
+      <rect x="2" y="2" width="20" height="20" rx="3" fill="#fff" stroke="#000" stroke-width="1.2" />
+      <path d="M8 8.2v7.6M8 8.2l8 7.6M16 8v7.8" stroke="#000" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+    </>
+  )}
+  {name === 'figma' && (
+    <>
+      <path d="M9 2h3v6.67H9A3.33 3.33 0 0 1 9 2Z" fill="#F24E1E" />
+      <path d="M12 2h3a3.33 3.33 0 0 1 0 6.67h-3V2Z" fill="#FF7262" />
+      <path d="M9 8.67h3v6.66H9a3.33 3.33 0 0 1 0-6.66Z" fill="#A259FF" />
+      <path d="M12 8.67h3a3.33 3.33 0 1 1-3 3.33V8.67Z" fill="#1ABCFE" />
+      <path d="M9 15.33h3V19A3.33 3.33 0 1 1 9 15.33Z" fill="#0ACF83" />
+    </>
+  )}
+  {name === 'vscode' && (
+    <>
+      <path d="m17.5 2 4 2v16l-4 2-9-8.5L4 17l-2-1V8l2-1 4.5 4.5L17.5 2Z" fill="#0065A9" />
+      <path d="M17.5 2 8.5 11.5 4 7 2 8v8l2 1 4.5-4.5L17.5 22V2Z" fill="#0078D4" opacity="0.85" />
+      <path d="M8.5 11.5 17.5 2v20l-9-8.5Z" fill="#1F9CF0" />
+    </>
+  )}
+  {name === 'datagrip' && (
+    <>
+      <rect x="2" y="2" width="20" height="20" rx="4" fill="#231F20" />
+      <path d="M4 5h7l4 3-3 3 5 4v3H4V5Z" fill="url(#dg)" opacity="0.9" />
+      <path d="M5 17h6" stroke="#fff" stroke-width="1.4" stroke-linecap="round" />
+      <defs>
+        <linearGradient id="dg" x1="4" y1="5" x2="18" y2="18" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#22D88F" /><stop offset="0.5" stop-color="#9775F8" /><stop offset="1" stop-color="#FF59E6" />
+        </linearGradient>
+      </defs>
+    </>
+  )}
+  {name === 'confluence' && (
+    <>
+      <path d="M3 17.5c3-4 6-4.5 9.5-2.2 2.8 1.8 4.6 1.7 6.2-.3l1.8 3c-1.9 2.4-4.5 2.7-7.7.7C9.5 16.4 7.8 16.6 6 19l-3-1.5Z" fill="#2684FF" />
+      <path d="M21 6.5c-3 4-6 4.5-9.5 2.2-2.8-1.8-4.6-1.7-6.2.3L3.5 6c1.9-2.4 4.5-2.7 7.7-.7 3.3 2 5 1.8 6.8-.6l3 1.8Z" fill="#0052CC" />
+    </>
+  )}
+  {name === 'ub' && (
+    <>
+      <rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="#AA3000" />
+      <text x="12" y="16.6" text-anchor="middle" font-family="'Roboto Flex Variable',sans-serif" font-weight="700" font-size="11.5" fill="#fff">ub</text>
+    </>
+  )}
+  {name === 'github' && (
+    <path d="M12 1.5A10.5 10.5 0 0 0 8.68 22a.55.55 0 0 0 .73-.53v-1.86c-2.92.63-3.54-1.41-3.54-1.41-.48-1.21-1.17-1.53-1.17-1.53-.95-.65.08-.64.08-.64 1.05.07 1.6 1.08 1.6 1.08.94 1.6 2.46 1.14 3.06.87.1-.68.37-1.14.66-1.4-2.33-.27-4.78-1.17-4.78-5.18 0-1.15.41-2.08 1.08-2.82-.1-.27-.47-1.34.1-2.79 0 0 .88-.28 2.88 1.08a9.9 9.9 0 0 1 5.24 0c2-1.36 2.88-1.08 2.88-1.08.57 1.45.2 2.52.1 2.79.67.74 1.08 1.67 1.08 2.82 0 4.02-2.46 4.9-4.8 5.16.38.33.71.97.71 1.96v2.9c0 .3.2.62.74.52A10.5 10.5 0 0 0 12 1.5Z" fill="#1E1E1E" />
+  )}
+
+  {/* ---- Tech stack ------------------------------------------------- */}
+  {name === 'react' && (
+    <>
+      <circle cx="12" cy="12" r="2" fill="#61DAFB" />
+      <g stroke="#61DAFB" stroke-width="1" fill="none">
+        <ellipse cx="12" cy="12" rx="10" ry="4" />
+        <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)" />
+        <ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)" />
+      </g>
+    </>
+  )}
+  {name === 'nextjs' && (
+    <>
+      <circle cx="12" cy="12" r="11" fill="#000" />
+      <path d="M9 8v8M9 8l7.5 9.5M16 8v6.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'typescript' && (
+    <>
+      <rect x="2" y="2" width="20" height="20" rx="2.5" fill="#3178C6" />
+      <path d="M12.8 12.2h4.4M15 12.2v6" stroke="#fff" stroke-width="1.6" stroke-linecap="round" />
+      <path d="M12 13.2c-.4-.7-1.1-1.1-2-1.1-1.2 0-2 .6-2 1.6 0 2 3.2 1.3 3.2 3.3 0 1-.9 1.6-2.1 1.6-1 0-1.8-.5-2.2-1.2" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'node' && (
+    <>
+      <path d="m12 2 8.66 5v10L12 22l-8.66-5V7L12 2Z" fill="#5FA04E" />
+      <path d="M12 7.5c-2.2 0-3.4.9-3.4 2.4 0 1.6 1.1 2 2.9 2.3 2.1.3 2.3.5 2.3 1 0 .5-.4.8-1.5.8-1 0-1.6-.3-1.9-.9h-1.8c.2 1.5 1.4 2.3 3.7 2.3 2.3 0 3.5-.9 3.5-2.5 0-1.6-1.1-2-3-2.3-2-.3-2.2-.5-2.2-1 0-.4.4-.7 1.4-.7.9 0 1.4.3 1.6.9h1.8c-.2-1.4-1.3-2.3-3.5-2.3Z" fill="#fff" />
+    </>
+  )}
+  {name === 'tailwind' && (
+    <path d="M12 6c-2.7 0-4.3 1.3-5 4 1-1.3 2.2-1.8 3.5-1.5.74.18 1.27.72 1.86 1.32C13.32 10.79 14.45 12 17 12c2.7 0 4.3-1.3 5-4-1 1.3-2.2 1.8-3.5 1.5-.74-.18-1.27-.72-1.86-1.32C15.68 7.21 14.55 6 12 6Zm-5 6c-2.7 0-4.3 1.3-5 4 1-1.3 2.2-1.8 3.5-1.5.74.18 1.27.72 1.86 1.32C8.32 16.79 9.45 18 12 18c2.7 0 4.3-1.3 5-4-1 1.3-2.2 1.8-3.5 1.5-.74-.18-1.27-.72-1.86-1.32C10.68 13.21 9.55 12 7 12Z" fill="#38BDF8" />
+  )}
+  {name === 'postgresql' && (
+    <>
+      <circle cx="12" cy="12" r="11" fill="#336791" />
+      <path d="M8 7c-1.5 0-2.5 1.2-2.5 4 0 3.5.8 6.5 2 6.5.6 0 .9-.5 1-1.3M14.5 6.8c1.8 0 2.5 1.6 2.5 4.2 0 1.6-.3 2.7-.9 3.2M10.5 7c.8-.4 2.4-.5 3.5 0M11.7 8v6.5" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'aws' && (
+    <>
+      <path d="M6 10.5c0 .4.05.7.13.96.09.25.2.52.35.81.05.08.07.16.07.23 0 .1-.06.2-.2.3l-.64.43a.5.5 0 0 1-.27.09c-.1 0-.2-.05-.3-.14a3 3 0 0 1-.36-.47 8 8 0 0 1-.31-.59c-.78.92-1.76 1.38-2.94 1.38-.84 0-1.5-.24-2-.72-.49-.48-.74-1.12-.74-1.92 0-.85.3-1.54.91-2.06.6-.52 1.41-.78 2.43-.78.34 0 .68.03 1.05.08.36.05.74.13 1.13.22v-.71c0-.76-.16-1.29-.47-1.6-.32-.3-.86-.45-1.63-.45-.35 0-.71.04-1.08.13-.37.08-.73.19-1.08.32a2.9 2.9 0 0 1-.35.13.6.6 0 0 1-.16.03c-.14 0-.21-.1-.21-.31v-.49c0-.16.02-.28.07-.35a.74.74 0 0 1 .28-.21c.35-.18.77-.33 1.26-.45A6 6 0 0 1 3.99 4c1.16 0 2.01.26 2.56.79.54.52.81 1.32.81 2.4v3.31Z" fill="#FF9900" transform="translate(2.5 1.5) scale(0.85)" />
+      <path d="M3 21c5.5 3 12.5 3 18 0" stroke="#FF9900" stroke-width="1.6" fill="none" stroke-linecap="round" />
+    </>
+  )}
+  {name === 'stripe' && (
+    <>
+      <rect x="2" y="2" width="20" height="20" rx="4" fill="#635BFF" />
+      <path d="M11.4 9.4c0-.5.43-.7 1.06-.7.97 0 2.2.3 3.17.83V6.6A8 8 0 0 0 12.46 6c-2.13 0-3.55 1.13-3.55 3.02 0 2.94 3.97 2.47 3.97 3.74 0 .56-.49.74-1.16.74-1.06 0-2.45-.44-3.5-1.03v2.8c1.17.5 2.35.72 3.5.72 2.18 0 3.68-1.1 3.68-3.02-.01-3.17-3.99-2.6-3.99-3.81Z" fill="#fff" />
+    </>
+  )}
+</svg>

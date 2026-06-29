@@ -1,0 +1,111 @@
+---
+/**
+ * "Work" — from whiteboard to production. Two project case cards (UI-mockup panel
+ * + left-aligned title/description/tags) and a GitHub "push successful" card,
+ * inside the dashed "blueprint" frame from Figma: verticals (x384/1116) around
+ * the heading + project cards, a line below the heading, below the project cards,
+ * and a top+bottom pair bracketing the commit card. Horizontals overshoot the
+ * verticals so the corners cross. Frame on sm+; no desktop padding so it lands.
+ */
+import Badge from '@components/primitives/Badge.astro';
+import Icon from '@components/primitives/Icon.astro';
+import BrandIcon from '@components/primitives/BrandIcon.astro';
+import { site, type Project } from '@data/site';
+
+const { title, subtitle, commit } = site.work;
+const projects: Project[] = site.work.projects as unknown as Project[];
+
+const hline = 'dashed-h hidden sm:block -mx-[37px]';
+---
+
+<section id="work" class="relative py-[var(--section-y)]">
+  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    {/* ---- Upper block: heading + project cards (framed) ---- */}
+    <div class="relative">
+      <div class="pointer-events-none absolute left-[-21px] right-[-21px] top-[-1.375rem] bottom-[-1.375rem] hidden sm:block" aria-hidden="true">
+        <span class="dashed-v absolute inset-y-0 left-0"></span>
+        <span class="dashed-v absolute inset-y-0 right-0"></span>
+      </div>
+
+      <header data-reveal>
+        <h2 class="font-sans text-[2.5rem] font-semibold leading-[1.14] tracking-tight text-heading">{title}</h2>
+        <p class="mt-[0.8125rem] font-sans text-[1.125rem] font-medium leading-[1.29] tracking-tight text-body">{subtitle}</p>
+      </header>
+
+      <div class:list={[hline, 'mt-[1.5rem]']}></div>
+
+      <div class="mt-[1.5rem] flex flex-col gap-[1.5rem]">
+        {
+          projects.map((p, i) => (
+            <article
+              class="grid grid-cols-1 overflow-hidden border border-hairline bg-card sm:grid-cols-[39.7%_1fr]"
+              data-reveal
+              data-reveal-delay={i * 0.06}
+            >
+              <div class="grid min-h-[9rem] place-items-center border-b border-hairline bg-surface sm:border-b-0 sm:border-r">
+                {p.image ? (
+                  <img src={p.image} alt={`${p.title} UI`} class="h-full w-full object-cover" loading="lazy" />
+                ) : (
+                  <span class="font-sans text-[1rem] font-medium tracking-tight text-muted"></span>
+                  //<span class="font-sans text-[1rem] font-medium tracking-tight text-muted">UI MOCKUP</span>
+                )}
+              </div>
+              <div class="flex flex-col justify-center gap-[1.6875rem] py-7 pl-[1.75rem] pr-[2.625rem]">
+                <div class="flex flex-col gap-[0.375rem]">
+                  <h3 class="font-sans text-[2rem] font-medium leading-[1.14] tracking-tight text-heading">{p.title}</h3>
+                  <p class="font-sans text-[1.125rem] font-medium leading-[1.29] tracking-tight text-body">{p.description}</p>
+                </div>
+                <ul class="flex flex-wrap gap-x-[0.5625rem] gap-y-[0.625rem]">
+                  {p.tags.map((tag) => (<li><Badge tone={tag.tone}>{tag.label}</Badge></li>))}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+
+      <div class:list={[hline, 'mt-[1.5rem]']}></div>
+    </div>
+
+    {/* ---- Commit card (bracketed top + bottom) ---- */}
+    <div class="relative mt-[1.5rem]">
+      <div class={hline}></div>
+
+      <article class="mt-[1.5rem] flex border border-hairline bg-card" data-reveal>
+        <div class="grid h-[3.8125rem] w-[3.8125rem] shrink-0 place-items-center self-start border-b border-r border-hairline text-ink">
+          <BrandIcon name="github" size={32} />
+        </div>
+        <div class="flex flex-1 flex-col gap-2 py-[1.125rem] pl-[0.8125rem] pr-[1.125rem]">
+          <div class="flex items-start justify-between gap-4">
+            <Badge tone="green">
+              <Icon name="check" size={12} stroke={2} class="text-check" />
+              {commit.status}
+            </Badge>
+            <span class="font-sans text-[0.875rem] font-medium tracking-tight text-body">{commit.time}</span>
+          </div>
+          <h3 class="font-sans text-[1.40625rem] font-medium leading-[1.14] tracking-[-0.01em] text-heading">{commit.repo}</h3>
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="font-sans text-[0.875rem] font-medium tracking-tight text-[#302D2D]">{commit.author}</span>
+            <span class="font-sans text-[0.875rem] font-medium tracking-tight text-meta">pushed to</span>
+            <Badge tone="gray">
+              <Icon name="git-branch" size={12} stroke={1.5} class="text-gray-500" />
+              {commit.branch}
+            </Badge>
+          </div>
+          <hr class="my-1 border-t border-black/10" />
+          <div class="flex items-center justify-between gap-4">
+            <span class="font-sans text-[0.875rem] font-medium tracking-tight text-[#8D8C8C]">
+              {commit.commits} commits ⋅ {commit.files} files changed
+            </span>
+            <span class="flex items-center gap-[5px] font-mono text-[0.875rem] font-medium tracking-tight">
+              <span class="text-diff-add">+{commit.additions}</span>
+              <span class="text-diff-del">−{commit.deletions}</span>
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <div class:list={[hline, 'mt-[1.5rem]']}></div>
+    </div>
+  </div>
+</section>

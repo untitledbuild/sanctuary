@@ -27,10 +27,17 @@ jobs:
 
       # Installs deps (npm ci), runs `astro build`, and uploads ./dist as the
       # Pages artifact. Auto-detects npm from package-lock.json.
+      #
+      # Supabase config is passed from repo Variables (Settings → Secrets and
+      # variables → Actions → Variables). The anon key is PUBLIC by design and
+      # secured by INSERT-only RLS, so it lives in Variables, not Secrets.
       - name: Build with Astro
         uses: withastro/action@v3
         with:
           node-version: 20
+        env:
+          PUBLIC_SUPABASE_URL: ${{ vars.PUBLIC_SUPABASE_URL }}
+          PUBLIC_SUPABASE_ANON_KEY: ${{ vars.PUBLIC_SUPABASE_ANON_KEY }}
 
   deploy:
     needs: build

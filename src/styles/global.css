@@ -1,109 +1,179 @@
 /* =============================================================================
    untitled build — global stylesheet
    -----------------------------------------------------------------------------
-   Single source of truth for the design system. Everything downstream (every
-   .astro component) consumes these tokens — no section re-declares a colour,
-   font size, or radius. Pulled from the Figma spec and consolidated:
-   many near-identical greys/sizes in the file collapse into a few semantic
-   tokens here.
+   Single source of truth for the design system, derived 1:1 from the Figma
+   ("Design", node 112-2633). Every .astro component consumes these tokens; no
+   section re-declares a colour, size, radius or shadow. The many near-identical
+   greys in the file collapse into a few semantic tokens here.
    ========================================================================== */
 
-/* Self-hosted fonts (no external requests — good for a CDN-served static site).
-   Variable fonts cover every weight we use in one file. */
-@import '@fontsource-variable/roboto-flex';
-@import '@fontsource-variable/roboto-mono';
+/* Self-hosted variable fonts (no external requests → ideal for a static CDN
+   site). One file per family covers every weight we use. */
+@import '@fontsource-variable/roboto-flex';    /* headings, body, nav        */
+@import '@fontsource-variable/roboto-mono';     /* commit diff stats          */
+@import '@fontsource-variable/geist';           /* form fields, project meta  */
+@import '@fontsource-variable/geist-mono';      /* mono name plates, buttons  */
+@import '@fontsource-variable/inter';           /* badges, avatars, cursors   */
+@import '@fontsource-variable/caveat';          /* handwriting (sticky notes) */
 @import '@fontsource/instrument-serif/400.css';
 @import '@fontsource/instrument-serif/400-italic.css';
 
 @import 'tailwindcss';
 
 /* -----------------------------------------------------------------------------
-   Design tokens — generate Tailwind utilities (bg-*, text-*, font-*, rounded-*…)
+   Design tokens → Tailwind utilities (bg-*, text-*, font-*, rounded-*, shadow-*)
    -------------------------------------------------------------------------- */
 @theme {
-  /* ---- Colour ---------------------------------------------------------- */
-  --color-bg: #ffffff;
-  --color-ink: #000000;          /* buttons, strongest marks                */
-  --color-navy: #000920;         /* eyebrow labels + serif accents          */
-  --color-heading: #343434;      /* display headings                        */
-  --color-strong: #262626;       /* process-card copy                       */
-  --color-body: #595959;         /* body / lead paragraphs                  */
-  --color-link: #1a1a1a;         /* header nav link (named to avoid clashing
-                                    with the --text-nav size token)         */
+  /* ---- Colour: brand & ink -------------------------------------------- */
+  --color-bg: #fffefd;            /* page background (warm white)            */
+  --color-brand: #aa3000;         /* rust — buttons, logo, tooltips, accents */
+  --color-brand-tint: #fff0f0;    /* active tool slot / soft brand wash      */
+  --color-heading: #2d0000;       /* near-black maroon — all headings        */
+  --color-ink: #000000;           /* pure black marks                        */
+  --color-navy: #000920;          /* serif accents (testimonial, byline)     */
 
-  /* surfaces — light → sunken → inner blocks */
-  --color-surface: #f7f7f7;      /* mockup frames, portfolio + feature cards */
-  --color-sunken: #efefef;       /* CTA panel                                */
-  --color-block: #eaeaea;        /* inner mockup content blocks              */
-  --color-block-soft: #e3e3e3;   /* gradient-block start                     */
-  --color-paper: #ebebeb;        /* founders' note paper                     */
-  --color-wordmark: #dcdcdc;     /* oversized footer wordmark                */
+  /* ---- Colour: text greys --------------------------------------------- */
+  --color-body: #9b8f8f;          /* muted warm grey — sub/lead copy         */
+  --color-muted: #8c8c8c;         /* placeholder labels (UI MOCKUP, logos)   */
+  --color-faint: #545151;         /* mid grey ("Engineering with…")          */
+  --color-name: #272727;          /* mono name-plate text                    */
+  --color-meta: #928b8b;          /* commit card meta                        */
 
-  /* lines & hairlines */
-  --color-line: rgba(0, 0, 0, 0.35);   /* primary blueprint grid line  */
-  --color-line-soft: rgba(0, 0, 0, 0.13);/* faded grid line            */
-  --color-hairline: rgba(0, 0, 0, 0.1); /* card borders                */
+  /* ---- Colour: surfaces ----------------------------------------------- */
+  --color-card: #ffffff;          /* tiles, form card, content cards         */
+  --color-surface: #f6f6f6;       /* mockup placeholder + tech-logo pills    */
+  --color-field: #fbfbfb;         /* form input fill                         */
+  --color-plate: #efefef;         /* name-plate fill                         */
+  --color-wordmark: #dcdcdc;      /* oversized footer wordmark               */
+
+  /* ---- Colour: lines / hairlines (opacities lifted from Figma) -------- */
+  --color-line: rgba(0, 0, 0, 0.35);       /* primary blueprint grid line     */
+  --color-line-soft: rgba(0, 0, 0, 0.13);  /* faded grid line                 */
+  --color-line-guide: rgba(0, 0, 0, 0.25); /* dashed guide rules              */
+  --color-hairline: rgba(0, 0, 0, 0.15);   /* card / divider borders          */
+  --color-hairline-soft: rgba(0, 0, 0, 0.1); /* tile + commit-card borders    */
+  --color-field-line: rgba(0, 0, 0, 0.2);    /* input borders                 */
+  --color-placeholder: rgba(0, 0, 0, 0.45);  /* input placeholder text        */
+  --color-label: rgba(0, 0, 0, 0.55);        /* name-plate TITLE text         */
+
+  /* ---- Colour: Untitled-UI greys (avatars, toolbar icons, badges) ----- */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f5f5f5;
+  --color-gray-200: #e9eaeb;
+  --color-gray-300: #d5d7da;
+  --color-gray-400: #a4a7ae;
+  --color-gray-500: #717680;
+  --color-gray-600: #535862;
+  --color-gray-700: #414651;
+
+  /* ---- Colour: badge palettes (project tags + commit card) ------------ */
+  --color-badge-brand-bg: #f9f5ff;  --color-badge-brand-fg: #6941c6;
+  --color-badge-orange-bg: #fef6ee; --color-badge-orange-fg: #b93815;
+  --color-badge-pink-bg: #fdf2fa;   --color-badge-pink-fg: #c11574;
+  --color-badge-green-bg: #ecfdf3;  --color-badge-green-fg: #067647;
+  --color-badge-gray-bg: #fafafa;   --color-badge-gray-fg: #414651;
+  --color-check: #17b26a;           /* success tick                          */
+  --color-diff-add: #3b7c0f;        /* +321                                  */
+  --color-diff-del: #d92d20;        /* -45                                   */
+
+  /* ---- Colour: sticky notes & collaborator cursors -------------------- */
+  --color-note-blue: #80caff;
+  --color-note-green: #85e0a3;
+  --color-note-yellow: #fdf5a3;
+  --color-note-gray: #e6e6e6;
+  --color-cursor-pink: #ff00c4;   /* Abir                                   */
+  --color-cursor-cyan: #00ddff;   /* Runanka                                */
+  --color-cursor-lime: #e1ff00;   /* Bipratip                               */
+  --color-cursor-orange: #ff7b00; /* Adil                                   */
 
   /* ---- Type families --------------------------------------------------- */
   --font-sans: 'Roboto Flex Variable', 'Roboto Flex', system-ui, -apple-system,
     'Segoe UI', sans-serif;
-  --font-mono: 'Roboto Mono Variable', 'Roboto Mono', ui-monospace,
-    'SFMono-Regular', monospace;
   --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  --font-mono: 'Roboto Mono Variable', 'Roboto Mono', ui-monospace, monospace;
+  --font-geist: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --font-geist-mono: 'Geist Mono Variable', 'Geist Mono', ui-monospace, monospace;
+  --font-inter: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-hand: 'Caveat Variable', 'Caveat', 'Comic Sans MS', cursive;
 
-  /* ---- Fluid type scale (mobile → 1440 desktop) ------------------------ */
-  /* clamp() keeps the design proportional at every width instead of pinning
-     to the 1440 canvas — this is the backbone of the responsive behaviour. */
-  --text-display: clamp(2.5rem, 1.45rem + 4.6vw, 4.0625rem);   /* 40 → 65 */
-  --text-display--line-height: 1.04;
-  --text-quote: clamp(2.25rem, 0.85rem + 5.7vw, 5rem);         /* 36 → 80 */
+  /* ---- Fluid type scale (mobile → 1500 desktop) ------------------------ */
+  /* Fixed rem = Figma px ÷ 16. The fluid root font-size (see @layer base) does
+     the responsive scaling: the whole rem-based design scales proportionally
+     (≈1:1 at 1500px, gently up toward 4K, down to a readable mobile floor), so
+     every size here stays pixel-exact at the 1500 reference. */
+  --text-hero: 2.75rem;        /* 44 */
+  --text-hero--line-height: 1.14;
+  --text-h2: 2.5rem;           /* 40 */
+  --text-h2--line-height: 1.14;
+  --text-quote: 2.5rem;        /* 40 */
   --text-quote--line-height: 1.2;
-  --text-note: clamp(2.5rem, 1.55rem + 4vw, 4.25rem);          /* 40 → 68 */
-  --text-note--line-height: 1.15;
-  --text-eyebrow: clamp(1.125rem, 0.95rem + 0.72vw, 1.675rem); /* 18 → 26.8 */
-  --text-eyebrow--line-height: 1.2;
-  --text-feature: clamp(1.25rem, 1.0rem + 1.05vw, 1.6875rem);  /* 20 → 27 */
-  --text-feature--line-height: 1.25;
-  --text-card: clamp(1.25rem, 1.07rem + 0.78vw, 1.625rem);     /* 20 → 26 */
-  --text-card--line-height: 1.39;
-  --text-name: clamp(1.375rem, 1.15rem + 0.92vw, 1.8125rem);   /* 22 → 29 */
-  --text-name--line-height: 1.2;
-  --text-lead: clamp(1.0625rem, 0.96rem + 0.46vw, 1.375rem);   /* 17 → 22 */
-  --text-lead--line-height: 1.5;
-  --text-nav: clamp(1rem, 0.94rem + 0.25vw, 1.375rem);         /* 16 → 22 */
-  --text-nav--line-height: 1.18;
+  --text-project: 2rem;        /* 32 */
+  --text-project--line-height: 1.14;
+  --text-lead: 1.125rem;       /* 18 */
+  --text-lead--line-height: 1.45;
+  --text-byline: 1.3625rem;    /* 21.8 */
+  --text-byline--line-height: 1.44;
+  --text-nav: 1.1375rem;       /* 18.2 */
+  --text-nav--line-height: 1.44;
 
   /* ---- Letter-spacing -------------------------------------------------- */
-  --tracking-tight: -0.02em;   /* headings / body                  */
-  --tracking-tighter: -0.05em; /* button label                     */
-  --tracking-serif: -0.01em;   /* Instrument Serif display          */
+  --tracking-tight: -0.02em;    /* Roboto Flex headings / body              */
+  --tracking-tighter: -0.05em;  /* Geist / Geist Mono labels & buttons      */
+  --tracking-serif: -0.01em;    /* Instrument Serif                         */
 
-  /* ---- Radii ----------------------------------------------------------- */
-  --radius-card: 48px;     /* phone frame, portfolio + feature cards */
-  --radius-browser: 28px;  /* browser window                          */
-  --radius-block: 19px;    /* inner mockup blocks                     */
-  --radius-cta: 21px;      /* CTA panel                               */
+  /* ---- Radii (px from Figma) ------------------------------------------ */
+  --radius-tile: 15.75px;   /* app-dock tiles                              */
+  --radius-card: 11px;      /* tech-logo pills                            */
+  --radius-field: 6px;      /* form button                                */
+  --radius-control: 8px;    /* toolbar buttons                           */
+  --radius-badge: 16px;     /* tag pills                                  */
+  --radius-pill: 50px;      /* cursor name pills                          */
 
-  /* ---- Elevation ------------------------------------------------------- */
-  --shadow-float: 0 24px 48px -12px rgba(0, 0, 0, 0.18),
-    0 4px 4px -2px rgba(0, 0, 0, 0.04); /* process step cards */
+  /* ---- Elevation (lifted verbatim from Figma) ------------------------- */
+  --shadow-tile: 0px 30px 36px -15px rgba(0, 0, 0, 0.02),
+    0px 24px 24px -15px rgba(0, 0, 0, 0.03),
+    0px 12px 18px -9px rgba(0, 0, 0, 0.03),
+    0px 0px 0px 0.75px rgba(0, 0, 0, 0.03);
+  --shadow-tile-hero: 0px 24px 48px -9px rgba(10, 13, 18, 0.14),
+    0px 3.75px 3.75px -1.875px rgba(10, 13, 18, 0.04);
+  --shadow-tooltip: 0px 12px 16px -4px rgba(10, 13, 18, 0.08),
+    0px 4px 6px -2px rgba(10, 13, 18, 0.03),
+    0px 2px 2px -1px rgba(10, 13, 18, 0.04);
+  --shadow-control: 0px 1px 3px rgba(10, 13, 18, 0.1),
+    0px 1px 2px -1px rgba(10, 13, 18, 0.1);
+  --shadow-note: -0.6px 3px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* -----------------------------------------------------------------------------
-   Layout rhythm — plain custom props (not utilities). Consumed via
-   max-w-[var(--container)] etc. so the values live in exactly one place.
+   Layout rhythm — plain custom props (consumed via max-w-[var(--…)] etc. so the
+   values live in exactly one place).
    -------------------------------------------------------------------------- */
 :root {
-  --container: 65rem;                          /* 1040px content column      */
-  --container-pad: clamp(1.25rem, 5vw, 2rem);  /* responsive gutters         */
-  --section-y: clamp(4rem, 8vw, 8.5rem);       /* vertical rhythm per section */
+  --canvas: 1500px;                  /* Figma artboard reference              */
+  --grid: 68.5rem;                   /* 1096px decorative grid width          */
+  --container: 73.75rem;             /* 1180px max content container          */
+  --spine: 43.125rem;                /* 690px text/card content spine         */
+  --container-pad: clamp(1.25rem, 5vw, 2rem); /* gutters (mobile breathing)   */
+  --section-y: 7.5rem;               /* 120px vertical rhythm (scales w/ root) */
 }
 
 /* -----------------------------------------------------------------------------
    Base layer
    -------------------------------------------------------------------------- */
 @layer base {
+  /* ---------------------------------------------------------------------------
+     Fluid scaling root. The entire design is authored in rem at the 1500px
+     Figma reference (1rem = 16px there). This single fluid font-size then scales
+     every rem proportionally:
+       •  ~375px → 13px   (readable mobile floor; headings shrink to ~36px)
+       •   1500px → 16px  (pixel-exact to the Figma)
+       •  ~3000px+ → 22px (cap; fills 4K without ballooning)
+     Browser zoom still scales vw, so zoom works; only the OS default-font-size
+     preference is overridden — an acceptable trade for a pixel-exact comp.
+     Layout reflow (stacking) is handled separately by md/lg breakpoints.
+     --------------------------------------------------------------------------- */
   html {
+    font-size: clamp(13px, 0.4vw + 10px, 22px);
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth; /* fallback when Lenis/JS is unavailable */
@@ -131,39 +201,95 @@
   }
 
   ::selection {
-    background: var(--color-ink);
+    background: var(--color-brand);
     color: #fff;
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-brand);
     outline-offset: 3px;
   }
 
-  /* Reveal-on-scroll initial state is applied ONLY when JS motion is active
-     (class set synchronously in <head>). No-JS and reduced-motion users get
+  /* Reveal-on-scroll initial state applies ONLY when JS motion is active
+     (class set synchronously in <head>). No-JS / reduced-motion users get
      fully visible content with zero layout shift. */
-  html.js-motion [data-reveal] {
+  html.js-motion [data-reveal],
+  html.js-motion [data-note],
+  html.js-motion [data-dock-tile] {
     opacity: 0;
     will-change: transform, opacity;
   }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    html.js-motion [data-reveal] { opacity: 1; }
+    html.js-motion [data-reveal],
+    html.js-motion [data-note],
+    html.js-motion [data-dock-tile] {
+      opacity: 1 !important;
+      transform: none !important;
+    }
   }
+}
+
+/* -----------------------------------------------------------------------------
+   Custom cursor (cursor-02 from Figma). Active only on fine-pointer devices and
+   only once motion.ts adds `.has-custom-cursor`; touch / no-JS keep the native
+   cursor. The element is positioned by motion.ts.
+   -------------------------------------------------------------------------- */
+@media (pointer: fine) {
+  html.has-custom-cursor,
+  html.has-custom-cursor a,
+  html.has-custom-cursor button,
+  html.has-custom-cursor input,
+  html.has-custom-cursor textarea,
+  html.has-custom-cursor select,
+  html.has-custom-cursor [role='button'] {
+    cursor: none;
+  }
+}
+
+#cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 28px;
+  height: 28px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0);
+  will-change: transform;
+}
+@media (pointer: coarse) {
+  #cursor { display: none; }
 }
 
 /* -----------------------------------------------------------------------------
    Utilities
    -------------------------------------------------------------------------- */
 @layer utilities {
-  /* Dashed divider used between the process step cells. */
-  .border-dashed-line {
-    border-style: dashed;
-    border-color: var(--color-line);
+  .font-hand {
+    font-family: var(--font-hand);
+    font-weight: 600;
+  }
+
+  /* Crisp blueprint dashes (6 on / 6 off, like Figma) — CSS `border-dashed`
+     renders browser-default dashes, so we paint the line as a gradient instead.
+     `--dash` overrides the colour per use (defaults to the guide line). */
+  .dashed-h {
+    height: 1px;
+    background-image: repeating-linear-gradient(
+      to right,
+      var(--dash, var(--color-line-guide)) 0 6px,
+      transparent 6px 12px
+    );
+  }
+  .dashed-v {
+    width: 1px;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      var(--dash, var(--color-line-guide)) 0 6px,
+      transparent 6px 12px
+    );
   }
 }
-
-/* The dashed blueprint construction grid lives in BlueprintGrid.astro
-   (inline SVG <pattern>) so the dashes stay crisp at any viewport size. */

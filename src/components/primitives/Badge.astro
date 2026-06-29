@@ -1,0 +1,32 @@
+---
+/**
+ * Untitled-UI tag pill — used for project tech tags and the commit-card status.
+ * Tone selects a bg/fg pair from the badge palette in global.css.
+ */
+import type { BadgeTone } from '@data/site';
+
+interface Props {
+  tone?: BadgeTone;
+  class?: string;
+}
+const { tone = 'gray', class: className = '' } = Astro.props;
+
+const tones: Record<BadgeTone, string> = {
+  brand: 'bg-badge-brand-bg text-badge-brand-fg',
+  orange: 'bg-badge-orange-bg text-badge-orange-fg',
+  pink: 'bg-badge-pink-bg text-badge-pink-fg',
+  green: 'bg-badge-green-bg text-badge-green-fg',
+  gray: 'bg-badge-gray-bg text-badge-gray-fg',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex items-center gap-1 rounded-[var(--radius-badge)] px-2.5 py-0.5',
+    'font-inter text-[0.875rem] font-medium leading-5',
+    tones[tone],
+    className,
+  ]}
+>
+  <slot />
+</span>

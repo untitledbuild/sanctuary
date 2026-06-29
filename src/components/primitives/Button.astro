@@ -1,34 +1,45 @@
 ---
 /**
- * Primary CTA — the black, square-cornered "Start a Project" button.
- * Monochrome by design; hover inverts to white-on-black-outline.
- * Renders an <a> (link) or <button> depending on whether `href` is given.
+ * Primary CTA — the rust "[ SEND MESSAGE ]" button (Geist Mono, square-ish 6px
+ * corners) from the Figma. Renders an <a> when `href` is given, else a <button>.
+ * `block` makes it fill its container (the hero form's full-width submit).
  */
 interface Props {
   href?: string;
   label?: string;
   type?: 'button' | 'submit';
+  block?: boolean;
   class?: string;
+  id?: string;
 }
-const { href, label, type = 'button', class: className = '' } = Astro.props;
+const {
+  href,
+  label,
+  type = 'button',
+  block = false,
+  class: className = '',
+  id,
+} = Astro.props;
 
 const classes = [
-  'inline-flex items-center justify-center gap-2.5 select-none',
-  'border border-ink bg-ink px-3.5 py-3',
-  'font-sans font-semibold text-nav tracking-tighter text-white',
-  'transition-[background-color,color,transform] duration-200 ease-out',
-  'hover:bg-white hover:text-ink active:translate-y-px',
+  'group inline-flex select-none items-center justify-center gap-2',
+  'rounded-[var(--radius-field)] bg-brand px-[0.8rem] py-[0.56rem]',
+  'font-geist-mono text-[1rem] font-semibold tracking-tighter text-white',
+  'shadow-[0_1px_2px_rgba(10,13,18,0.05),inset_0_0_0_1px_rgba(10,13,18,0.18),inset_0_-2px_0_rgba(10,13,18,0.05)]',
+  'transition-[transform,filter] duration-200 ease-out',
+  'hover:brightness-110 active:translate-y-px',
+  block && 'w-full',
   className,
 ];
 ---
 
 {
   href ? (
-    <a href={href} class:list={classes}>
+    <a id={id} href={href} class:list={classes} data-cursor="link">
       {label ?? <slot />}
     </a>
   ) : (
-    <button type={type} class:list={classes}>
+    <button id={id} type={type} class:list={classes} data-cursor="link">
       {label ?? <slot />}
     </button>
   )

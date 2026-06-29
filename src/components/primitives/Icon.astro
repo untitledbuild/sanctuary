@@ -1,20 +1,25 @@
 ---
 /**
- * Inline SVG icon set (recreating the Untitled UI glyphs referenced in Figma).
- * Stroke icons inherit `currentColor`; size via a `text`/`size` class on the
- * parent or the `class` prop. Decorative by default (aria-hidden).
+ * Inline UI icon set — recreates the Untitled UI line glyphs referenced in the
+ * Figma (toolbar, form, feature rows, whiteboard chrome, commit card). All are
+ * stroke icons on a 24×24 grid inheriting `currentColor`; size via the `size`
+ * prop (defaults to the Figma 24px box) or a text/size class on the parent.
+ * Decorative by default (aria-hidden) unless given a `title`.
  */
-import type { IconName } from '@data/site';
+import type { IconName } from './icon-names';
 
 interface Props {
   name: IconName;
   class?: string;
   /** px size; defaults to 24 (the Figma icon box). */
   size?: number;
+  /** Stroke width (Figma uses ~1.66 at 20px / 2 at 24px). */
+  stroke?: number;
   title?: string;
 }
 
-const { name, class: className = '', size = 24, title } = Astro.props;
+const { name, class: className = '', size = 24, stroke = 2, title } = Astro.props;
+const solid = name === 'star' || name === 'quote' || name === 'linkedin';
 ---
 
 <svg
@@ -22,9 +27,9 @@ const { name, class: className = '', size = 24, title } = Astro.props;
   width={size}
   height={size}
   viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="2"
+  fill={solid ? 'currentColor' : 'none'}
+  stroke={solid ? 'none' : 'currentColor'}
+  stroke-width={stroke}
   stroke-linecap="round"
   stroke-linejoin="round"
   focusable="false"
@@ -32,52 +37,142 @@ const { name, class: className = '', size = 24, title } = Astro.props;
   aria-label={title}
   aria-hidden={title ? undefined : 'true'}
 >
-  {name === 'search' && (
-    <>
-      <circle cx="11" cy="11" r="7"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </>
-  )}
-  {name === 'share' && (
-    <>
-      <circle cx="18" cy="5" r="3"></circle>
-      <circle cx="6" cy="12" r="3"></circle>
-      <circle cx="18" cy="19" r="3"></circle>
-      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-    </>
-  )}
   {name === 'users' && (
     <>
-      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-      <circle cx="9" cy="7" r="4"></circle>
-      <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
     </>
   )}
   {name === 'dataflow' && (
     <>
-      <rect x="14" y="2" width="8" height="6" rx="1"></rect>
-      <rect x="2" y="16" width="8" height="6" rx="1"></rect>
-      <rect x="14" y="16" width="8" height="6" rx="1"></rect>
-      <path d="M18 8v3a2 2 0 0 1-2 2H8a2 2 0 0 0-2 2v1"></path>
-      <path d="M18 13v3"></path>
+      <rect x="14.5" y="2.5" width="7" height="6" rx="1.5" />
+      <rect x="2.5" y="15.5" width="7" height="6" rx="1.5" />
+      <rect x="14.5" y="15.5" width="7" height="6" rx="1.5" />
+      <path d="M18 8.5v2a3 3 0 0 1-3 3H9a3 3 0 0 0-3 3v1" />
+      <path d="M18 13.5v2" />
     </>
   )}
   {name === 'user' && (
     <>
-      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-      <circle cx="12" cy="7" r="4"></circle>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
     </>
   )}
+  {name === 'plus' && <path d="M12 5v14M5 12h14" />}
+  {name === 'chevron-down' && <path d="m6 9 6 6 6-6" />}
+  {name === 'arrow-right' && <path d="M5 12h14M13 6l6 6-6 6" />}
+  {name === 'check' && <path d="M20 6 9 17l-5-5" />}
+  {name === 'edit' && (
+    <>
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+      <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z" />
+    </>
+  )}
+  {name === 'flip-backward' && (
+    <>
+      <path d="M3 7v6h6" />
+      <path d="M3 13a9 9 0 1 0 3-7.7L3 8" />
+    </>
+  )}
+  {name === 'flip-forward' && (
+    <>
+      <path d="M21 7v6h-6" />
+      <path d="M21 13a9 9 0 1 1-3-7.7L21 8" />
+    </>
+  )}
+  {name === 'share' && (
+    <>
+      <path d="M12 2v13" />
+      <path d="m8 6 4-4 4 4" />
+      <path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7" />
+    </>
+  )}
+  {name === 'settings' && (
+    <>
+      <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z" />
+    </>
+  )}
+  {name === 'search' && (
+    <>
+      <circle cx="11" cy="11" r="7" />
+      <path d="m21 21-4.3-4.3" />
+    </>
+  )}
+  {name === 'bell' && (
+    <>
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.7 21a2 2 0 0 1-3.4 0" />
+    </>
+  )}
+  {name === 'info-square' && (
+    <>
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <path d="M12 11v5M12 8h.01" />
+    </>
+  )}
+  {name === 'cursor' && (
+    <path d="M4 3.5 19.5 11l-7.1 1.9L9.5 19 4 3.5Z" />
+  )}
+  {name === 'perspective' && (
+    <>
+      <path d="M4 5 20 7v10L4 19V5Z" />
+      <path d="M4 12h16" />
+    </>
+  )}
+  {name === 'keyboard' && (
+    <>
+      <rect x="2" y="6" width="20" height="12" rx="2" />
+      <path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M8 14h8" />
+    </>
+  )}
+  {name === 'cube' && (
+    <>
+      <path d="M21 7.5 12 3 3 7.5v9L12 21l9-4.5v-9Z" />
+      <path d="M3 7.5 12 12l9-4.5M12 12v9" />
+    </>
+  )}
+  {name === 'arrow-up-right' && <path d="M7 17 17 7M7 7h10v10" />}
+  {name === 'eraser' && (
+    <>
+      <path d="M19 20H8.5L3 14.5a1.5 1.5 0 0 1 0-2.1l8.4-8.4a1.5 1.5 0 0 1 2.1 0l6 6a1.5 1.5 0 0 1 0 2.1L13 20" />
+      <path d="m8.5 14 6-6" />
+    </>
+  )}
+  {name === 'pencil' && (
+    <path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" />
+  )}
+  {name === 'message' && (
+    <>
+      <path d="M21 11.5a8.38 8.38 0 0 1-9 8.4 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 17 .5Z" />
+      <path d="M8 12h.01M12 12h.01M16 12h.01" />
+    </>
+  )}
+  {name === 'grid' && (
+    <>
+      <rect x="3" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="3" width="7" height="7" rx="1" />
+      <rect x="14" y="14" width="7" height="7" rx="1" />
+      <rect x="3" y="14" width="7" height="7" rx="1" />
+    </>
+  )}
+  {name === 'git-branch' && (
+    <>
+      <path d="M6 3v12" />
+      <circle cx="18" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <path d="M18 9a9 9 0 0 1-9 9" />
+    </>
+  )}
+  {name === 'star' && (
+    <path d="m12 2 3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2Z" />
+  )}
   {name === 'quote' && (
-    <g fill="currentColor" stroke="none">
-      <path
-        d="M4 14.2c0-4 2.6-7.1 6.7-8.2l.8 2.3C9.2 9 7.7 10.6 7.6 12.2c.4-.13.8-.2 1.2-.2 1.8 0 3.1 1.4 3.1 3.2 0 1.85-1.45 3.3-3.3 3.3C5.9 18.5 4 16.6 4 14.2Z"
-      ></path>
-      <path
-        d="M13.8 14.2c0-4 2.6-7.1 6.7-8.2l.8 2.3c-2.3.7-3.8 2.3-3.9 3.9.4-.13.8-.2 1.2-.2 1.8 0 3.1 1.4 3.1 3.2 0 1.85-1.45 3.3-3.3 3.3-2.4 0-4.3-1.9-4.3-4.3Z"
-      ></path>
-    </g>
+    <path d="M7.5 7C5.5 8 4.2 9.9 4.2 12.3c0 .15.01.3.02.45A3.2 3.2 0 0 0 6.8 18a3.2 3.2 0 0 0 .3-6.39c.16-1.3.92-2.4 2.07-3l-1.67-1.6Zm9 0c-2 1-3.3 2.9-3.3 5.3 0 .15.01.3.02.45A3.2 3.2 0 0 0 15.8 18a3.2 3.2 0 0 0 .3-6.39c.16-1.3.92-2.4 2.07-3L16.5 7Z" />
+  )}
+  {name === 'linkedin' && (
+    <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14ZM8.34 9.67H5.67V18h2.67V9.67ZM7 6a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm11.33 6.87c0-2.3-1.23-3.37-2.87-3.37-1.32 0-1.91.73-2.24 1.24V9.67h-2.67V18h2.67v-4.4c0-.24.02-.47.09-.64.19-.47.62-.96 1.34-.96.95 0 1.32.72 1.32 1.77V18h2.66l.01-5.13Z" />
   )}
 </svg>

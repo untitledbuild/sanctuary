@@ -1,34 +1,21 @@
 ---
-import Container from '@components/primitives/Container.astro';
+/**
+ * Page header — just the brand wordmark, aligned to the hero content column so
+ * the logo sits directly above the headline (Figma x≈410). No nav.
+ */
 import Wordmark from '@components/primitives/Wordmark.astro';
 import { site } from '@data/site';
 ---
 
-<header class="relative z-30 pt-7 sm:pt-9">
-  <Container class="flex items-end justify-between gap-6">
+<header class="relative z-30 pt-[clamp(1.25rem,2.4vw,1.5rem)]">
+  <div class="mx-auto w-full max-w-[45.75rem] px-5 md:px-0">
     <a
       href="#top"
-      class="text-[clamp(1.25rem,1rem+1vw,1.55rem)] leading-none text-ink"
       aria-label={`${site.name} — home`}
+      data-cursor="link"
+      class="inline-block md:pl-[26px]"
     >
-      <Wordmark />
+      <Wordmark class="text-[1.4rem]" />
     </a>
-
-    <nav aria-label="Primary">
-      <ul class="flex items-center gap-8">
-        {
-          site.nav.links.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="font-sans text-nav tracking-tight text-link transition-opacity duration-200 hover:opacity-60"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-  </Container>
+  </div>
 </header>
