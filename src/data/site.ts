@@ -195,7 +195,7 @@ export const site = {
       },
     ] satisfies StickyNote[],
     collaborators: [
-      { name: 'Furkan', color: 'pink', x: 10, y: 49 },
+      { name: 'Abir', color: 'pink', x: 10, y: 49 },
       { name: 'Runanka', color: 'cyan', x: 37, y: 60 },
       { name: 'Adil', color: 'orange', x: 84, y: 40 },
       { name: 'Bipratip', color: 'lime', x: 60, y: 84 },
@@ -210,11 +210,11 @@ export const site = {
     /* 5 placeholder cards — swap name/title/image/linkedin when real data
        lands. Random avatars keep the layout honest meanwhile. */
     members: [
-      { name: 'Adil Bin Bhutto', title: 'Cloud & Security', image: '/team/adil.png', linkedin: '#' },
-      { name: 'Furkan Vijapura', title: 'Mobile Lead', image: '/team/furkan.png', linkedin: '#' },
-      { name: 'Runanka Roy', title: 'Full Stack Developer', image: '/team/runanka.png', linkedin: '#' },
+      { name: 'Adil Bin Bhutto', title: 'Cloud & Security', image: '/team/adil.png', linkedin: 'https://www.linkedin.com/in/adil/' },
+      { name: 'Bipratip Biswas', title: 'Product Design', image: '/team/bipratip.png', linkedin: 'https://www.linkedin.com/in/bipratip-biswas-3bb51b250/' },
+      { name: 'Runanka Roy', title: 'Full Stack Developer', image: '/team/runanka.png', linkedin: 'https://www.linkedin.com/in/runanka/' },
       //{ name: 'FULL NAME', title: 'TITLE', image: 'https://i.pravatar.cc/300?img=47', linkedin: '#' },
-      { name: 'Bipratip Biswas', title: 'Product Design', image: '/team/bipratip.png', linkedin: '#' },
+      { name: 'Abir Armany', title: 'Mobile Lead', image: '/team/abir.svg', linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316' },
     ] satisfies TeamMember[],
   },
 
