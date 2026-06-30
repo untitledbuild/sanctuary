@@ -188,12 +188,15 @@ function initCursor(): void {
     el.addEventListener('pointerleave', () => grow(false));
   });
 
-  document.addEventListener('mouseleave', () =>
-    gsap.to(cursor, { opacity: 0, duration: 0.2 }),
-  );
-  window.addEventListener('blur', () =>
-    gsap.to(cursor, { opacity: 0, duration: 0.2 }),
-  );
+  // Hide when the pointer leaves the page or the window loses focus. Reset
+  // `shown` so the next pointermove (e.g. after switching back to this tab)
+  // fades the cursor back in — without this it stays invisible until a reload.
+  const hide = () => {
+    shown = false;
+    gsap.to(cursor, { opacity: 0, duration: 0.2 });
+  };
+  document.addEventListener('mouseleave', hide);
+  window.addEventListener('blur', hide);
 }
 
 /* ---------------------------------------------------------------- main ---- */
