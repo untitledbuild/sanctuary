@@ -1,6 +1,8 @@
 # CLAUDE.md
 
-Guidance for working in this repo. Keep changes consistent with the conventions below.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+Keep changes consistent with the conventions below.
 
 ## What this is
 
