@@ -51,7 +51,7 @@ export interface Collaborator {
 export interface TeamMember {
   name: string;          /* "FULL NAME" placeholder until real names land     */
   title: string;
-  /** Avatar image URL (random placeholder for now) or undefined → grey block. */
+  /** Avatar image URL, or undefined → generic programmer illustration. */
   image?: string;
   linkedin?: string;
 }
@@ -214,7 +214,7 @@ export const site = {
       { name: 'Bipratip Biswas', title: 'Product Design', image: '/team/bipratip.png', linkedin: 'https://www.linkedin.com/in/bipratip-biswas-3bb51b250/' },
       { name: 'Runanka Roy', title: 'Full Stack Developer', image: '/team/runanka.png', linkedin: 'https://www.linkedin.com/in/runanka/' },
       //{ name: 'FULL NAME', title: 'TITLE', image: 'https://i.pravatar.cc/300?img=47', linkedin: '#' },
-      { name: 'Abir Armany', title: 'Mobile Lead', image: '/team/abir.svg', linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316' },
+      { name: 'Abir Armany', title: 'Mobile Lead', linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316' },
     ] satisfies TeamMember[],
   },
 
@@ -241,6 +241,7 @@ export const site = {
       {
         title: 'Ovvy',
         description: 'AI-powered real estate photo editing platform.',
+        image: '/portfolio/ovvy.webp',
         tags: [
           { label: 'React', tone: 'brand' },
           { label: 'PostgreSQL', tone: 'orange' },
