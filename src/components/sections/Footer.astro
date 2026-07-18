@@ -14,14 +14,13 @@ const year = 2026;
 <footer class="relative overflow-hidden pt-[clamp(1.5rem,3vw,2.5rem)]">
   {/* slim utility row */}
   <Container width="container" class="flex flex-col items-center justify-between gap-3 sm:flex-row">
-    <a href="#top" data-cursor="link" aria-label={`${site.name} — top`} class="inline-block">
+    <a href="#top" aria-label={`${site.name} — top`} class="inline-block">
       <Wordmark class="text-[1.1rem]" />
     </a>
     <div class="flex items-center gap-6">
       <a
         href={`mailto:${site.contactEmail}`}
         class="font-sans text-[0.9rem] font-medium tracking-tight text-body transition-colors hover:text-brand"
-        data-cursor="link"
       >
         Contact
       </a>

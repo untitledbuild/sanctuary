@@ -8,7 +8,7 @@ The **untitled build** marketing landing page — a single-page, fully **static*
 (no runtime server) built from a Figma design and deployed to GitHub Pages /
 any CDN at `untitledbuild.com`.
 
-- **Astro** (static output) · **Tailwind CSS v4** (CSS-first tokens) · **GSAP + ScrollTrigger** + **Lenis** (motion) · self-hosted Fontsource fonts.
+- **Astro** (static output) · **Tailwind CSS v4** (CSS-first tokens) · **GSAP + ScrollTrigger** (motion) · self-hosted Fontsource fonts.
 - **Contact form → Supabase**, direct from the browser with the PUBLIC anon key,
   secured by an INSERT-only RLS policy. No server; the site stays fully static.
   Setup + schema in [`infra/supabase/`](infra/supabase/).
@@ -40,10 +40,10 @@ Always run `npm run check` and `npm run build` before considering a change done.
   (`Header`, `Hero` + `ContactForm`, `Testimonial`, `AppDock`, `Whiteboard`,
   `People`, `TechLogos`, `Work`, `CallToAction`, `Footer`); composed in
   [`src/pages/index.astro`](src/pages/index.astro) inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro).
-- **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts): Lenis smooth
-  scroll, `data-reveal` reveals, `data-parallax` z-depth (front layers use a
+- **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts):
+  `data-reveal` reveals, `data-parallax` z-depth (front layers use a
   small/negative factor), the app-dock pop-in (`data-dock-dist`), sticky-note
-  fly-in (`data-from`), cursor `data-pendulum`, and the custom cursor.
+  fly-in (`data-from`), and collaborator-cursor `data-pendulum` sway.
 - **Form** → [`src/scripts/form.ts`](src/scripts/form.ts) posts to Supabase
   (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout).
 - **The "What" whiteboard** is a proportional CSS **container** (`cqw` sizes + `%`

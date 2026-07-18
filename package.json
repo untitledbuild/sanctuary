@@ -27,7 +27,6 @@
     "@tailwindcss/vite": "^4.0.0",
     "astro": "^5.1.0",
     "gsap": "^3.12.5",
-    "lenis": "^1.1.18",
     "tailwindcss": "^4.0.0"
   },
   "devDependencies": {

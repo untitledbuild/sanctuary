@@ -44,7 +44,6 @@ const fieldBase =
       name="project_type"
       class:list={[fieldBase, 'cursor-pointer appearance-none pr-10 text-placeholder [&:valid]:text-name']}
       required
-      data-cursor="link"
     >
       <option value="" disabled selected>{`[${fields.projectType}]`}</option>
       {projectTypes.map((t) => <option value={t}>{t}</option>)}

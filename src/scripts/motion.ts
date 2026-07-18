@@ -5,45 +5,18 @@
  * page (the early return below skips all animation).
  *
  * Layers:
- *   • Lenis smooth scroll, driven by GSAP's ticker + synced to ScrollTrigger
  *   • scroll reveals          [data-reveal] (+ -delay / -y)
  *   • z-depth parallax        [data-parallax]   (front = small/negative factor)
  *   • app-dock pop-in         [data-dock] / [data-dock-tile][data-dock-dist]
  *   • sticky-note fly-in      [data-note][data-from][data-rotate]
  *   • cursor Y-pendulum       [data-pendulum]
- *   • custom cursor (cursor-02) following the pointer, growing over links
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
-import 'lenis/dist/lenis.css';
 
 const prefersReduced = window.matchMedia(
   '(prefers-reduced-motion: reduce)',
 ).matches;
-
-/* -------------------------------------------------------------- scroll ---- */
-function initSmoothScroll(): void {
-  const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-  (window as Window & { __lenis?: Lenis }).__lenis = lenis;
-
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
-
-  // Route in-page anchor links (nav, CTAs, logo, tooltip) through Lenis.
-  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const hash = link.getAttribute('href');
-      if (!hash || hash === '#') return;
-      const target = document.querySelector<HTMLElement>(hash);
-      if (!target) return;
-      event.preventDefault();
-      lenis.scrollTo(target, { offset: -24 });
-      history.replaceState(null, '', hash);
-    });
-  });
-}
 
 /* ------------------------------------------------------------- reveals ---- */
 function initReveals(): void {
@@ -157,48 +130,6 @@ function initPendulum(): void {
   });
 }
 
-/* ------------------------------------------------------- custom cursor ---- */
-function initCursor(): void {
-  const cursor = document.getElementById('cursor');
-  if (!cursor || !window.matchMedia('(pointer: fine)').matches) return;
-
-  document.documentElement.classList.add('has-custom-cursor');
-  const xTo = gsap.quickTo(cursor, 'x', { duration: 0.16, ease: 'power3' });
-  const yTo = gsap.quickTo(cursor, 'y', { duration: 0.16, ease: 'power3' });
-
-  let shown = false;
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      xTo(e.clientX - 5);
-      yTo(e.clientY - 4);
-      if (!shown) {
-        shown = true;
-        gsap.to(cursor, { opacity: 1, duration: 0.2 });
-      }
-    },
-    { passive: true },
-  );
-
-  // Grow + soften over interactive targets.
-  const grow = (on: boolean) =>
-    gsap.to(cursor, { scale: on ? 1.8 : 1, duration: 0.2, ease: 'power2.out' });
-  document.querySelectorAll('[data-cursor="link"], a, button').forEach((el) => {
-    el.addEventListener('pointerenter', () => grow(true));
-    el.addEventListener('pointerleave', () => grow(false));
-  });
-
-  // Hide when the pointer leaves the page or the window loses focus. Reset
-  // `shown` so the next pointermove (e.g. after switching back to this tab)
-  // fades the cursor back in — without this it stays invisible until a reload.
-  const hide = () => {
-    shown = false;
-    gsap.to(cursor, { opacity: 0, duration: 0.2 });
-  };
-  document.addEventListener('mouseleave', hide);
-  window.addEventListener('blur', hide);
-}
-
 /* ---------------------------------------------------------------- main ---- */
 function main(): void {
   gsap.registerPlugin(ScrollTrigger);
@@ -207,13 +138,11 @@ function main(): void {
   // Reduced motion: leave everything visible & static.
   if (prefersReduced) return;
 
-  initSmoothScroll();
   initReveals();
   initParallax();
   initDock();
   initNotes();
   initPendulum();
-  initCursor();
 
   ScrollTrigger.refresh();
 }

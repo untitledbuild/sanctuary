@@ -35,11 +35,11 @@ const classes = [
 
 {
   href ? (
-    <a id={id} href={href} class:list={classes} data-cursor="link">
+    <a id={id} href={href} class:list={classes}>
       {label ?? <slot />}
     </a>
   ) : (
-    <button id={id} type={type} class:list={classes} data-cursor="link">
+    <button id={id} type={type} class:list={classes}>
       {label ?? <slot />}
     </button>
   )

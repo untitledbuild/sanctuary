@@ -65,16 +65,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
          to match the Figma (the engineering motif varies band to band). -->
     <slot />
 
-    <!-- Custom cursor (cursor-02). Hidden until motion.ts positions it; only on
-         fine-pointer devices. -->
-    <svg id="cursor" viewBox="0 0 24 24" fill="var(--color-brand)" aria-hidden="true">
-      <path
-        d="M4 3.2 19.4 10.8c.5.25.45.98-.08 1.16l-6.06 2-2.6 5.9c-.23.52-.98.46-1.13-.08L4 3.2Z"
-        stroke="#fff"
-        stroke-width="1.4"
-        stroke-linejoin="round"></path>
-    </svg>
-
     <script>
       import '../scripts/motion.ts';
       import '../scripts/form.ts';
