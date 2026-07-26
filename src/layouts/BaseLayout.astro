@@ -1,6 +1,6 @@
 ---
-import '@/styles/global.css';
-import { site } from '@data/site';
+import "@/styles/global.css";
+import { site } from "@data/site";
 
 interface Props {
   title?: string;
@@ -18,22 +18,43 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Usercentrics CMP -->
+    <script
+      is:inline
+      id="usercentrics-cmp"
+      src="https://app.usercentrics.eu/browser-ui/latest/loader.js"
+      data-version="preview"
+      data-settings-id="7ah7-7ZiK04Pax"
+      async></script>
+
     <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-F3PMRFPQ0G"></script>
+    <script
+      is:inline
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-F3PMRFPQ0G"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      gtag('config', 'G-F3PMRFPQ0G');
+      gtag("config", "G-F3PMRFPQ0G");
     </script>
 
     <!-- Google Tag Manager -->
-    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-W6342TDT');</script>
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-W6342TDT");
+    </script>
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -56,8 +77,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 
     <!-- Supabase config for the contact form (PUBLIC anon key — safe to expose;
          see infra/supabase/schema.sql for the INSERT-only RLS that secures it). -->
-    <meta name="supabase-url" content={import.meta.env.PUBLIC_SUPABASE_URL ?? ''} />
-    <meta name="supabase-anon-key" content={import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? ''} />
+    <meta
+      name="supabase-url"
+      content={import.meta.env.PUBLIC_SUPABASE_URL ?? ""}
+    />
+    <meta
+      name="supabase-anon-key"
+      content={import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? ""}
+    />
 
     <!--
       Pre-paint bootstrap: hide reveal elements before first paint to avoid a
@@ -67,11 +94,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <script is:inline>
       (function () {
         try {
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          if (window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
           var root = document.documentElement;
-          root.classList.add('js-motion');
+          root.classList.add("js-motion");
           setTimeout(function () {
-            if (!window.__motionReady) root.classList.remove('js-motion');
+            if (!window.__motionReady) root.classList.remove("js-motion");
           }, 2500);
         } catch (e) {}
       })();
@@ -79,16 +107,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W6342TDT"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-W6342TDT"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe></noscript
+    >
     <!-- End Google Tag Manager (noscript) -->
     <!-- No global backdrop: each section owns its own grid/dot/hatch treatment
          to match the Figma (the engineering motif varies band to band). -->
     <slot />
 
     <script>
-      import '../scripts/motion.ts';
-      import '../scripts/form.ts';
+      import "../scripts/motion.ts";
+      import "../scripts/form.ts";
     </script>
   </body>
 </html>
