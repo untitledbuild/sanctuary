@@ -51,6 +51,7 @@ export interface Collaborator {
 export interface TeamMember {
   name: string;          /* "FULL NAME" placeholder until real names land     */
   title: string;
+  bio: string;
   /** Avatar image URL, or undefined → generic programmer illustration. */
   image?: string;
   linkedin?: string;
@@ -79,7 +80,7 @@ export type BadgeTone = 'brand' | 'orange' | 'pink' | 'green' | 'gray';
 export interface Testimonial {
   quote: string;
   author: string;
-  role: string;
+  authorHref?: string;
   rating: number;
   avatar?: string;
 }
@@ -137,10 +138,10 @@ export const site = {
   /* Testimonial (sits under the hero) ----------------------------------- */
   testimonial: {
     quote: "Probably the smoothest development project we've ever run.",
-    author: 'Tyler Good',
-    role: 'CEO & Founder, Ovvy AI Inc',
+    author: 'Ovvy',
+    authorHref: 'https://ovvy.ai',
     rating: 5,
-    avatar: '/testimonials/tyler-good.png',
+    avatar: '/testimonials/ovvy.webp',
   } satisfies Testimonial,
 
   /* 2 — Us (app-icon dock) ---------------------------------------------- */
@@ -207,14 +208,46 @@ export const site = {
     title: 'The People Behind The Builds',
     subtitle:
       'We think like product owners, design like users, and build like engineers.',
-    /* 5 placeholder cards — swap name/title/image/linkedin when real data
-       lands. Random avatars keep the layout honest meanwhile. */
     members: [
-      { name: 'Adil Bin Bhutto', title: 'Cloud & Security', image: '/team/adil.png', linkedin: 'https://www.linkedin.com/in/adil/' },
-      { name: 'Bipratip Biswas', title: 'Product Design', image: '/team/bipratip.png', linkedin: 'https://www.linkedin.com/in/bipratip-biswas-3bb51b250/' },
-      { name: 'Runanka Roy', title: 'Full Stack Developer', image: '/team/runanka.png', linkedin: 'https://www.linkedin.com/in/runanka/' },
-      //{ name: 'FULL NAME', title: 'TITLE', image: 'https://i.pravatar.cc/300?img=47', linkedin: '#' },
-      { name: 'Abir Armany', title: 'Mobile Lead', linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316' },
+      {
+        name: 'Runanka Roy',
+        title: 'Full-Stack Engineer',
+        bio: 'Architects and ships scalable systems end-to-end, turning ambitious ideas into dependable, production-ready products.',
+        image: '/team/runanka.png',
+        linkedin: 'https://www.linkedin.com/in/runanka/',
+      },
+      {
+        name: 'Abir Armany',
+        title: 'Mobile Engineer',
+        bio: 'Crafts polished, high-performance mobile experiences built to last, with an obsessive eye for detail.',
+        linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316',
+      },
+      {
+        name: 'Adil Bin Bhutto',
+        title: 'Operations & Infrastructure',
+        bio: 'Keeps every engagement running smoothly, owning cloud infrastructure, security, and engineering operations end-to-end.',
+        image: '/team/adil.png',
+        linkedin: 'https://www.linkedin.com/in/adil/',
+      },
+      {
+        name: 'Bipratip Biswas',
+        title: 'Product Designer',
+        bio: 'Shapes product direction through sharp design instincts, strategic thinking, and genuinely user-centered craft.',
+        image: '/team/bipratip.png',
+        linkedin: 'https://www.linkedin.com/in/bipratip-biswas-3bb51b250/',
+      },
+      {
+        name: 'Joud Almualem',
+        title: 'Client Success',
+        bio: "The client's go-to throughout every engagement, turning clear communication into consistently great outcomes.",
+        image: '/team/joud.JPG',
+      },
+      {
+        name: 'Tyler Good',
+        title: 'Growth & Partnerships',
+        bio: 'Builds relationships with companies across the US, uncovering challenges and bringing new opportunities to the team.',
+        image: '/team/tyler.png',
+      },
     ] satisfies TeamMember[],
   },
 

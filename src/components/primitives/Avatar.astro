@@ -10,9 +10,11 @@ interface Props {
   alt?: string;
   size?: number;
   ring?: boolean;        /* white ring used in the overlapping avatar group */
+  /** 'cover' fills the circle (photos); 'contain' fits the whole image (logos). */
+  fit?: 'cover' | 'contain';
   class?: string;
 }
-const { src, alt = '', size = 52, ring = false, class: className = '' } =
+const { src, alt = '', size = 52, ring = false, fit = 'cover', class: className = '' } =
   Astro.props;
 ---
 
@@ -27,7 +29,7 @@ const { src, alt = '', size = 52, ring = false, class: className = '' } =
 >
   {
     src ? (
-      <img src={src} alt={alt} width={size} height={size} class="h-full w-full object-cover" loading="lazy" />
+      <img src={src} alt={alt} width={size} height={size} class:list={['h-full w-full', fit === 'cover' ? 'object-cover' : 'object-contain p-[15%]']} loading="lazy" />
     ) : (
       <Icon name="user" size={Math.round(size * 0.5)} stroke={2} />
     )
