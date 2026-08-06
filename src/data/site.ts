@@ -141,7 +141,7 @@ export const site = {
     author: 'Ovvy',
     authorHref: 'https://ovvy.ai',
     rating: 5,
-    avatar: '/testimonials/ovvy.webp',
+    avatar: '/testimonials/ovvy.png',
   } satisfies Testimonial,
 
   /* 2 — Us (app-icon dock) ---------------------------------------------- */
