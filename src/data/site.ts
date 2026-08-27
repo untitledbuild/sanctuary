@@ -80,9 +80,61 @@ export type BadgeTone = 'brand' | 'orange' | 'pink' | 'green' | 'gray';
 export interface Testimonial {
   quote: string;
   author: string;
+  /** Line under the author name (e.g. "CEO & Founder, Ovvy AI Inc"). */
+  role?: string;
   authorHref?: string;
   rating: number;
   avatar?: string;
+}
+
+/** A product shot in the showcase band under the testimonial. */
+export interface ShowcaseItem {
+  label: string;
+  /** Screenshot path; undefined → styled placeholder frame. */
+  image?: string;
+  /** Frame proportion — the centre tile is the wide one. */
+  shape: 'phone' | 'wide';
+  /** Optional tint behind the mockup (Figma uses a yellow centre tile). */
+  tint?: 'plain' | 'yellow' | 'pink';
+}
+
+/**
+ * One run of a hero headline. `box` draws the dashed Figma "selection"
+ * rectangle; `chip` hangs the layer-name / tag label off that box.
+ */
+export interface HeadlineRun {
+  text: string;
+  box?: boolean;
+  chip?: 'label' | 'tag';
+  /** Start a new line before this run — only above `sm`, so narrow screens
+   *  still wrap naturally instead of inheriting the desktop break. */
+  break?: boolean;
+}
+
+/** Everything a hero band needs — shared by the home and about pages. */
+export interface HeroContent {
+  headline: HeadlineRun[];
+  subtitle: string;
+  layerLabel: string;
+  techTag: string;
+  cta: NavLink & { label: string };
+  /** Headline column width. Boxed runs can't break mid-phrase, so a longer
+   *  headline needs a wider column to land on the intended lines. */
+  width?: string;
+}
+
+/** A card in the about page's "_how we work" row. */
+export interface Principle {
+  title: string;
+  icon: 'scale' | 'droplet' | 'browser';
+}
+
+/** A capability card in the "_what we build" grid. */
+export interface Capability {
+  title: string;
+  description: string;
+  /** Selects the hand-built mockup drawn in CapabilityMockup.astro. */
+  mockup: 'design' | 'engineering' | 'ai' | 'platform';
 }
 
 /* ---------------------------------------------------------------- copy ----- */
@@ -102,18 +154,30 @@ export const site = {
 
   nav: {
     links: [
-      { label: 'Us', href: '#us' },
-      { label: 'What', href: '#what' },
-      { label: 'People', href: '#people' },
-      { label: 'Work', href: '#work' },
+      { label: '_works', href: '/#works' },
+      { label: '_careers', href: '/#careers' },
+      { label: '_about', href: '/about' },
     ] satisfies NavLink[],
   },
 
   /* 1 — Hero ------------------------------------------------------------- */
   hero: {
+    /* Drawn as runs so the dashed "selection" boxes (a Figma-canvas motif) can
+       bracket individual phrases. */
+    headline: [
+      { text: 'We build', box: true, chip: 'label' },
+      { text: 'products that move' },
+      { text: 'businesses forward.', box: true, chip: 'tag' },
+    ] satisfies HeadlineRun[],
+    /** Layer-name chip above the first selection box. */
+    layerLabel: 'Header_h1',
+    /** Chip hanging off the second selection box. */
+    techTag: 'Something techy',
+    cta: { label: 'Collaborate', href: '#collaborate' },
     title: 'You need software.\nWe build it.',
     subtitle:
-      'Fast, scalable software built by senior designers and developers.',
+      'Software, AI systems, and digital experiences designed for ' +
+      'companies that refuse to stand still.',
     form: {
       fields: {
         name: 'FULL NAME',
@@ -138,11 +202,62 @@ export const site = {
   /* Testimonial (sits under the hero) ----------------------------------- */
   testimonial: {
     quote: "Probably the smoothest development project we've ever run.",
-    author: 'Ovvy',
+    author: 'Tyler Good',
+    role: 'CEO & Founder, Ovvy AI Inc',
     authorHref: 'https://ovvy.ai',
     rating: 5,
     avatar: '/testimonials/ovvy.png',
   } satisfies Testimonial,
+
+  /* 1b — Product showcase (three mockups under the testimonial) ---------- */
+  showcase: {
+    label: 'Recent work',
+    items: [
+      { label: 'Delivery routing app', shape: 'phone', tint: 'plain' },
+      { label: 'Peregrin — revenue intelligence', shape: 'wide', tint: 'yellow' },
+      { label: 'Kaizen Store analytics', shape: 'phone', tint: 'pink' },
+    ] satisfies ShowcaseItem[],
+  },
+
+  /* 1c — Manifesto line -------------------------------------------------- */
+  manifesto: {
+    title: 'we ship things\nthat work',
+    /* The little floating selection toolbar under the line. */
+    actions: ['Copy', 'Find Selection'],
+  },
+
+  /* 3b — What we build --------------------------------------------------- */
+  build: {
+    label: '_what we build',
+    title:
+      'We think like product owners, design like users, and build like engineers.',
+    items: [
+      {
+        title: 'Product design',
+        description:
+          'Interfaces people actually enjoy using, from first sketch to shipped screen.',
+        mockup: 'design',
+      },
+      {
+        title: 'Software engineering',
+        description:
+          'Full-stack builds on infrastructure that holds up under real traffic.',
+        mockup: 'engineering',
+      },
+      {
+        title: 'AI systems',
+        description:
+          'Applied AI features that solve a real problem, not just add a chatbot.',
+        mockup: 'ai',
+      },
+      {
+        title: 'Platform & infrastructure',
+        description:
+          'Cloud architecture and security that keeps everything running.',
+        mockup: 'platform',
+      },
+    ] satisfies Capability[],
+  },
 
   /* 2 — Us (app-icon dock) ---------------------------------------------- */
   us: {
@@ -205,7 +320,7 @@ export const site = {
 
   /* 4 — People ----------------------------------------------------------- */
   people: {
-    title: 'The People Behind The Builds',
+    title: 'Our Leadership Team',
     subtitle:
       'We think like product owners, design like users, and build like engineers.',
     members: [
@@ -312,6 +427,76 @@ export const site = {
     title: 'Got an idea?',
     subtitle: "Good. Most successful companies started with one. Let's build yours.",
   },
+
+  /* 8 — Our Story (Notion-style document card) --------------------------- */
+  story: {
+    docTitle: 'Our Story',
+    date: '8 August 2026 at 3:37 PM',
+    title: 'Our Story',
+    paragraphs: [
+      'untitledbuild started the way most studios do — a handful of people ' +
+        'who kept getting hired to fix things other teams had already tried ' +
+        'and abandoned. Somewhere along the way we realized we liked building ' +
+        'more than fixing, and started taking on our own projects instead.',
+      "We're still small on purpose. Every person here works directly with " +
+        'clients, writes real code, and has opinions about the product — not ' +
+        'just the pixels.',
+    ],
+  },
+
+  /* ---- About page ------------------------------------------------------ */
+  about: {
+    hero: {
+      headline: [
+        { text: 'We started' },
+        { text: 'untitledbuild', box: true, chip: 'label' },
+        { text: 'because', break: true },
+        { text: 'good software is still rare.', box: true, chip: 'tag' },
+      ] satisfies HeadlineRun[],
+      subtitle:
+        "We're a small studio that builds products, AI systems, and the " +
+        "occasional weird side project. Here's the short version of how we " +
+        'got here.',
+      layerLabel: 'Header_h1',
+      techTag: 'Something techy',
+      cta: { label: 'Collaborate', href: '#collaborate' },
+      /* Wider than the home hero so "because good software is still rare."
+         stays on one line, as in the design. */
+      width: '52rem',
+    },
+    howWeWork: {
+      label: '_how we work',
+      title:
+        'We think like product owners, design like users, and build like engineers.',
+      principles: [
+        { title: 'Think like owners', icon: 'scale' },
+        { title: 'Design like users', icon: 'droplet' },
+        { title: 'Build like engineers', icon: 'browser' },
+      ] satisfies Principle[],
+    },
+    foundersNote: {
+      docTitle: "Founder's note",
+      body:
+        'Thanks for reading this far. We built untitledbuild because we like ' +
+        "making things that work properly — and we're pickier than most about " +
+        'who we build them with. If any of this sounds like your kind of team, ' +
+        "we'd love to hear from you.",
+      signature: '— The untitledbuild team',
+      zoom: '100%',
+    },
+  },
+
+  /* 9 — Footer ----------------------------------------------------------- */
+  languages: [
+    { code: 'ENG', active: true },
+    { code: 'FRN', active: false },
+    { code: 'ESP', active: false },
+    { code: 'DEU', active: false },
+  ],
+  legal: [
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms', href: '/terms' },
+  ] satisfies NavLink[],
 
   /* ---- Integrations ---------------------------------------------------- */
   /** Contact email used as a graceful fallback if the form endpoint is down. */

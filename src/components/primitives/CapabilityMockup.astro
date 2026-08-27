@@ -1,0 +1,141 @@
+---
+/**
+ * The four hand-built UI mockups that sit at the top of each "_what we build"
+ * card. Drawn in markup rather than shipped as images so they stay crisp and
+ * restyle with the tokens — the same approach the whiteboard and commit card
+ * already take. Purely decorative: the caller marks the wrapper aria-hidden.
+ */
+import Icon from '@components/primitives/Icon.astro';
+import type { Capability } from '@data/site';
+
+interface Props {
+  kind: Capability['mockup'];
+  class?: string;
+}
+const { kind, class: className = '' } = Astro.props;
+
+const tools = ['pencil', 'arrow-up-right', 'cube', 'message', 'perspective', 'cursor'] as const;
+const tools2 = ['plus', 'grid', 'message', 'edit', 'arrow-up-right'] as const;
+
+/* Code lines: [indent, tokens] where each token is [text, tone]. */
+const code: [number, [string, string][]][] = [
+  [0, [['import', 'kw'], [' React, { ', 'txt'], ['useState', 'fn']]],
+  [0, [['import', 'kw'], [' { ', 'txt'], ['defineProperties', 'fn']]],
+  [0, []],
+  [0, [['export default', 'kw'], [' function', 'kw2']]],
+  [1, [['updateInterval', 'prop'], [' = ', 'txt'], ['1000', 'num'], [',', 'txt']]],
+  [1, [['secondHandColor', 'prop'], [' = ', 'txt'], ['"red"', 'str']]],
+  [1, [['minuteHandColor', 'prop'], [' = ', 'txt'], ['"bl', 'str']]],
+  [1, [['hourHandColor', 'prop'], [' = ', 'txt'], ['"black"', 'str']]],
+];
+const tone: Record<string, string> = {
+  kw: 'text-[#c1358a]',
+  kw2: 'text-[#6941c6]',
+  fn: 'text-[#3b7c0f]',
+  prop: 'text-[#b93815]',
+  num: 'text-[#0b6bcb]',
+  str: 'text-[#0b6bcb]',
+  txt: 'text-name',
+};
+
+const cloud = [
+  { title: 'Kubernetes Engine', meta: '12 Clusters · Healthy', ok: true },
+  { title: 'Cloud VMs', meta: '847 instances · 3 Warnings', ok: false },
+  { title: 'Serverless Functions', meta: 'Auto-scaling · Active', ok: false },
+];
+const chips = ['All Models', 'Chat', 'Code', 'Reasoning'];
+---
+
+<div class:list={['h-full w-full overflow-hidden p-[0.9rem]', className]}>
+  {
+    kind === 'design' && (
+      <div class="flex h-full flex-col items-center justify-center gap-[0.6rem]">
+        <div class="flex w-full items-center justify-between rounded-[var(--radius-control)] border border-hairline-soft bg-card px-[0.85rem] py-[0.6rem] shadow-[var(--shadow-control)]">
+          {tools.map((t) => (
+            <Icon name={t} size={18} class="text-gray-600" stroke={1.7} />
+          ))}
+        </div>
+        <div class="flex w-[86%] items-center justify-between rounded-[var(--radius-control)] border border-hairline-soft bg-card px-[0.85rem] py-[0.6rem] shadow-[var(--shadow-control)]">
+          {tools2.map((t) => (
+            <Icon name={t} size={18} class="text-gray-600" stroke={1.7} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === 'engineering' && (
+      <div class="h-full overflow-hidden rounded-[var(--radius-control)] border border-hairline-soft bg-card py-[0.5rem] font-geist-mono text-[0.5rem] leading-[1.75]">
+        {code.map((line, i) => (
+          <div class="flex gap-[0.6rem] px-[0.55rem]">
+            <span class="w-[0.7rem] shrink-0 text-right text-gray-400">{i + 1}</span>
+            <span class="truncate" style={`padding-left:${line[1].length ? line[0] * 0.7 : 0}rem`}>
+              {line[1].map(([text, k]) => (
+                <span class={tone[k]}>{text}</span>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  {
+    kind === 'ai' && (
+      <div class="flex h-full flex-col gap-[0.4rem] overflow-hidden rounded-[var(--radius-control)] border border-hairline-soft bg-card p-[0.5rem]">
+        <div class="flex items-center justify-between">
+          <span class="font-geist text-[0.55rem] tracking-tight text-name">Select Intelligence Engine</span>
+          <span class="rounded-[3px] bg-badge-gray-bg px-[0.25rem] py-[0.1rem] font-geist-mono text-[0.42rem] text-badge-gray-fg">
+            GPT-5.4 Active
+          </span>
+        </div>
+        <div class="flex items-center gap-[0.3rem] rounded-[4px] border border-hairline-soft px-[0.35rem] py-[0.22rem]">
+          <Icon name="search" size={8} class="text-gray-400" stroke={2} />
+          <span class="font-geist text-[0.5rem] text-placeholder">Search models or providers…</span>
+        </div>
+        <div class="flex gap-[0.22rem]">
+          {chips.map((c, i) => (
+            <span
+              class:list={[
+                'rounded-[3px] px-[0.3rem] py-[0.12rem] font-geist text-[0.45rem] tracking-tight',
+                i === 0 ? 'bg-heading text-white' : 'bg-plate text-faint',
+              ]}
+            >
+              {c}
+            </span>
+          ))}
+        </div>
+        <div class="mt-auto rounded-[4px] border border-hairline-soft p-[0.35rem]">
+          <span class="block font-geist-mono text-[0.4rem] tracking-tighter text-gray-400">OPENAI</span>
+          <span class="font-geist text-[0.52rem] font-medium tracking-tight text-name">GPT-5 Pro</span>
+          <span class="ml-[0.2rem] font-geist text-[0.42rem] text-badge-brand-fg">Premium</span>
+          <p class="mt-[0.1rem] font-geist text-[0.42rem] leading-[1.4] text-muted">
+            Our most capable logic and reasoning engine.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  {
+    kind === 'platform' && (
+      <div class="flex h-full flex-col justify-center gap-[0.35rem]">
+        {cloud.map((c) => (
+          <div class="flex items-center gap-[0.4rem] rounded-[var(--radius-control)] border border-hairline-soft bg-card px-[0.5rem] py-[0.4rem] shadow-[var(--shadow-control)]">
+            <span class:list={['h-[0.3rem] w-[0.3rem] shrink-0 rounded-full', c.ok ? 'bg-check' : 'bg-heading']} />
+            <span class="min-w-0 flex-1">
+              <span class="block truncate font-geist text-[0.52rem] font-medium tracking-tight text-name">{c.title}</span>
+              <span class="block truncate font-geist text-[0.44rem] tracking-tight text-muted">{c.meta}</span>
+            </span>
+            {c.ok ? (
+              <Icon name="check" size={9} class="shrink-0 text-check" stroke={2.4} />
+            ) : (
+              <Icon name="chevron-down" size={9} class="shrink-0 -rotate-90 text-gray-400" stroke={2} />
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+</div>

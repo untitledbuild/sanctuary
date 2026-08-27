@@ -1,35 +1,63 @@
 ---
 /**
- * Footer — the oversized "untitled build" wordmark watermark (the Figma's
- * closing flourish) above a slim utility row. The wordmark is clipped by the
- * body's overflow so it can run edge-to-edge.
+ * Footer (v2) — a language row above a slim utility bar: wordmark left, legal
+ * links right, each band separated by a dashed hairline.
+ *
+ * The language codes are not wired to i18n routes yet, so they render as plain
+ * text with the active locale marked, rather than as links that go nowhere.
  */
-import Container from '@components/primitives/Container.astro';
 import Wordmark from '@components/primitives/Wordmark.astro';
 import { site } from '@data/site';
-
-const year = 2026;
 ---
 
-<footer class="relative overflow-hidden pt-[clamp(1.5rem,3vw,2.5rem)]">
-  {/* slim utility row */}
-  <Container width="container" class="flex flex-col items-center justify-between gap-3 sm:flex-row">
-    <a href="#top" aria-label={`${site.name} — top`} class="inline-block">
-      <Wordmark class="text-[1.1rem]" />
-    </a>
-    <div class="flex items-center gap-6">
-      <a
-        href={`mailto:${site.contactEmail}`}
-        class="font-sans text-[0.9rem] font-medium tracking-tight text-body transition-colors hover:text-brand"
-      >
-        Contact
-      </a>
-      <p class="font-sans text-[0.85rem] tracking-tight text-body">© {year} {site.name}</p>
-    </div>
-  </Container>
+<footer class="relative">
+  <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
 
-  {/* oversized watermark (Figma: #DCDCDC) */}
-  <div class="pointer-events-none mt-[clamp(1.25rem,2.5vw,2rem)] flex justify-center select-none" aria-hidden="true">
-    <Wordmark mono class="whitespace-nowrap text-center text-[clamp(2.75rem,13.5vw,11rem)] leading-none text-wordmark" />
+  {/* language row */}
+  <div class="mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]">
+    <ul class="flex items-center justify-center gap-[1.4rem] py-[clamp(1rem,2vw,1.4rem)]" aria-label="Language">
+      {
+        site.languages.map((l) => (
+          <li>
+            <span
+              class:list={[
+                'font-geist-mono text-[0.85rem] tracking-tighter',
+                l.active ? 'text-heading' : 'text-muted',
+              ]}
+              aria-current={l.active ? 'true' : undefined}
+            >
+              {l.active ? `[${l.code}]` : l.code}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="relative">
+    <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
+    <div
+      class="mx-auto flex w-full max-w-[var(--container)] flex-col items-center justify-between gap-3 px-[var(--container-pad)] py-[clamp(1rem,2vw,1.4rem)] sm:flex-row"
+    >
+      <a href="#top" aria-label={`${site.name} — top`} class="inline-block">
+        <Wordmark class="text-[1.25rem]" />
+      </a>
+      <nav aria-label="Legal">
+        <ul class="flex items-center gap-[1.5rem]">
+          {
+            site.legal.map((l) => (
+              <li>
+                <a
+                  href={l.href}
+                  class="font-sans text-[0.85rem] tracking-tight text-body transition-colors duration-200 hover:text-heading"
+                >
+                  {l.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
   </div>
 </footer>

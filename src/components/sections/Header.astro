@@ -1,20 +1,43 @@
 ---
 /**
- * Page header — just the brand wordmark, aligned to the hero content column so
- * the logo sits directly above the headline (Figma x≈410). No nav.
+ * Page header — brand wordmark left, mono `_works / _careers / _about` nav
+ * right (v2). The nav labels carry their leading underscore as content, so
+ * they read the same to a screen reader as they do on screen.
  */
 import Wordmark from '@components/primitives/Wordmark.astro';
 import { site } from '@data/site';
+
+/* Mark the current page in the nav. Trailing slashes vary between dev and the
+   static build, so compare on the trimmed path. */
+const here = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isCurrent = (href: string) => href.startsWith('/') && href.replace(/\/+$/, '') === here;
 ---
 
-<header class="relative z-30 pt-[clamp(1.25rem,2.4vw,1.5rem)]">
-  <div class="mx-auto w-full max-w-[45.75rem] px-5 md:px-0">
-    <a
-      href="#top"
-      aria-label={`${site.name} — home`}
-      class="inline-block md:pl-[26px]"
-    >
+<header class="relative z-30 py-[clamp(1rem,2vw,1.35rem)]">
+  <div class="mx-auto flex w-full max-w-[var(--container)] items-center justify-between px-[var(--container-pad)]">
+    <a href="#top" aria-label={`${site.name} — home`} class="inline-block">
       <Wordmark class="text-[1.4rem]" />
     </a>
+
+    <nav aria-label="Primary">
+      <ul class="flex items-center gap-[clamp(1rem,2.5vw,2rem)]">
+        {
+          site.nav.links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                aria-current={isCurrent(l.href) ? 'page' : undefined}
+                class:list={[
+                  'font-geist-mono text-[0.95rem] tracking-tighter transition-colors duration-200 hover:text-heading',
+                  isCurrent(l.href) ? 'text-heading' : 'text-label',
+                ]}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
   </div>
 </header>

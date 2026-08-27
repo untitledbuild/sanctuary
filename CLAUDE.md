@@ -35,15 +35,41 @@ Always run `npm run check` and `npm run build` before considering a change done.
   (width variants: `spine`/`grid`/`container`/`wide`), `Button`, `Badge`,
   `Avatar`, `Tooltip`, `Wordmark`, `Icon` (UI line icons; names in
   `icon-names.ts`), `BrandIcon` (logos), `BlueprintGrid`, `StickyNote`,
-  `CollabCursor`. Scroll-reveal is a plain `data-reveal` attribute (no wrapper).
-- **Sections** (`src/components/sections/`) — one component per page band
-  (`Header`, `Hero` + `ContactForm`, `Testimonial`, `AppDock`, `Whiteboard`,
-  `People`, `TechLogos`, `Work`, `CallToAction`, `Footer`); composed in
-  [`src/pages/index.astro`](src/pages/index.astro) inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro).
+  `CollabCursor`, `HatchBand` (diagonal section separator), `CapabilityMockup`
+  (the four hand-built UI mockups in the "_what we build" cards).
+  Scroll-reveal is a plain `data-reveal` attribute (no wrapper).
+- **Dashed-line utilities** live in `global.css`: `.dashed-h` / `.dashed-v` for
+  single rules, `.dashed-box` for all four sides of one element, `.hatch` for the
+  45° ribbon. Use these rather than `border-dashed`, which renders browser dashes
+  that don't match the Figma rhythm.
+- **Sections** (`src/components/sections/`) — one component per page band.
+  - **Home** ([`src/pages/index.astro`](src/pages/index.astro)): `Header`, `Hero`,
+    `Testimonial`, `Showcase`, `Manifesto`, `WhatWeBuild`, `People`, `Story`, `Footer`.
+  - **About** ([`src/pages/about.astro`](src/pages/about.astro)): `Header`, `Hero`
+    (about copy), `Story`, `HowWeWork`, `People`, `FoundersNote`, `Footer`.
+  - Both compose inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro), with
+    `HatchBand` between bands.
+  - **Kept but no longer composed:** `AppDock`, `Whiteboard`, `TechLogos`, `Work`,
+    `CallToAction`, `ContactForm`. They still type-check and still read their
+    `site.ts` data — don't delete that data. The Supabase-wired `ContactForm` is
+    the one to reinstate if the page needs a lead-gen path again.
+- **`Hero` is shared** by both pages. Pass `content` (a `HeroContent`) to override
+  the default home copy. Its headline is an array of `HeadlineRun`s — each run
+  optionally `box`ed (the dashed Figma-selection rectangle) with a `chip`, and
+  optionally `break`ing the line above `sm`. `width` widens the column when a
+  longer headline needs it (boxed runs can't break mid-phrase).
 - **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts):
   `data-reveal` reveals, `data-parallax` z-depth (front layers use a
   small/negative factor), the app-dock pop-in (`data-dock-dist`), sticky-note
-  fly-in (`data-from`), and collaborator-cursor `data-pendulum` sway.
+  fly-in (`data-from`), collaborator-cursor `data-pendulum` sway, and
+  `data-tilt` pointer-tracking card tilt (value = max degrees).
+- **`data-tilt` is CSS-driven on purpose.** `motion.ts` only writes
+  `--tilt-x/y/scale`; the easing is a CSS transition in `global.css`, so it runs
+  on the compositor and its target values stay synchronously readable (which is
+  what makes it testable — GSAP tweens can't be observed in a headless run).
+  **Never put `data-tilt` and `data-reveal` on the same element** — the reveal
+  tween writes an inline `transform` that silently overrides the tilt's. Put
+  `data-reveal` on a wrapper instead (see `Story`/`FoundersNote`).
 - **Form** → [`src/scripts/form.ts`](src/scripts/form.ts) posts to Supabase
   (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout).
 - **The "What" whiteboard** is a proportional CSS **container** (`cqw` sizes + `%`
@@ -87,7 +113,17 @@ serve path:**
 
 - A small dark pill at bottom-center in dev is Astro's dev toolbar (dev-only, not in `dist/`).
 - Known placeholders pending real assets, all swappable via `site.ts`:
-  - **People**: 5 cards with random `pravatar` images / `TITLE` / `#` LinkedIn links.
-  - **Work**: project cards render a "UI MOCKUP" panel until `image` is set.
-  - **Supabase**: form no-ops gracefully until `PUBLIC_SUPABASE_*` are configured.
+  - **Showcase**: the three product frames render a "UI MOCKUP" panel until
+    `image` is set on the `showcase.items[]` entry.
+  - **Team portraits are inconsistent** and need a background pass: only
+    `runanka.png` and `programmer.png` have alpha, so the `--color-portrait` pink
+    disc shows through for those two. `adil.png` has pink baked in (matches by
+    luck), `bipratip.png` is yellow, and `tyler.png` / `joud.JPG` carry full
+    photographic backgrounds.
+  - **`Collaborate` CTA** points at `#collaborate`, which nothing defines on
+    either page yet.
+  - **Supabase**: form no-ops gracefully until `PUBLIC_SUPABASE_*` are configured
+    (only relevant if `ContactForm` is composed back in).
   - **Brand logos** (`BrandIcon.astro`) are hand-built; refine against Figma exports if needed.
+- **Figma MCP access:** the connected Figma account can't open the v2 design file,
+  so v2 work has been built from screenshots rather than pulled node-by-node.

@@ -25,7 +25,7 @@
    -------------------------------------------------------------------------- */
 @theme {
   /* ---- Colour: brand & ink -------------------------------------------- */
-  --color-bg: #fffefd;            /* page background (warm white)            */
+  --color-bg: #f4f3f1;            /* page background (v2 light neutral)      */
   --color-brand: #aa3000;         /* rust — buttons, logo, tooltips, accents */
   --color-brand-tint: #fff0f0;    /* active tool slot / soft brand wash      */
   --color-heading: #2d0000;       /* near-black maroon — all headings        */
@@ -45,6 +45,7 @@
   --color-field: #fbfbfb;         /* form input fill                         */
   --color-plate: #efefef;         /* name-plate fill                         */
   --color-wordmark: #dcdcdc;      /* oversized footer wordmark               */
+  --color-portrait: #f9d5de;      /* pink disc behind team portraits         */
 
   /* ---- Colour: lines / hairlines (opacities lifted from Figma) -------- */
   --color-line: rgba(0, 0, 0, 0.35);       /* primary blueprint grid line     */
@@ -220,6 +221,41 @@
     will-change: transform, opacity;
   }
 
+  /* Pointer-tracking tilt. motion.ts only sets --tilt-x/y/scale; the easing
+     lives here so the whole thing runs as one compositor-driven transition.
+     Defaults are identity, so a card is unchanged until JS starts tracking
+     (no-JS, touch and reduced-motion all render flat). */
+  @media (hover: hover) and (pointer: fine) {
+    [data-tilt] {
+      transform: perspective(900px) rotateX(var(--tilt-x, 0deg))
+        rotateY(var(--tilt-y, 0deg)) scale(var(--tilt-scale, 1));
+      transition:
+        transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+        box-shadow 0.45s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    /* Settling back after the pointer leaves: longer, with a little overshoot. */
+    [data-tilt].is-returning {
+      transition:
+        transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1),
+        box-shadow 0.5s ease;
+    }
+
+    [data-tilt]:hover {
+      box-shadow:
+        0 26px 50px -20px rgba(10, 13, 18, 0.28),
+        0 10px 20px -12px rgba(10, 13, 18, 0.16);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      [data-tilt],
+      [data-tilt].is-returning {
+        transform: none;
+        transition: box-shadow 0.45s ease;
+      }
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     html.js-motion [data-reveal],
@@ -258,5 +294,27 @@
       var(--dash, var(--color-line-guide)) 0 6px,
       transparent 6px 12px
     );
+  }
+  /* Diagonal hatch ribbon used as a section separator (Figma: a thin band of
+     45° rules bounded by dashed hairlines top and bottom). */
+  .hatch {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      var(--dash, var(--color-line-guide)) 0 1px,
+      transparent 1px 7px
+    );
+  }
+
+  /* All four sides at once, same 6/6 rhythm — painted as background layers so a
+     framed box stays a single element (border-dashed would render browser dashes). */
+  .dashed-box {
+    background-image:
+      repeating-linear-gradient(to right, var(--dash, var(--color-line-guide)) 0 6px, transparent 6px 12px),
+      repeating-linear-gradient(to right, var(--dash, var(--color-line-guide)) 0 6px, transparent 6px 12px),
+      repeating-linear-gradient(to bottom, var(--dash, var(--color-line-guide)) 0 6px, transparent 6px 12px),
+      repeating-linear-gradient(to bottom, var(--dash, var(--color-line-guide)) 0 6px, transparent 6px 12px);
+    background-size: 100% 1px, 100% 1px, 1px 100%, 1px 100%;
+    background-position: 0 0, 0 100%, 0 0, 100% 0;
+    background-repeat: no-repeat;
   }
 }

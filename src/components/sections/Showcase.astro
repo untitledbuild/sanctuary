@@ -1,0 +1,56 @@
+---
+/**
+ * Product showcase — three product shots under the testimonial: a narrow phone
+ * frame, a wide tinted centre tile, and a second phone. Real screenshots drop
+ * in via `image` in site.ts; until then each frame renders a styled placeholder
+ * at the right proportion so the band keeps its rhythm.
+ */
+import { site, type ShowcaseItem } from '@data/site';
+
+/* `site` is `as const`, which narrows away the optional `image`; widen back to
+   the declared type so a screenshot can be dropped in without a type error. */
+const items = site.showcase.items as unknown as ShowcaseItem[];
+
+const tints: Record<NonNullable<ShowcaseItem['tint']>, string> = {
+  plain: 'bg-card',
+  yellow: 'bg-[#f5c542]',
+  pink: 'bg-[#fdf2fa]',
+};
+---
+
+<section aria-label="Recent work" class="relative py-[clamp(1.5rem,3vw,2.5rem)]">
+  {/* dashed rules bracketing the band, as in the Figma */}
+  <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
+  <div class="dashed-h absolute inset-x-0 bottom-0" aria-hidden="true"></div>
+
+  <div class="mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]">
+    {/* All three frames share one band height (the centre tile is just wider),
+        so the row reads as a single strip as in the Figma. */}
+    <ul class="grid grid-cols-1 gap-[clamp(0.75rem,1.6vw,1.25rem)] sm:grid-cols-[1fr_1.85fr_1fr]">
+      {
+        items.map((it, i) => (
+          <li data-reveal data-reveal-delay={i * 0.08}>
+            <div
+              class:list={[
+                'h-[clamp(12rem,22vw,17rem)] overflow-hidden rounded-[0.75rem] shadow-[var(--shadow-tile)]',
+                tints[it.tint ?? 'plain'],
+              ]}
+              data-tilt="6"
+            >
+              {it.image ? (
+                <img src={it.image} alt={it.label} class="h-full w-full object-cover" loading="lazy" />
+              ) : (
+                <div class="grid h-full w-full place-items-center" aria-hidden="true">
+                  <span class="font-geist-mono text-[0.7rem] uppercase tracking-tighter text-muted">
+                    UI mockup
+                  </span>
+                </div>
+              )}
+            </div>
+            {!it.image && <span class="sr-only">{it.label} — screenshot pending</span>}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

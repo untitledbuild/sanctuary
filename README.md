@@ -6,7 +6,7 @@ output can be dropped onto any CDN (or static host) and served from
 
 - **Framework:** [Astro](https://astro.build) (static output — ships zero JS by default)
 - **Styling:** [Tailwind CSS v4](https://tailwindcss.com) (CSS-first design tokens via `@theme`)
-- **Motion:** [GSAP](https://gsap.com) + ScrollTrigger for scroll reveals, [Lenis](https://lenis.darkroom.engineering/) for smooth scroll
+- **Motion:** [GSAP](https://gsap.com) + ScrollTrigger for scroll reveals; CSS transitions for hover/tilt
 - **Fonts:** self-hosted via Fontsource (Roboto Flex, Roboto Mono, Instrument Serif)
 
 ---
@@ -16,9 +16,9 @@ output can be dropped onto any CDN (or static host) and served from
 - **Astro** — outputs pure static HTML/CSS/JS (zero JS by default), ideal for a
   CDN-served marketing site; mainstream and actively maintained.
 - **Animations.** Astro emits standard HTML/CSS/JS, so *any* client library
-  works. We use GSAP + ScrollTrigger (the industry standard, now fully free)
-  driven by Lenis for smooth scroll. Swapping in Motion, Lottie, etc. later is
-  trivial.
+  works. We use GSAP + ScrollTrigger (the industry standard, now fully free) for
+  scroll-driven motion. Hover-driven motion (the card tilt, the People flip) is
+  plain CSS so it runs on the compositor and survives a JS failure.
 
 Tailwind v4 was chosen because its `@theme` block lets us declare the design
 tokens **once** (colours, fluid type scale, radii, shadows) and reuse them
@@ -58,25 +58,27 @@ src/
 ├── components/
 │   ├── primitives/           # Reusable atoms — reused by every section
 │   │   ├── Container.astro       # centred max-width column (--container)
-│   │   ├── Section.astro         # semantic <section> + vertical rhythm (--section-y)
-│   │   ├── SectionHeading.astro  # eyebrow + display heading (+ optional lead)
-│   │   ├── Eyebrow.astro         # monospace label ("PROCESS", "WHY US?"…)
-│   │   ├── Button.astro          # the black "Start a Project" CTA
+│   │   ├── Button.astro  Badge.astro  Avatar.astro  Tooltip.astro
 │   │   ├── Wordmark.astro        # "untitled build" lockup (sans + serif italic)
-│   │   ├── Icon.astro            # inline SVG icon set (currentColor-driven)
-│   │   ├── BlueprintGrid.astro   # dashed "construction grid" background (SVG pattern)
-│   │   └── Reveal.astro          # marks an element for scroll-reveal
-│   ├── mockups/              # Faithfully-recreated UI chrome (CSS/SVG, no images)
-│   │   ├── PhoneMockup.astro      # mobile-app frame (notch + swipe bar)
-│   │   └── BrowserMockup.astro    # web-app frame (dots, address pill, tabs, blocks)
-│   └── sections/             # One component per page section
-│       ├── Header.astro  Hero.astro  Process.astro  WhyUs.astro
-│       ├── Testimonial.astro  SelectedBuilds.astro  FoundersNote.astro
-│       └── CallToAction.astro  Footer.astro
+│   │   ├── Icon.astro            # inline SVG icon set (names in icon-names.ts)
+│   │   ├── BrandIcon.astro       # brand/product logos
+│   │   ├── BlueprintGrid.astro   # dashed "construction grid" background
+│   │   ├── HatchBand.astro       # 45° hatch ribbon between bands
+│   │   ├── CapabilityMockup.astro# the 4 hand-built "what we build" UI mockups
+│   │   └── StickyNote.astro  CollabCursor.astro  GridField.astro
+│   └── sections/             # One component per page band
+│       ├── Header.astro  Hero.astro  Testimonial.astro  Footer.astro
+│       ├── Showcase.astro  Manifesto.astro  WhatWeBuild.astro   # home
+│       ├── People.astro  Story.astro
+│       ├── HowWeWork.astro  FoundersNote.astro                  # about
+│       └── AppDock.astro  Whiteboard.astro  TechLogos.astro     # kept, not composed
+│           Work.astro  CallToAction.astro  ContactForm.astro
 ├── scripts/
-│   └── motion.ts            # Lenis + GSAP/ScrollTrigger init (progressive enhancement)
+│   ├── motion.ts            # GSAP/ScrollTrigger init (progressive enhancement)
+│   └── form.ts              # Supabase contact-form POST
 └── pages/
-    └── index.astro          # composes the sections into the page
+    ├── index.astro          # home
+    └── about.astro          # /about
 
 public/
 ├── CNAME                    # custom domain (untitledbuild.com) — copied verbatim into dist/
@@ -89,12 +91,12 @@ The Figma export named hundreds of one-off colours/sizes. These are consolidated
 into a small **semantic** token set inside Tailwind's `@theme`, which generates
 the utilities used throughout:
 
-| Group     | Examples                                                            |
-| --------- | ------------------------------------------------------------------- |
-| Colour    | `bg`, `ink`, `heading`, `body`, `navy`, `surface`, `paper`, `line`… |
-| Type      | `text-display`, `text-quote`, `text-eyebrow`, `text-lead`…          |
-| Radii     | `rounded-card`, `rounded-browser`, `rounded-block`, `rounded-cta`   |
-| Elevation | `shadow-float`                                                      |
+| Group     | Examples                                                                  |
+| --------- | ------------------------------------------------------------------------- |
+| Colour    | `bg`, `ink`, `heading`, `body`, `navy`, `card`, `surface`, `plate`, `portrait`, `line`… |
+| Type      | `text-hero`, `text-h2`, `text-quote`, `text-project`, `text-lead`, `text-nav` |
+| Radii     | `rounded-tile`, `rounded-card`, `rounded-field`, `rounded-control`, `rounded-badge` |
+| Elevation | `shadow-tile`, `shadow-tile-hero`, `shadow-tooltip`, `shadow-control`     |
 
 Change a brand colour or the type scale **once** here and it propagates
 everywhere. Layout rhythm (`--container`, `--container-pad`, `--section-y`) lives
@@ -104,18 +106,20 @@ just below in `:root`.
 
 ## Editing content
 
-All text lives in [`src/data/site.ts`](src/data/site.ts) — hero copy, process
-steps, the testimonial, projects, founders' note, CTA, footer. Sections are
-presentational and read from this object, so wording changes never touch markup.
+All text lives in [`src/data/site.ts`](src/data/site.ts) — hero copy for both
+pages, the testimonial, showcase, capabilities, team, Our Story, the founder's
+note, footer. Sections are presentational and read from this object, so wording
+changes never touch markup.
 
 **Placeholders awaiting real assets** (clearly marked in the data/components):
 
-- **Selected Builds** — four empty card slots. Add `image`/`title`/`href` to a
-  `projects[]` entry in `site.ts` and the card fills in (wrap in `<a>` when a
-  `href` exists).
-- **Why-Us illustration** — a captioned placeholder; drop artwork into the media
-  slot in `WhyUs.astro`.
-- **Founders' note body** — placeholder prose; replace with the real message.
+- **Showcase** — the three product frames render a "UI MOCKUP" panel until
+  `image` is set on a `showcase.items[]` entry in `site.ts`.
+- **Team portraits** — inconsistent backgrounds. Only `runanka.png` and
+  `programmer.png` have alpha, so the pink `--color-portrait` disc shows through
+  for those two; `bipratip.png` is yellow and `tyler.png` / `joud.JPG` carry
+  photographic backgrounds. Needs a background-removal pass.
+- **`Collaborate` CTA** — points at `#collaborate`, which nothing defines yet.
 - **Logo / favicon** — `Wordmark.astro` renders the wordmark in type; swap
   `public/favicon.svg` for the final mark when available.
 
@@ -127,11 +131,11 @@ The site is **not** pinned to the 1440 Figma canvas. Two mechanisms keep it flui
 
 1. **Fluid type** — every heading/label uses `clamp()` (see the `--text-*` tokens)
    so sizes scale smoothly from mobile to desktop.
-2. **Mobile-first breakpoints** — grids collapse (`sm:`/`lg:`), the hero's dual
-   mockup row stacks, the Why-Us card switches from a right-edge bleed to a
-   contained block, and the founders' note eases its rotation on small screens.
+2. **Mobile-first breakpoints** — grids collapse (`sm:`/`lg:`): the People and
+   capability grids drop to one column, the showcase strip stacks, the blueprint
+   frames hide, and the hero's desktop-only line break is released.
 
-Verified at 390px (mobile) and 1440px (desktop).
+Verified with zero horizontal overflow at 500px, 768px, 1024px and 1440px.
 
 ---
 
@@ -141,8 +145,11 @@ Verified at 390px (mobile) and 1440px (desktop).
   `html.js-motion` only when JS is on *and* motion is allowed; `global.css` hides
   `[data-reveal]` only under that class, and a failsafe un-hides everything if the
   motion bundle never runs — content can't get stuck.
-- `prefers-reduced-motion: reduce` disables Lenis and all reveal animation; the
-  page renders fully static.
+- `prefers-reduced-motion: reduce` disables all reveal animation and the card
+  tilt; the page renders fully static.
+- Hover-driven motion is gated on `(hover: hover) and (pointer: fine)`. On touch
+  the People cards stack both faces instead of flipping, so nothing is
+  hover-only content.
 - Semantic landmarks (`header`/`main`/`footer`/`nav`), a single `h1`, labelled
   nav, decorative SVGs/mockups marked `aria-hidden`, visible focus rings.
 

@@ -1,0 +1,45 @@
+---
+/**
+ * "_how we work" — mono label, the serif statement, then three principle cards
+ * in a row (icon over a serif title), framed by the same dashed blueprint
+ * rules the rest of the page uses.
+ */
+import Icon from '@components/primitives/Icon.astro';
+import { site, type Principle } from '@data/site';
+
+const { label, title, principles } = site.about.howWeWork;
+const items = principles as unknown as Principle[];
+---
+
+<section id="how" class="relative py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <header data-reveal>
+      <p class="font-geist-mono text-[0.85rem] tracking-tighter text-label">{label}</p>
+      <h2
+        class="mt-[0.9rem] max-w-[30rem] font-serif text-[clamp(1.6rem,3.6vw,2.05rem)] leading-[1.24] tracking-serif text-heading"
+      >
+        {title}
+      </h2>
+    </header>
+
+    <div class="dashed-h -mx-[33px] mt-[1.5rem] hidden sm:block" aria-hidden="true"></div>
+
+    <ul class="mt-[1.5rem] grid grid-cols-1 gap-[1rem] sm:grid-cols-3">
+      {
+        items.map((p, i) => (
+          <li data-reveal data-reveal-delay={i * 0.08}>
+            <article
+              class="flex h-full flex-col gap-[1.6rem] rounded-[var(--radius-card)] border border-hairline-soft bg-card p-[1.1rem]"
+              data-tilt="7"
+            >
+              <Icon name={p.icon} size={22} class="text-heading" stroke={1.6} />
+              <h3 class="font-serif text-[1.15rem] leading-[1.2] tracking-serif text-heading">
+                {p.title}
+              </h3>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
