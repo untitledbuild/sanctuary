@@ -3,10 +3,11 @@
  * Work — one entry per project: a large frame holding the screenshot, with the
  * name and description beneath it, separated by hatch ribbons.
  *
- * Projects without an `image` render the same styled placeholder the showcase
- * band uses, so an entry can go live before its screenshot exists.
+ * Projects without an `image` get the animated wireframe placeholder, so an
+ * entry can go live before its screenshot exists without looking broken.
  */
 import HatchBand from '@components/primitives/HatchBand.astro';
+import WireframePlaceholder from '@components/primitives/WireframePlaceholder.astro';
 import { site, type Project } from '@data/site';
 
 /* `site` is `as const`, which narrows away the optional `image`/`href`. */
@@ -42,11 +43,7 @@ const projects = site.work.projects as unknown as Project[];
                     loading={i === 0 ? 'eager' : 'lazy'}
                   />
                 ) : (
-                  <div class="grid h-full w-full place-items-center" aria-hidden="true">
-                    <span class="font-geist-mono text-[0.7rem] uppercase tracking-tighter text-muted">
-                      UI mockup
-                    </span>
-                  </div>
+                  <WireframePlaceholder variant="wide" />
                 )}
               </div>
             </div>

@@ -37,7 +37,9 @@ Always run `npm run check` and `npm run build` before considering a change done.
   `Avatar`, `Tooltip`, `Wordmark`, `Icon` (UI line icons; names in
   `icon-names.ts`), `BrandIcon` (logos), `BlueprintGrid`, `StickyNote`,
   `CollabCursor`, `HatchBand` (diagonal section separator), `CapabilityMockup`
-  (the four hand-built UI mockups in the "_what we build" cards).
+  (the four hand-built UI mockups in the "_what we build" cards),
+  `WireframePlaceholder` (the animated line sketch that stands in for a missing
+  screenshot), `SectionHead`.
   Scroll-reveal is a plain `data-reveal` attribute (no wrapper).
 - **Dashed-line utilities** live in `global.css`: `.dashed-h` / `.dashed-v` for
   single rules, `.dashed-box` for all four sides of one element, `.hatch` for the
@@ -109,6 +111,14 @@ Always run `npm run check` and `npm run build` before considering a change done.
   trapping, Esc-to-close, background inertness and `::backdrop` for free. It
   needs `m-auto`, because Tailwind's preflight zeroes the UA `margin: auto` a
   dialog relies on to centre itself.
+- **`WireframePlaceholder` uses `pathLength="1"`** on every shape, which
+  normalises path length regardless of geometry — so a single
+  `stroke-dashoffset: 1 → 0` keyframe draws a circle, a line and a rounded rect
+  alike, with no per-shape measuring. Its resting state is the *finished*
+  sketch, so if the animation never runs it degrades to a static wireframe
+  rather than an empty box. Note the draw keyframe starts at `opacity: 0`, so a
+  headless screenshot (where animation time is pinned at 0) captures it blank —
+  freeze the animation to inspect it.
 - **The "What" whiteboard** is a proportional CSS **container** (`cqw` sizes + `%`
   positions, widened to ~1430px to mirror the Figma): the whole scene scales as
   one locked unit on desktop, and falls back to a plain note stack under `md`.

@@ -72,7 +72,7 @@ export interface Project {
   description: string;
   /** Tag pills, each coloured from the badge palette. */
   tags: { label: string; tone: BadgeTone }[];
-  image?: string;        /* UI mockup screenshot; undefined → "UI MOCKUP"     */
+  image?: string;        /* screenshot; undefined → animated wireframe        */
   href?: string;
 }
 
@@ -98,7 +98,7 @@ export interface Testimonial {
  */
 export interface ShowcaseItem {
   label: string;
-  /** Screenshot path; undefined → styled placeholder frame. */
+  /** Screenshot path; undefined → animated wireframe placeholder. */
   image?: string;
   /** Intrinsic pixel size — set on the <img> so the row reserves space. */
   w?: number;

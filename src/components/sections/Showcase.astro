@@ -16,6 +16,7 @@
  * The lift uses `drop-shadow`, not `box-shadow`: it follows the alpha, so the
  * shadow hugs each mockup's rounded corners instead of a rectangle around it.
  */
+import WireframePlaceholder from '@components/primitives/WireframePlaceholder.astro';
 import { site, type ShowcaseItem } from '@data/site';
 
 /* `site` is `as const`, which narrows away the optional image fields. */
@@ -47,14 +48,12 @@ const items = site.showcase.items as unknown as ShowcaseItem[];
             ) : (
               <div
                 class:list={[
-                  'grid place-items-center rounded-[0.75rem] bg-card shadow-[var(--shadow-tile)]',
+                  'rounded-[0.75rem] bg-card shadow-[var(--shadow-tile)]',
                   'w-full sm:h-[clamp(14rem,26vw,21rem)] sm:w-auto',
                   it.shape === 'wide' ? 'aspect-[983/1038]' : 'aspect-[478/1038]',
                 ]}
               >
-                <span class="font-geist-mono text-[0.7rem] uppercase tracking-tighter text-muted" aria-hidden="true">
-                  UI mockup
-                </span>
+                <WireframePlaceholder variant={it.shape} />
                 <span class="sr-only">{it.label} — screenshot pending</span>
               </div>
             )}
