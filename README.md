@@ -119,9 +119,11 @@ changes never touch markup.
 
 **Placeholders awaiting real assets** (clearly marked in the data/components):
 
-- **Showcase / Work** — frames render a "UI MOCKUP" panel until `image` is set
-  on the `showcase.items[]` / `work.projects[]` entry in `site.ts`. Only Ovvy
-  has a real screenshot so far.
+- **Work** — project frames render a "UI MOCKUP" panel until `image` is set on
+  the `work.projects[]` entry in `site.ts`. Only Ovvy has a real screenshot so
+  far. (The home showcase band is fully populated.)
+- **Image weight** — the three showcase mockups are PNGs totalling ~715 KB.
+  Converting them to WebP would roughly halve that; no converter is installed.
 - **Team portraits** — inconsistent backgrounds. Only `runanka.png` and
   `programmer.png` have alpha, so the pink `--color-portrait` disc shows through
   for those two; `bipratip.png` is yellow and `tyler.png` / `joud.JPG` carry

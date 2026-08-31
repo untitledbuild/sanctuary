@@ -150,8 +150,13 @@ serve path:**
 
 - A small dark pill at bottom-center in dev is Astro's dev toolbar (dev-only, not in `dist/`).
 - Known placeholders pending real assets, all swappable via `site.ts`:
-  - **Showcase**: the three product frames render a "UI MOCKUP" panel until
-    `image` is set on the `showcase.items[]` entry.
+  - **Showcase**: all three mockups are in (`public/showcase/`). Their corners
+    are transparent — the rounded corners and background tint are baked into
+    the PNGs — so they render bare, with a `drop-shadow` (which follows alpha)
+    rather than a CSS frame and `box-shadow`. They also share a pixel height,
+    which is what lets the desktop row sit at one height with natural widths.
+    They're PNGs totalling ~715 KB; converting to WebP would roughly halve that
+    (no `cwebp` on this machine, and this `sips` build can't emit WebP).
   - **Team portraits are inconsistent** and need a background pass: only
     `runanka.png` and `programmer.png` have alpha, so the `--color-portrait` pink
     disc shows through for those two. `adil.png` has pink baked in (matches by

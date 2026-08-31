@@ -1,21 +1,25 @@
 ---
 /**
- * Product showcase — three product shots under the testimonial: a narrow phone
- * frame, a wide tinted centre tile, and a second phone. Real screenshots drop
- * in via `image` in site.ts; until then each frame renders a styled placeholder
- * at the right proportion so the band keeps its rhythm.
+ * Product showcase — the three mockups under the testimonial.
+ *
+ * The exports already carry their rounded corners, background tint and shadow
+ * in the alpha channel (their corner pixels are fully transparent), so they're
+ * rendered bare. Wrapping them in a CSS frame would paint square corners and a
+ * rectangular shadow behind a rounded image.
+ *
+ * All three are the same pixel height, so on desktop the row is laid out at one
+ * common height with each image at its natural width — which reproduces the
+ * Figma proportions exactly without hard-coding column ratios. Intrinsic
+ * width/height are set on every <img> so the band reserves its space before the
+ * images land.
+ *
+ * The lift uses `drop-shadow`, not `box-shadow`: it follows the alpha, so the
+ * shadow hugs each mockup's rounded corners instead of a rectangle around it.
  */
 import { site, type ShowcaseItem } from '@data/site';
 
-/* `site` is `as const`, which narrows away the optional `image`; widen back to
-   the declared type so a screenshot can be dropped in without a type error. */
+/* `site` is `as const`, which narrows away the optional image fields. */
 const items = site.showcase.items as unknown as ShowcaseItem[];
-
-const tints: Record<NonNullable<ShowcaseItem['tint']>, string> = {
-  plain: 'bg-card',
-  yellow: 'bg-[#f5c542]',
-  pink: 'bg-[#fdf2fa]',
-};
 ---
 
 <section aria-label="Recent work" class="relative py-[clamp(1.5rem,3vw,2.5rem)]">
@@ -24,30 +28,36 @@ const tints: Record<NonNullable<ShowcaseItem['tint']>, string> = {
   <div class="dashed-h absolute inset-x-0 bottom-0" aria-hidden="true"></div>
 
   <div class="mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]">
-    {/* All three frames share one band height (the centre tile is just wider),
-        so the row reads as a single strip as in the Figma. */}
-    <ul class="grid grid-cols-1 gap-[clamp(0.75rem,1.6vw,1.25rem)] sm:grid-cols-[1fr_1.85fr_1fr]">
+    <ul
+      class="flex flex-col items-center gap-[clamp(1rem,2vw,1.5rem)] sm:flex-row sm:items-center sm:justify-center"
+    >
       {
         items.map((it, i) => (
-          <li data-reveal data-reveal-delay={i * 0.08}>
-            <div
-              class:list={[
-                'h-[clamp(12rem,22vw,17rem)] overflow-hidden rounded-[0.75rem] shadow-[var(--shadow-tile)]',
-                tints[it.tint ?? 'plain'],
-              ]}
-              data-tilt="6"
-            >
-              {it.image ? (
-                <img src={it.image} alt={it.label} class="h-full w-full object-cover" loading="lazy" />
-              ) : (
-                <div class="grid h-full w-full place-items-center" aria-hidden="true">
-                  <span class="font-geist-mono text-[0.7rem] uppercase tracking-tighter text-muted">
-                    UI mockup
-                  </span>
-                </div>
-              )}
-            </div>
-            {!it.image && <span class="sr-only">{it.label} — screenshot pending</span>}
+          <li class="w-full max-w-[22rem] sm:w-auto sm:max-w-none" data-reveal data-reveal-delay={i * 0.08}>
+            {it.image ? (
+              <img
+                src={it.image}
+                alt={it.label}
+                width={it.w}
+                height={it.h}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                class="h-auto w-full [filter:drop-shadow(0_16px_26px_rgba(10,13,18,0.14))] sm:h-[clamp(14rem,26vw,21rem)] sm:w-auto"
+              />
+            ) : (
+              <div
+                class:list={[
+                  'grid place-items-center rounded-[0.75rem] bg-card shadow-[var(--shadow-tile)]',
+                  'w-full sm:h-[clamp(14rem,26vw,21rem)] sm:w-auto',
+                  it.shape === 'wide' ? 'aspect-[983/1038]' : 'aspect-[478/1038]',
+                ]}
+              >
+                <span class="font-geist-mono text-[0.7rem] uppercase tracking-tighter text-muted" aria-hidden="true">
+                  UI mockup
+                </span>
+                <span class="sr-only">{it.label} — screenshot pending</span>
+              </div>
+            )}
           </li>
         ))
       }

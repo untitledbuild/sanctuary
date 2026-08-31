@@ -88,15 +88,23 @@ export interface Testimonial {
   avatar?: string;
 }
 
-/** A product shot in the showcase band under the testimonial. */
+/**
+ * A product shot in the showcase band under the testimonial.
+ *
+ * The exported mockups carry their own rounded corners, background and shadow
+ * in the alpha channel, so they're rendered bare — no CSS frame. All three
+ * share a pixel height, which is what lets the row sit at one common height
+ * with each image at its natural width.
+ */
 export interface ShowcaseItem {
   label: string;
   /** Screenshot path; undefined → styled placeholder frame. */
   image?: string;
-  /** Frame proportion — the centre tile is the wide one. */
+  /** Intrinsic pixel size — set on the <img> so the row reserves space. */
+  w?: number;
+  h?: number;
+  /** Placeholder proportion, used only when there's no image yet. */
   shape: 'phone' | 'wide';
-  /** Optional tint behind the mockup (Figma uses a yellow centre tile). */
-  tint?: 'plain' | 'yellow' | 'pink';
 }
 
 /**
@@ -251,9 +259,27 @@ export const site = {
   showcase: {
     label: 'Recent work',
     items: [
-      { label: 'Delivery routing app', shape: 'phone', tint: 'plain' },
-      { label: 'Peregrin — revenue intelligence', shape: 'wide', tint: 'yellow' },
-      { label: 'Kaizen Store analytics', shape: 'phone', tint: 'pink' },
+      {
+        label: 'Delivery routing app — live route with stop details',
+        image: '/showcase/delivery.png',
+        w: 478,
+        h: 1038,
+        shape: 'phone',
+      },
+      {
+        label: 'Peregrin — revenue intelligence dashboard',
+        image: '/showcase/peregrin.png',
+        w: 983,
+        h: 1038,
+        shape: 'wide',
+      },
+      {
+        label: 'Kaizen Store — mobile sales analytics',
+        image: '/showcase/kaizen.png',
+        w: 478,
+        h: 1038,
+        shape: 'phone',
+      },
     ] satisfies ShowcaseItem[],
   },
 
