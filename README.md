@@ -71,14 +71,17 @@ src/
 │       ├── Showcase.astro  Manifesto.astro  WhatWeBuild.astro   # home
 │       ├── People.astro  Story.astro
 │       ├── HowWeWork.astro  FoundersNote.astro                  # about
+│       ├── Openings.astro  ApplyDialog.astro                    # careers
 │       └── AppDock.astro  Whiteboard.astro  TechLogos.astro     # kept, not composed
 │           Work.astro  CallToAction.astro  ContactForm.astro
 ├── scripts/
 │   ├── motion.ts            # GSAP/ScrollTrigger init (progressive enhancement)
-│   └── form.ts              # Supabase contact-form POST
+│   ├── form.ts              # Supabase contact-form POST
+│   └── apply.ts             # careers apply dialog + résumé upload
 └── pages/
     ├── index.astro          # home
-    └── about.astro          # /about
+    ├── about.astro          # /about
+    └── careers.astro        # /careers
 
 public/
 ├── CNAME                    # custom domain (untitledbuild.com) — copied verbatim into dist/
@@ -120,6 +123,11 @@ changes never touch markup.
   for those two; `bipratip.png` is yellow and `tyler.png` / `joud.JPG` carry
   photographic backgrounds. Needs a background-removal pass.
 - **`Collaborate` CTA** — points at `#collaborate`, which nothing defines yet.
+- **Careers applications** — the apply dialog needs the `job_applications` table
+  and the private `resumes` bucket from `infra/supabase/schema.sql`, plus
+  `PUBLIC_SUPABASE_*`. Until then it fails gracefully toward the mailto: link.
+  The submit path is written against the documented REST/Storage endpoints but
+  has not been run against a live project.
 - **Logo / favicon** — `Wordmark.astro` renders the wordmark in type; swap
   `public/favicon.svg` for the final mark when available.
 

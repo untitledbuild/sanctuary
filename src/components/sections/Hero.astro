@@ -65,15 +65,23 @@ const chip =
       }
     </h1>
 
-    <p
-      class="mx-auto mt-[clamp(1.75rem,3.5vw,2.5rem)] max-w-[26rem] font-sans text-[1rem] font-medium leading-[1.5] tracking-tight text-body"
-      data-reveal
-      data-reveal-delay="0.08"
-    >
-      {subtitle}
-    </p>
+    {
+      subtitle && (
+        <p
+          class="mx-auto mt-[clamp(1.75rem,3.5vw,2.5rem)] max-w-[26rem] font-sans text-[1rem] font-medium leading-[1.5] tracking-tight text-body"
+          data-reveal
+          data-reveal-delay="0.08"
+        >
+          {subtitle}
+        </p>
+      )
+    }
 
-    <div class="mt-[clamp(1.25rem,2.5vw,1.75rem)]" data-reveal data-reveal-delay="0.16">
+    <div
+      class:list={[subtitle ? 'mt-[clamp(1.25rem,2.5vw,1.75rem)]' : 'mt-[clamp(1.75rem,3.5vw,2.5rem)]']}
+      data-reveal
+      data-reveal-delay="0.16"
+    >
       <a
         href={cta.href}
         class="group inline-flex items-center gap-[0.7rem] rounded-[var(--radius-field)] bg-ink py-[0.55rem] pl-[0.95rem] pr-[0.5rem] font-geist-mono text-[0.95rem] font-medium tracking-tighter text-white transition-colors duration-200 hover:bg-heading"

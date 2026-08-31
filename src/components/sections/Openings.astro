@@ -1,0 +1,74 @@
+---
+/**
+ * Open roles — one row per opening inside the dashed blueprint frame. Each row
+ * is a real <button> that opens the apply dialog with that position
+ * preselected, so the whole row is keyboard-reachable and announces itself
+ * rather than being a click-handler on a div.
+ *
+ * With JS off the buttons can't open the dialog, so each row also carries a
+ * mailto fallback link — see the note in ApplyDialog.
+ */
+import BrandIcon from '@components/primitives/BrandIcon.astro';
+import Icon from '@components/primitives/Icon.astro';
+import { site, type Opening } from '@data/site';
+
+const openings = site.careers.openings as unknown as Opening[];
+---
+
+<section id="openings" class="relative py-[clamp(1.5rem,3vw,2.5rem)]">
+  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    {/* frame verticals */}
+    <div
+      class="pointer-events-none absolute inset-y-[-0.75rem] left-[-21px] right-[-21px] hidden sm:block"
+      aria-hidden="true"
+    >
+      <span class="dashed-v absolute inset-y-0 left-0"></span>
+      <span class="dashed-v absolute inset-y-0 right-0"></span>
+    </div>
+
+    <h2 class="sr-only">Open roles</h2>
+
+    <ul class="flex flex-col gap-[0.75rem]">
+      {
+        openings.map((job, i) => (
+          <li data-reveal data-reveal-delay={Math.min(i, 5) * 0.05}>
+            <button
+              type="button"
+              class="group dashed-box flex w-full cursor-pointer items-center gap-[1rem] rounded-[var(--radius-card)] bg-card/70 px-[1rem] py-[0.9rem] text-left transition-colors duration-200 hover:bg-card"
+              data-apply-open
+              data-position={job.title}
+            >
+              <span class="grid h-[2.75rem] w-[2.75rem] shrink-0 place-items-center rounded-[var(--radius-control)] border border-hairline-soft bg-card">
+                <BrandIcon name={job.brand} size={26} />
+              </span>
+
+              <span class="min-w-0 flex-1">
+                <span class="block font-serif text-[1.2rem] leading-[1.25] tracking-serif text-heading">
+                  {job.title}
+                </span>
+                <span class="mt-[0.15rem] block font-geist text-[0.85rem] tracking-tight text-label">
+                  {job.type} · {job.experience} · {job.location}
+                </span>
+                <span class="mt-[0.35rem] hidden flex-wrap gap-[0.3rem] sm:flex">
+                  {job.stack.map((s) => (
+                    <span class="rounded-[3px] bg-plate px-[0.4rem] py-[0.1rem] font-geist-mono text-[0.65rem] tracking-tighter text-faint">
+                      {s}
+                    </span>
+                  ))}
+                </span>
+              </span>
+
+              <span
+                class="shrink-0 text-gray-400 transition-transform duration-200 group-hover:translate-x-[3px]"
+                aria-hidden="true"
+              >
+                <Icon name="chevron-down" size={18} class="-rotate-90" stroke={2} />
+              </span>
+              <span class="sr-only">— apply for {job.title}</span>
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

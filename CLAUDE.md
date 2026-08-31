@@ -4,13 +4,14 @@ Guidance for working in this repo. Keep changes consistent with the conventions 
 
 ## What this is
 
-The **untitled build** marketing landing page — a single-page, fully **static** site
+The **untitled build** marketing site (home, /about, /careers) — a fully **static** site
 (no runtime server) built from a Figma design and deployed to GitHub Pages /
 any CDN at `untitledbuild.com`.
 
 - **Astro** (static output) · **Tailwind CSS v4** (CSS-first tokens) · **GSAP + ScrollTrigger** (motion) · self-hosted Fontsource fonts.
-- **Contact form → Supabase**, direct from the browser with the PUBLIC anon key,
-  secured by an INSERT-only RLS policy. No server; the site stays fully static.
+- **Forms → Supabase** (contact, and careers applications), direct from the
+  browser with the PUBLIC anon key, secured by INSERT-only RLS policies. No
+  server; the site stays fully static.
   Setup + schema in [`infra/supabase/`](infra/supabase/).
 
 ## Commands
@@ -47,17 +48,20 @@ Always run `npm run check` and `npm run build` before considering a change done.
     `Testimonial`, `Showcase`, `Manifesto`, `WhatWeBuild`, `People`, `Story`, `Footer`.
   - **About** ([`src/pages/about.astro`](src/pages/about.astro)): `Header`, `Hero`
     (about copy), `Story`, `HowWeWork`, `People`, `FoundersNote`, `Footer`.
-  - Both compose inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro), with
-    `HatchBand` between bands.
+  - **Careers** ([`src/pages/careers.astro`](src/pages/careers.astro)): `Header`,
+    `Hero` (careers copy, no subtitle), `Openings`, `Footer`, `ApplyDialog`.
+  - All three compose inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro),
+    with `HatchBand` between bands.
   - **Kept but no longer composed:** `AppDock`, `Whiteboard`, `TechLogos`, `Work`,
     `CallToAction`, `ContactForm`. They still type-check and still read their
     `site.ts` data — don't delete that data. The Supabase-wired `ContactForm` is
     the one to reinstate if the page needs a lead-gen path again.
-- **`Hero` is shared** by both pages. Pass `content` (a `HeroContent`) to override
+- **`Hero` is shared** by all three pages. Pass `content` (a `HeroContent`) to override
   the default home copy. Its headline is an array of `HeadlineRun`s — each run
   optionally `box`ed (the dashed Figma-selection rectangle) with a `chip`, and
   optionally `break`ing the line above `sm`. `width` widens the column when a
-  longer headline needs it (boxed runs can't break mid-phrase).
+  longer headline needs it (boxed runs can't break mid-phrase), and `subtitle`
+  is optional (careers goes straight from headline to CTA).
 - **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts):
   `data-reveal` reveals, `data-parallax` z-depth (front layers use a
   small/negative factor), the app-dock pop-in (`data-dock-dist`), sticky-note
@@ -70,8 +74,18 @@ Always run `npm run check` and `npm run build` before considering a change done.
   **Never put `data-tilt` and `data-reveal` on the same element** — the reveal
   tween writes an inline `transform` that silently overrides the tilt's. Put
   `data-reveal` on a wrapper instead (see `Story`/`FoundersNote`).
-- **Form** → [`src/scripts/form.ts`](src/scripts/form.ts) posts to Supabase
-  (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout).
+- **Forms** → [`src/scripts/form.ts`](src/scripts/form.ts) (contact) and
+  [`src/scripts/apply.ts`](src/scripts/apply.ts) (careers) post to Supabase
+  (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout). Both no-op toward a
+  mailto: fallback when unconfigured rather than faking success. `apply.ts`
+  uploads the résumé to a **private** `resumes` Storage bucket first, then
+  records the object key on the row — so a failed upload never files an
+  application with no CV. Both scripts end in `export {}`: without a top-level
+  import/export TS treats them as global scripts and their declarations collide.
+- **The apply modal is a native `<dialog>`** — `showModal()` gives focus
+  trapping, Esc-to-close, background inertness and `::backdrop` for free. It
+  needs `m-auto`, because Tailwind's preflight zeroes the UA `margin: auto` a
+  dialog relies on to centre itself.
 - **The "What" whiteboard** is a proportional CSS **container** (`cqw` sizes + `%`
   positions, widened to ~1430px to mirror the Figma): the whole scene scales as
   one locked unit on desktop, and falls back to a plain note stack under `md`.

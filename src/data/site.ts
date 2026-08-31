@@ -23,7 +23,8 @@ export interface AppTile {
 
 export type BrandName =
   | 'spotify' | 'chrome' | 'gitlab' | 'notion' | 'ub'
-  | 'figma' | 'vscode' | 'datagrip' | 'confluence' | 'github';
+  | 'figma' | 'vscode' | 'datagrip' | 'confluence' | 'github'
+  | 'apple' | 'jira' | 'adobe' | 'openai';
 
 /** A FigJam sticky note in the "What" whiteboard. */
 export interface StickyNote {
@@ -114,13 +115,27 @@ export interface HeadlineRun {
 /** Everything a hero band needs — shared by the home and about pages. */
 export interface HeroContent {
   headline: HeadlineRun[];
-  subtitle: string;
+  /** Optional — the careers hero goes straight from headline to CTA. */
+  subtitle?: string;
   layerLabel: string;
   techTag: string;
   cta: NavLink & { label: string };
   /** Headline column width. Boxed runs can't break mid-phrase, so a longer
    *  headline needs a wider column to land on the intended lines. */
   width?: string;
+}
+
+/** A role in the careers list. */
+export interface Opening {
+  title: string;
+  /** Logo shown on the row — a BrandIcon mark. */
+  brand: BrandName | TechName;
+  type: string;
+  /** Minimum experience; every role here is mid-to-senior. */
+  experience: string;
+  location: string;
+  /** The stack the role actually works in, shown on wider screens. */
+  stack: string[];
 }
 
 /** A card in the about page's "_how we work" row. */
@@ -155,7 +170,7 @@ export const site = {
   nav: {
     links: [
       { label: '_works', href: '/#works' },
-      { label: '_careers', href: '/#careers' },
+      { label: '_careers', href: '/careers' },
       { label: '_about', href: '/about' },
     ] satisfies NavLink[],
   },
@@ -483,6 +498,105 @@ export const site = {
         "we'd love to hear from you.",
       signature: '— The untitledbuild team',
       zoom: '100%',
+    },
+  },
+
+  /* ---- Careers page ---------------------------------------------------- */
+  careers: {
+    hero: {
+      headline: [
+        { text: 'We are' },
+        { text: 'hiring', box: true, chip: 'label' },
+      ] satisfies HeadlineRun[],
+      layerLabel: 'Header_h1',
+      techTag: 'Something techy',
+      cta: { label: 'Email Us', href: 'mailto:hello@untitledbuild.com' },
+      width: '30rem',
+    },
+    /* Mid-to-senior roles only — everything here asks for 3+ years, so the
+       list doubles as a signal about the level the studio hires at. */
+    openings: [
+      {
+        title: 'iOS Developer',
+        brand: 'apple',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['Swift', 'SwiftUI', 'Swift Concurrency'],
+      },
+      {
+        title: 'AI Engineer',
+        brand: 'openai',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['LLMs', 'RAG', 'Python'],
+      },
+      {
+        title: 'UI/UX Designer',
+        brand: 'figma',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['Figma', 'Design systems', 'Prototyping'],
+      },
+      {
+        title: 'Project Manager',
+        brand: 'jira',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['Agile', 'Delivery', 'Client comms'],
+      },
+      {
+        title: 'React Developer',
+        brand: 'react',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['React', 'TypeScript', 'Next.js'],
+      },
+      {
+        title: 'Node.js Backend Engineer',
+        brand: 'node',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['Node.js', 'PostgreSQL', 'REST / tRPC'],
+      },
+      {
+        title: 'Brand Designer',
+        brand: 'adobe',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['Identity', 'Motion', 'Art direction'],
+      },
+      {
+        title: 'AWS Cloud Engineer',
+        brand: 'aws',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['AWS', 'Terraform', 'Kubernetes'],
+      },
+    ] satisfies Opening[],
+    apply: {
+      title: 'Apply',
+      fields: {
+        name: { label: 'Name', placeholder: 'John Doe' },
+        email: { label: 'Email', placeholder: 'johndoe@mail.com' },
+        position: { label: 'Position' },
+        resume: { label: 'Resume' },
+      },
+      upload: {
+        action: 'Click to upload',
+        rest: 'or drag and drop',
+        hint: 'PDF, DOCX (max. 10 mb)',
+      },
+      submit: 'Submit',
+      success: "Application received — we'll be in touch.",
+      error: 'Something went wrong. Please email hello@untitledbuild.com.',
     },
   },
 

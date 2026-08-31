@@ -1,0 +1,145 @@
+---
+/**
+ * Apply dialog — the application form from the Figma, in a native <dialog>.
+ *
+ * <dialog>.showModal() is doing real work here: it traps focus, closes on Esc,
+ * makes the rest of the page inert and gives us ::backdrop — all things a
+ * hand-rolled modal usually gets wrong.
+ *
+ * Progressive enhancement: the dialog only opens via JS, so the form is not a
+ * no-JS path. `careers.astro` keeps a visible mailto: CTA in the hero for that
+ * case, and the fallback link at the foot of this form is always available.
+ */
+import Icon from '@components/primitives/Icon.astro';
+import { site, type Opening } from '@data/site';
+
+const { apply, openings } = site.careers;
+const roles = openings as unknown as Opening[];
+
+const label = 'block font-geist text-[0.8rem] tracking-tight text-name';
+const field =
+  'mt-[0.3rem] w-full rounded-[var(--radius-control)] border border-hairline-soft ' +
+  'bg-field px-[0.7rem] py-[0.5rem] font-geist text-[0.85rem] tracking-tight ' +
+  'text-name outline-none transition-colors duration-200 ' +
+  'placeholder:text-placeholder focus-visible:border-heading';
+---
+
+{/* m-auto restores the native modal centring — Tailwind's preflight zeroes the
+    UA margin:auto that a <dialog> relies on to centre itself. */}
+<dialog
+  data-apply-dialog
+  aria-labelledby="apply-title"
+  class="m-auto w-[min(24rem,calc(100vw-2rem))] rounded-[0.9rem] bg-card p-0 text-left shadow-[var(--shadow-tile-hero)] backdrop:bg-black/40"
+>
+  {/* window chrome */}
+  <div class="flex items-center gap-[0.6rem] px-[1rem] py-[0.7rem]">
+    <span class="flex shrink-0 gap-[0.28rem]" aria-hidden="true">
+      {Array.from({ length: 3 }).map(() => (
+        <span class="h-[0.42rem] w-[0.42rem] rounded-full bg-gray-300"></span>
+      ))}
+    </span>
+    <button
+      type="button"
+      class="ml-auto cursor-pointer rounded-[4px] p-[0.15rem] text-gray-500 transition-colors duration-200 hover:text-heading"
+      data-apply-close
+      aria-label="Close"
+    >
+      <Icon name="plus" size={15} class="rotate-45" stroke={2} />
+    </button>
+  </div>
+
+  <form class="px-[1.4rem] pb-[1.4rem]" data-apply-form novalidate>
+    <h2 id="apply-title" class="font-serif text-[1.5rem] leading-[1.2] tracking-serif text-heading">
+      {apply.title}
+    </h2>
+
+    <div class="mt-[1rem]">
+      <label class={label} for="ap-name">
+        {apply.fields.name.label} <span class="text-diff-del" aria-hidden="true">*</span>
+      </label>
+      <input
+        id="ap-name"
+        name="name"
+        type="text"
+        required
+        autocomplete="name"
+        placeholder={apply.fields.name.placeholder}
+        class={field}
+      />
+    </div>
+
+    <div class="mt-[0.8rem]">
+      <label class={label} for="ap-email">
+        {apply.fields.email.label} <span class="text-diff-del" aria-hidden="true">*</span>
+      </label>
+      <input
+        id="ap-email"
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        placeholder={apply.fields.email.placeholder}
+        class={field}
+      />
+    </div>
+
+    <div class="mt-[0.8rem]">
+      <label class={label} for="ap-position">
+        {apply.fields.position.label} <span class="text-diff-del" aria-hidden="true">*</span>
+      </label>
+      <select id="ap-position" name="position" required class={field}>
+        {roles.map((r) => <option value={r.title}>{r.title}</option>)}
+      </select>
+    </div>
+
+    <div class="mt-[0.8rem]">
+      <span class={label} id="ap-resume-label">
+        {apply.fields.resume.label} <span class="text-diff-del" aria-hidden="true">*</span>
+      </span>
+      {/* The <label> wraps the input so a click anywhere in the dropzone opens
+          the picker; the input stays in the a11y tree rather than display:none. */}
+      <label
+        class="mt-[0.3rem] flex cursor-pointer flex-col items-center gap-[0.35rem] rounded-[var(--radius-control)] border border-hairline-soft bg-field px-[0.8rem] py-[1rem] text-center transition-colors duration-200 hover:border-heading"
+        data-apply-drop
+      >
+        <input
+          id="ap-resume"
+          name="resume"
+          type="file"
+          required
+          accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          class="sr-only"
+        />
+        <span class="grid h-[1.9rem] w-[1.9rem] place-items-center rounded-full border border-hairline-soft bg-card text-gray-500" aria-hidden="true">
+          <Icon name="share" size={14} stroke={1.8} />
+        </span>
+        <span class="font-geist text-[0.78rem] tracking-tight text-body" data-apply-filename>
+          <span class="font-medium text-brand">{apply.upload.action}</span> {apply.upload.rest}
+        </span>
+        <span class="font-geist text-[0.7rem] tracking-tight text-muted">{apply.upload.hint}</span>
+      </label>
+    </div>
+
+    <p
+      class="mt-[0.7rem] hidden font-geist text-[0.78rem] leading-snug tracking-tight"
+      data-apply-status
+      role="status"
+      aria-live="polite"
+      data-success={apply.success}
+      data-error={apply.error}
+    >
+    </p>
+
+    <button
+      type="submit"
+      class="mt-[1rem] w-full cursor-pointer rounded-[var(--radius-control)] bg-ink py-[0.6rem] font-geist text-[0.85rem] font-medium tracking-tight text-white transition-colors duration-200 hover:bg-heading disabled:opacity-60"
+      data-submit-label={apply.submit}
+    >
+      {apply.submit}
+    </button>
+
+    <p class="mt-[0.7rem] text-center font-geist text-[0.72rem] tracking-tight text-muted">
+      Or email <a href={`mailto:${site.contactEmail}`} class="underline underline-offset-2 hover:text-heading">{site.contactEmail}</a>
+    </p>
+  </form>
+</dialog>
