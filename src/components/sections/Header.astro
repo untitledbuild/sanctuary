@@ -15,7 +15,9 @@ const isCurrent = (href: string) => href.startsWith('/') && href.replace(/\/+$/,
 
 <header class="relative z-30 py-[clamp(1rem,2vw,1.35rem)]">
   <div class="mx-auto flex w-full max-w-[var(--container)] items-center justify-between px-[var(--container-pad)]">
-    <a href="#top" aria-label={`${site.name} — home`} class="inline-block">
+    {/* The wordmark goes home from every page — an in-page #top anchor would
+        just scroll to the top of /works, /about or /careers. */}
+    <a href="/" aria-label={`${site.name} — home`} class="inline-block">
       <Wordmark class="text-[1.4rem]" />
     </a>
 
