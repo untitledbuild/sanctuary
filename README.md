@@ -70,7 +70,7 @@ src/
 │   └── sections/             # One component per page band
 │       ├── Header.astro  Hero.astro  Testimonial.astro  Footer.astro
 │       ├── Showcase.astro  Manifesto.astro  WhatWeBuild.astro   # home
-│       ├── People.astro  Story.astro
+│       ├── People.astro  Story.astro  Works.astro                 # work
 │       ├── HowWeWork.astro  FoundersNote.astro                  # about
 │       ├── ApplyDialog.astro                                    # careers
 │       ├── careers/          # the ten careers-only bands
@@ -82,6 +82,7 @@ src/
 │   └── apply.ts             # careers apply dialog + résumé upload
 └── pages/
     ├── index.astro          # home
+    ├── works.astro          # /works
     ├── about.astro          # /about
     └── careers.astro        # /careers
 
@@ -118,8 +119,9 @@ changes never touch markup.
 
 **Placeholders awaiting real assets** (clearly marked in the data/components):
 
-- **Showcase** — the three product frames render a "UI MOCKUP" panel until
-  `image` is set on a `showcase.items[]` entry in `site.ts`.
+- **Showcase / Work** — frames render a "UI MOCKUP" panel until `image` is set
+  on the `showcase.items[]` / `work.projects[]` entry in `site.ts`. Only Ovvy
+  has a real screenshot so far.
 - **Team portraits** — inconsistent backgrounds. Only `runanka.png` and
   `programmer.png` have alpha, so the pink `--color-portrait` disc shows through
   for those two; `bipratip.png` is yellow and `tyler.png` / `joud.JPG` carry

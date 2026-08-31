@@ -1,0 +1,31 @@
+---
+/**
+ * Work page — the hero, then one band per project.
+ *
+ * Reuses the shared Hero with the work copy; the project list itself lives in
+ * Works.astro and renders straight from `site.work.projects`, so adding a
+ * project is a data change.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/sections/Header.astro';
+import Hero from '@components/sections/Hero.astro';
+import Works from '@components/sections/Works.astro';
+import Footer from '@components/sections/Footer.astro';
+import HatchBand from '@components/primitives/HatchBand.astro';
+import { site, type HeroContent } from '@data/site';
+
+const hero = site.work.hero as unknown as HeroContent;
+---
+
+<BaseLayout
+  title={`Work — ${site.name}`}
+  description="A few of the products we've helped build — design and engineering work across real estate, sales, and internal tools."
+>
+  <Header />
+  <main>
+    <Hero content={hero} />
+    <HatchBand />
+    <Works />
+  </main>
+  <Footer />
+</BaseLayout>

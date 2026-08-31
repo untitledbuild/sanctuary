@@ -192,7 +192,7 @@ export const site = {
 
   nav: {
     links: [
-      { label: '_works', href: '/#works' },
+      { label: '_works', href: '/works' },
       { label: '_careers', href: '/careers' },
       { label: '_about', href: '/about' },
     ] satisfies NavLink[],
@@ -423,6 +423,23 @@ export const site = {
   work: {
     title: 'From whiteboard to production.',
     subtitle: 'Turning ideas into products people use.',
+
+    /* Hero for the /works page. */
+    hero: {
+      headline: [
+        { text: 'A few of the' },
+        { text: 'products', box: true, chip: 'label' },
+        { text: "we've helped build.", box: true, chip: 'tag', break: true },
+      ] satisfies HeadlineRun[],
+      subtitle:
+        'Design and engineering work across real estate, sales, and the ' +
+        'internal tools teams actually run on.',
+      layerLabel: 'Header_h1',
+      techTag: 'Something techy',
+      cta: { label: 'Collaborate', href: '#collaborate' },
+      width: '40rem',
+    },
+
     projects: [
       {
         title: 'Ovvy',
@@ -433,6 +450,18 @@ export const site = {
           { label: 'PostgreSQL', tone: 'orange' },
           { label: 'AWS', tone: 'pink' },
           { label: 'Stripe', tone: 'green' },
+        ],
+      },
+      {
+        title: 'AI Real Estate Listing Automation',
+        description:
+          'Turns raw listing input — documents, photos and agent notes — into ' +
+          'structured, publish-ready property records without the manual pass.',
+        tags: [
+          { label: 'OpenAI', tone: 'brand' },
+          { label: 'Python', tone: 'pink' },
+          { label: 'FastAPI', tone: 'green' },
+          { label: 'PostgreSQL', tone: 'orange' },
         ],
       },
       {

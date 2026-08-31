@@ -4,7 +4,7 @@ Guidance for working in this repo. Keep changes consistent with the conventions 
 
 ## What this is
 
-The **untitled build** marketing site (home, /about, /careers) — a fully **static** site
+The **untitled build** marketing site (home, /works, /about, /careers) — a fully **static** site
 (no runtime server) built from a Figma design and deployed to GitHub Pages /
 any CDN at `untitledbuild.com`.
 
@@ -46,6 +46,10 @@ Always run `npm run check` and `npm run build` before considering a change done.
 - **Sections** (`src/components/sections/`) — one component per page band.
   - **Home** ([`src/pages/index.astro`](src/pages/index.astro)): `Header`, `Hero`,
     `Testimonial`, `Showcase`, `Manifesto`, `WhatWeBuild`, `People`, `Story`, `Footer`.
+  - **Work** ([`src/pages/works.astro`](src/pages/works.astro)): `Header`, `Hero`
+    (work copy), `Works` — one band per `site.work.projects[]` entry, so adding
+    a project is a data change. Entries with no `image` render the same
+    placeholder frame the showcase band uses.
   - **About** ([`src/pages/about.astro`](src/pages/about.astro)): `Header`, `Hero`
     (about copy), `Story`, `HowWeWork`, `People`, `FoundersNote`, `Footer`.
   - **Careers** ([`src/pages/careers.astro`](src/pages/careers.astro)): `Header`,
@@ -57,7 +61,8 @@ Always run `npm run check` and `npm run build` before considering a change done.
     them and only this page uses them.
   - All three compose inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro),
     with `HatchBand` between bands.
-  - **Kept but no longer composed:** `AppDock`, `Whiteboard`, `TechLogos`, `Work`,
+  - **Kept but no longer composed:** `AppDock`, `Whiteboard`, `TechLogos`, `Work`
+    (the old home band — not to be confused with the new `Works` page section),
     `CallToAction`, `ContactForm`. They still type-check and still read their
     `site.ts` data — don't delete that data. The Supabase-wired `ContactForm` is
     the one to reinstate if the page needs a lead-gen path again.
