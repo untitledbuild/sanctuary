@@ -51,7 +51,7 @@ Always run `npm run check` and `npm run build` before considering a change done.
   - **Careers** ([`src/pages/careers.astro`](src/pages/careers.astro)): `Header`,
     `Hero` (careers copy), then the bands in
     `src/components/sections/careers/` — `CareersNav`, `CareersIntro`,
-    `LookFor`, `Divisions`, `WorkingModels`, `RemoteCulture`, `HowWeBuild`,
+    `LookFor`, `Teams`, `WorkingModels`, `RemoteCulture`, `HowWeBuild`,
     `ExperienceLevels`, `CandidateSignals`, `CareersCta` — plus `Footer` and
     `ApplyDialog`. They live in their own folder because the page has ten of
     them and only this page uses them.
@@ -87,13 +87,19 @@ Always run `npm run check` and `npm run build` before considering a change done.
   records the object key on the row — so a failed upload never files an
   application with no CV. Both scripts end in `export {}`: without a top-level
   import/export TS treats them as global scripts and their declarations collide.
-- **Careers content is division-shaped.** `site.careers.openings.divisions[]`
-  holds the roles; tech badges sit on the *division*, not the role, because a
-  division spans more technologies than any one role uses (the page says as
-  much). `ApplyDialog` flattens every division's roles into its position
-  select, behind an "introducing myself" option — a `[data-apply-open]` trigger
-  with no `data-position` resets to that rather than inheriting the last role.
-  Role detail is a native `<details>`, so it opens with JS off.
+- **Careers content is team-shaped.** `site.careers.openings.teams[]` holds the
+  roles; tech badges sit on the *team*, not the role, because a team spans more
+  technologies than any one role uses (the page says as much). `ApplyDialog`
+  flattens every team's roles into its position select, behind an "introducing
+  myself" option — a `[data-apply-open]` trigger with no `data-position` resets
+  to that rather than inheriting the last role. Role detail is a native
+  `<details>`, so it opens with JS off.
+- **Keep the careers list honest to headcount.** The studio is ~30 people, so
+  the page carries 5 teams and 8 roles, and says outright that anything not
+  listed isn't open. If you add roles, add them because they're real — a list
+  longer than the team is the fastest way to make the page read as fake. The
+  sub-nav anchors point at `#team-NN`, so renumbering teams means updating
+  `careers.nav` too.
 - **The apply modal is a native `<dialog>`** — `showModal()` gives focus
   trapping, Esc-to-close, background inertness and `::backdrop` for free. It
   needs `m-auto`, because Tailwind's preflight zeroes the UA `margin: auto` a

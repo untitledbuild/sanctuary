@@ -1,11 +1,11 @@
 ---
 /**
- * Open positions — seven divisions, each holding its roles.
+ * Open positions — the teams, each holding its open roles.
  *
  * Roles are the applyable unit, so each role is a real <button> that opens the
- * apply dialog with that title preselected. Tech badges sit on the division
- * rather than the role: a division spans more technologies than any one role
- * uses, and the page explicitly says you don't need all of them.
+ * apply dialog with that title preselected. Tech badges sit on the team rather
+ * than the role: a team spans more technologies than any one role uses, and
+ * the page explicitly says you don't need all of them.
  *
  * Role detail (level, focus, responsibilities) lives in a <details> so the list
  * stays scannable but the full description is one click away — and, because
@@ -13,10 +13,10 @@
  */
 import SectionHead from '@components/primitives/SectionHead.astro';
 import Icon from '@components/primitives/Icon.astro';
-import { site, type Division } from '@data/site';
+import { site, type Team } from '@data/site';
 
-const { label, title, body, divisions } = site.careers.openings;
-const items = divisions as unknown as Division[];
+const { label, title, body, teams } = site.careers.openings;
+const items = teams as unknown as Team[];
 ---
 
 <section id="openings" class="relative py-[clamp(2.5rem,5vw,4rem)]">
@@ -28,7 +28,7 @@ const items = divisions as unknown as Division[];
     <ul class="mt-[1.5rem] flex flex-col gap-[1.25rem]">
       {
         items.map((d) => (
-          <li id={`division-${d.index}`} class="scroll-mt-[5rem]" data-reveal>
+          <li id={`team-${d.index}`} class="scroll-mt-[5rem]" data-reveal>
             <article class="dashed-box rounded-[var(--radius-card)] bg-card/70 p-[1.1rem]">
               <header class="flex items-start gap-[0.9rem]">
                 <span

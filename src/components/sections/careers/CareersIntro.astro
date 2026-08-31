@@ -6,7 +6,7 @@
  */
 import { site } from '@data/site';
 
-const { title, body, lead, disciplines } = site.careers.intro;
+const { title, body, scale, lead, disciplines } = site.careers.intro;
 ---
 
 <section class="relative py-[clamp(2.5rem,5vw,4rem)]">
@@ -17,6 +17,9 @@ const { title, body, lead, disciplines } = site.careers.intro;
       </h2>
       <p class="mt-[0.9rem] max-w-[34rem] font-geist text-[0.95rem] leading-[1.6] tracking-tight text-body">
         {body}
+      </p>
+      <p class="mt-[0.7rem] max-w-[34rem] font-geist text-[0.95rem] leading-[1.6] tracking-tight text-body">
+        {scale}
       </p>
       <p class="mt-[1.4rem] font-geist text-[0.85rem] tracking-tight text-label">{lead}</p>
     </div>

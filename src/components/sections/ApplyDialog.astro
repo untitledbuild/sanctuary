@@ -11,13 +11,13 @@
  * case, and the fallback link at the foot of this form is always available.
  */
 import Icon from '@components/primitives/Icon.astro';
-import { site, type Division } from '@data/site';
+import { site, type Team } from '@data/site';
 
 const { apply } = site.careers;
-/* Flatten every division's roles into one list, prefixed by the open option so
-   a speculative "introduce yourself" application has somewhere to land. */
-const divisions = site.careers.openings.divisions as unknown as Division[];
-const roles = divisions.flatMap((d) => d.roles.map((r) => r.title));
+/* Flatten every team's roles into one list, prefixed by the open option so a
+   speculative "introduce yourself" application has somewhere to land. */
+const teams = site.careers.openings.teams as unknown as Team[];
+const roles = teams.flatMap((t) => t.roles.map((r) => r.title));
 
 const label = 'block font-geist text-[0.8rem] tracking-tight text-name';
 const field =
