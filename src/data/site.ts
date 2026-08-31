@@ -125,16 +125,22 @@ export interface HeroContent {
   width?: string;
 }
 
-/** A role in the careers list. */
+/**
+ * A practice area in the careers list. These are capability areas rather than
+ * single-tech job titles, so the row leads with its index instead of one
+ * arbitrary brand logo — the stack tags carry the technology detail.
+ */
 export interface Opening {
+  /** Two-digit ordinal shown in the row's tile. */
+  index: string;
   title: string;
-  /** Logo shown on the row — a BrandIcon mark. */
-  brand: BrandName | TechName;
+  /** What the candidate brings to the area. */
+  summary: string;
   type: string;
-  /** Minimum experience; every role here is mid-to-senior. */
+  /** Minimum experience; every area here is mid-to-senior. */
   experience: string;
   location: string;
-  /** The stack the role actually works in, shown on wider screens. */
+  /** The stack the area actually works in. */
   stack: string[];
 }
 
@@ -517,68 +523,113 @@ export const site = {
        list doubles as a signal about the level the studio hires at. */
     openings: [
       {
-        title: 'iOS Developer',
-        brand: 'apple',
+        index: '01',
+        title: 'AI & Agentic Engineering',
+        summary:
+          'AI agents, autonomous workflows, copilots and enterprise AI assistants.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['Swift', 'SwiftUI', 'Swift Concurrency'],
+        stack: ['OpenAI', 'Claude', 'Gemini', 'LangGraph', 'LangChain', 'MCP', 'Python', 'FastAPI'],
       },
       {
-        title: 'AI Engineer',
-        brand: 'openai',
+        index: '02',
+        title: 'AI-Native Product Engineering',
+        summary:
+          'Complete web, mobile, SaaS and enterprise product development.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['LLMs', 'RAG', 'Python'],
+        stack: ['Next.js', 'React', 'TypeScript', 'Python', 'FastAPI', 'Node.js', 'React Native'],
       },
       {
-        title: 'UI/UX Designer',
-        brand: 'figma',
+        index: '03',
+        title: 'Enterprise Software & Application Engineering',
+        summary:
+          'High-performance business applications, APIs, microservices and backend systems.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['Figma', 'Design systems', 'Prototyping'],
+        stack: ['Java', '.NET', 'Go', 'Python', 'Node.js', 'PostgreSQL', 'Redis', 'Kafka'],
       },
       {
-        title: 'Project Manager',
-        brand: 'jira',
+        index: '04',
+        title: 'AI Automation & Intelligent Operations',
+        summary:
+          'Automate sales, support, finance, HR, operations and customer workflows.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['Agile', 'Delivery', 'Client comms'],
+        stack: ['AI Agents', 'n8n', 'Temporal', 'Python', 'APIs', 'RPA', 'MCP'],
       },
       {
-        title: 'React Developer',
-        brand: 'react',
+        index: '05',
+        title: 'Data, Analytics & AI Intelligence',
+        summary:
+          'Data platforms, predictive analytics, BI and AI-powered decision systems.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['React', 'TypeScript', 'Next.js'],
+        stack: ['Python', 'SQL', 'Spark', 'Kafka', 'Databricks', 'Snowflake', 'BigQuery', 'Power BI'],
       },
       {
-        title: 'Node.js Backend Engineer',
-        brand: 'node',
+        index: '06',
+        title: 'Cloud, DevOps & Platform Engineering',
+        summary:
+          'Cloud architecture, scalable infrastructure, DevOps and AI/GPU infrastructure.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['Node.js', 'PostgreSQL', 'REST / tRPC'],
+        stack: ['AWS', 'Azure', 'GCP', 'Kubernetes', 'Docker', 'Terraform', 'GitHub Actions'],
       },
       {
-        title: 'Brand Designer',
-        brand: 'adobe',
+        index: '07',
+        title: 'Legacy Modernization & Digital Transformation',
+        summary:
+          'Transform legacy applications, databases and infrastructure into modern platforms.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['Identity', 'Motion', 'Art direction'],
+        stack: ['Java', '.NET', 'Python', 'React', 'Microservices', 'Kubernetes', 'Cloud'],
       },
       {
-        title: 'AWS Cloud Engineer',
-        brand: 'aws',
+        index: '08',
+        title: 'Cybersecurity & AI Security',
+        summary: 'Application, cloud, API, identity and AI-system security.',
         type: 'Full-time',
         experience: '3+ years',
         location: 'Remote',
-        stack: ['AWS', 'Terraform', 'Kubernetes'],
+        stack: ['Zero Trust', 'IAM', 'OAuth', 'SSO', 'SIEM', 'DevSecOps', 'AI Guardrails'],
+      },
+      {
+        index: '09',
+        title: 'Voice, Conversational & Experience AI',
+        summary:
+          'AI voice agents, customer-service systems and intelligent interfaces.',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['OpenAI Realtime', 'Gemini', 'ElevenLabs', 'Twilio', 'WebRTC', 'React'],
+      },
+      {
+        index: '10',
+        title: 'Digital Innovation & Emerging Technologies',
+        summary:
+          'Computer vision, IoT, digital twins, robotics and other advanced technology.',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['PyTorch', 'OpenCV', 'NVIDIA CUDA', 'IoT', 'MQTT', 'Edge AI', 'Digital Twins'],
+      },
+      {
+        index: '11',
+        title: 'Mobile Development Engineering',
+        summary:
+          'Native and cross-platform mobile apps, from first build to store release.',
+        type: 'Full-time',
+        experience: '3+ years',
+        location: 'Remote',
+        stack: ['Swift', 'SwiftUI', 'Kotlin', 'Jetpack Compose', 'React Native', 'Flutter', 'Fastlane'],
       },
     ] satisfies Opening[],
     apply: {
