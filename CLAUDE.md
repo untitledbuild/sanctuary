@@ -49,7 +49,12 @@ Always run `npm run check` and `npm run build` before considering a change done.
   - **About** ([`src/pages/about.astro`](src/pages/about.astro)): `Header`, `Hero`
     (about copy), `Story`, `HowWeWork`, `People`, `FoundersNote`, `Footer`.
   - **Careers** ([`src/pages/careers.astro`](src/pages/careers.astro)): `Header`,
-    `Hero` (careers copy, no subtitle), `Openings`, `Footer`, `ApplyDialog`.
+    `Hero` (careers copy), then the bands in
+    `src/components/sections/careers/` — `CareersNav`, `CareersIntro`,
+    `LookFor`, `Divisions`, `WorkingModels`, `RemoteCulture`, `HowWeBuild`,
+    `ExperienceLevels`, `CandidateSignals`, `CareersCta` — plus `Footer` and
+    `ApplyDialog`. They live in their own folder because the page has ten of
+    them and only this page uses them.
   - All three compose inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro),
     with `HatchBand` between bands.
   - **Kept but no longer composed:** `AppDock`, `Whiteboard`, `TechLogos`, `Work`,
@@ -60,8 +65,8 @@ Always run `npm run check` and `npm run build` before considering a change done.
   the default home copy. Its headline is an array of `HeadlineRun`s — each run
   optionally `box`ed (the dashed Figma-selection rectangle) with a `chip`, and
   optionally `break`ing the line above `sm`. `width` widens the column when a
-  longer headline needs it (boxed runs can't break mid-phrase), and `subtitle`
-  is optional (careers goes straight from headline to CTA).
+  longer headline needs it (boxed runs can't break mid-phrase); `subtitle` and
+  `secondaryCta` are both optional.
 - **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts):
   `data-reveal` reveals, `data-parallax` z-depth (front layers use a
   small/negative factor), the app-dock pop-in (`data-dock-dist`), sticky-note
@@ -82,6 +87,13 @@ Always run `npm run check` and `npm run build` before considering a change done.
   records the object key on the row — so a failed upload never files an
   application with no CV. Both scripts end in `export {}`: without a top-level
   import/export TS treats them as global scripts and their declarations collide.
+- **Careers content is division-shaped.** `site.careers.openings.divisions[]`
+  holds the roles; tech badges sit on the *division*, not the role, because a
+  division spans more technologies than any one role uses (the page says as
+  much). `ApplyDialog` flattens every division's roles into its position
+  select, behind an "introducing myself" option — a `[data-apply-open]` trigger
+  with no `data-position` resets to that rather than inheriting the last role.
+  Role detail is a native `<details>`, so it opens with JS off.
 - **The apply modal is a native `<dialog>`** — `showModal()` gives focus
   trapping, Esc-to-close, background inertness and `::backdrop` for free. It
   needs `m-auto`, because Tailwind's preflight zeroes the UA `margin: auto` a

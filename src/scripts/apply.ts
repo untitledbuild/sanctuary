@@ -51,7 +51,11 @@ function init(): void {
   document.querySelectorAll<HTMLElement>('[data-apply-open]').forEach((trigger) => {
     trigger.addEventListener('click', () => {
       const role = trigger.dataset.position;
-      if (role && position) position.value = role;
+      if (position) {
+        // A trigger with no role ("Introduce Yourself") resets to the open
+        // option rather than inheriting whatever was selected last time.
+        position.value = role ?? position.options[0]?.value ?? '';
+      }
       status?.classList.add('hidden');
       dialog.showModal();
     });

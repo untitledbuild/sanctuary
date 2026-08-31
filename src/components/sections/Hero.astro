@@ -17,7 +17,7 @@ interface Props {
 }
 /* `site` is `as const`, so widen back to the declared shape. */
 const { content = site.hero as unknown as HeroContent } = Astro.props;
-const { headline, subtitle, layerLabel, techTag, cta, width = '38rem' } = content;
+const { headline, subtitle, layerLabel, techTag, cta, secondaryCta, width = '38rem' } = content;
 const runs = headline as HeadlineRun[];
 
 const chip =
@@ -78,7 +78,10 @@ const chip =
     }
 
     <div
-      class:list={[subtitle ? 'mt-[clamp(1.25rem,2.5vw,1.75rem)]' : 'mt-[clamp(1.75rem,3.5vw,2.5rem)]']}
+      class:list={[
+        'flex flex-wrap items-center justify-center gap-[0.75rem]',
+        subtitle ? 'mt-[clamp(1.25rem,2.5vw,1.75rem)]' : 'mt-[clamp(1.75rem,3.5vw,2.5rem)]',
+      ]}
       data-reveal
       data-reveal-delay="0.16"
     >
@@ -94,6 +97,17 @@ const chip =
           <Icon name="chevron-down" size={13} class="-rotate-90" stroke={2.4} />
         </span>
       </a>
+
+      {
+        secondaryCta && (
+          <a
+            href={secondaryCta.href}
+            class="inline-flex items-center rounded-[var(--radius-field)] border border-hairline px-[0.95rem] py-[0.55rem] font-geist-mono text-[0.95rem] font-medium tracking-tighter text-heading transition-colors duration-200 hover:border-heading hover:bg-card"
+          >
+            {secondaryCta.label}
+          </a>
+        )
+      }
     </div>
   </div>
 </section>

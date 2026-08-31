@@ -1,0 +1,37 @@
+---
+/**
+ * "Work Your Way" — the engagement models, as a five-across card row that
+ * collapses to two and then one.
+ */
+import SectionHead from '@components/primitives/SectionHead.astro';
+import { site, type Trait } from '@data/site';
+
+const { label, title, models } = site.careers.working;
+const items = models as unknown as Trait[];
+---
+
+<section id="working" class="relative scroll-mt-[5rem] py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <SectionHead label={label} title={title} />
+
+    <div class="dashed-h -mx-[33px] mt-[1.5rem] hidden sm:block" aria-hidden="true"></div>
+
+    <ul class="mt-[1.5rem] grid grid-cols-1 gap-[0.8rem] sm:grid-cols-2 lg:grid-cols-3">
+      {
+        items.map((m, i) => (
+          <li data-reveal data-reveal-delay={(i % 3) * 0.06}>
+            <article
+              class="flex h-full flex-col rounded-[var(--radius-card)] border border-hairline-soft bg-card p-[1rem]"
+              data-tilt="6"
+            >
+              <h3 class="font-geist-mono text-[0.85rem] tracking-tighter text-heading">{m.title}</h3>
+              <p class="mt-[0.45rem] font-geist text-[0.82rem] leading-snug tracking-tight text-body">
+                {m.body}
+              </p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

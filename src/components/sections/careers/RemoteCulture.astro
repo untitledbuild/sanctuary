@@ -1,0 +1,29 @@
+---
+/**
+ * "Remote by Design" — the culture claims as a checked list. Deliberately
+ * scoped to how the team works; it makes no claim about hiring in any
+ * particular country.
+ */
+import SectionHead from '@components/primitives/SectionHead.astro';
+import Icon from '@components/primitives/Icon.astro';
+import { site } from '@data/site';
+
+const { label, title, body, points } = site.careers.remote;
+---
+
+<section id="remote" class="relative scroll-mt-[5rem] py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <SectionHead label={label} title={title} body={body} />
+
+    <ul class="mt-[1.5rem] grid grid-cols-1 gap-x-[1.5rem] gap-y-[0.55rem] sm:grid-cols-2" data-reveal>
+      {
+        points.map((p) => (
+          <li class="flex items-center gap-[0.55rem] border-b border-hairline-soft py-[0.5rem]">
+            <Icon name="check" size={14} class="shrink-0 text-check" stroke={2.4} />
+            <span class="font-geist text-[0.88rem] tracking-tight text-body">{p}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -65,13 +65,15 @@ src/
 │   │   ├── BlueprintGrid.astro   # dashed "construction grid" background
 │   │   ├── HatchBand.astro       # 45° hatch ribbon between bands
 │   │   ├── CapabilityMockup.astro# the 4 hand-built "what we build" UI mockups
+│   │   ├── SectionHead.astro     # mono label + serif title + lead
 │   │   └── StickyNote.astro  CollabCursor.astro  GridField.astro
 │   └── sections/             # One component per page band
 │       ├── Header.astro  Hero.astro  Testimonial.astro  Footer.astro
 │       ├── Showcase.astro  Manifesto.astro  WhatWeBuild.astro   # home
 │       ├── People.astro  Story.astro
 │       ├── HowWeWork.astro  FoundersNote.astro                  # about
-│       ├── Openings.astro  ApplyDialog.astro                    # careers
+│       ├── ApplyDialog.astro                                    # careers
+│       ├── careers/          # the ten careers-only bands
 │       └── AppDock.astro  Whiteboard.astro  TechLogos.astro     # kept, not composed
 │           Work.astro  CallToAction.astro  ContactForm.astro
 ├── scripts/

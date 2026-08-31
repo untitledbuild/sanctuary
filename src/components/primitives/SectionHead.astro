@@ -1,0 +1,42 @@
+---
+/**
+ * Standard band header: mono `_label`, serif title, optional lead paragraph.
+ * Repeated across the careers bands, so it lives here rather than being
+ * re-typed with slightly different sizes each time.
+ */
+interface Props {
+  label?: string;
+  title: string;
+  body?: string;
+  /** Centre the block (used by the closing CTA). */
+  center?: boolean;
+  class?: string;
+}
+const { label, title, body, center = false, class: className = '' } = Astro.props;
+---
+
+<header class:list={[center && 'text-center', className]} data-reveal>
+  {label && <p class="font-geist-mono text-[0.85rem] tracking-tighter text-label">{label}</p>}
+  <h2
+    class:list={[
+      'font-serif text-[clamp(1.6rem,3.6vw,2.05rem)] leading-[1.24] tracking-serif text-heading',
+      label && 'mt-[0.9rem]',
+      center && 'mx-auto',
+      !center && 'max-w-[32rem]',
+    ]}
+  >
+    {title}
+  </h2>
+  {
+    body && (
+      <p
+        class:list={[
+          'mt-[0.7rem] font-geist text-[0.95rem] leading-[1.6] tracking-tight text-body',
+          center ? 'mx-auto max-w-[34rem]' : 'max-w-[34rem]',
+        ]}
+      >
+        {body}
+      </p>
+    )
+  }
+</header>

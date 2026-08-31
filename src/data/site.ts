@@ -120,28 +120,46 @@ export interface HeroContent {
   layerLabel: string;
   techTag: string;
   cta: NavLink & { label: string };
+  /** Optional second, quieter action beside the primary one. */
+  secondaryCta?: NavLink & { label: string };
   /** Headline column width. Boxed runs can't break mid-phrase, so a longer
    *  headline needs a wider column to land on the intended lines. */
   width?: string;
 }
 
+/** One role inside a division. */
+export interface Role {
+  title: string;
+  level: string;
+  focus: string;
+  /** Bullet list rendered under "You will" in the role detail. */
+  responsibilities: string[];
+}
+
 /**
- * A practice area in the careers list. These are capability areas rather than
- * single-tech job titles, so the row leads with its index instead of one
- * arbitrary brand logo — the stack tags carry the technology detail.
+ * A technology division in the careers list. Divisions group roles; the tech
+ * badges belong to the division, since a division spans more technologies than
+ * any single role uses.
  */
-export interface Opening {
-  /** Two-digit ordinal shown in the row's tile. */
+export interface Division {
   index: string;
   title: string;
-  /** What the candidate brings to the area. */
   summary: string;
-  type: string;
-  /** Minimum experience; every area here is mid-to-senior. */
-  experience: string;
-  location: string;
-  /** The stack the area actually works in. */
-  stack: string[];
+  tech: string[];
+  roles: Role[];
+}
+
+/** A labelled item used by the "look for" / models / culture card rows. */
+export interface Trait {
+  title: string;
+  body: string;
+}
+
+/** A numbered step in the "How We Build" band. */
+export interface BuildStep {
+  index: string;
+  title: string;
+  body: string;
 }
 
 /** A card in the about page's "_how we work" row. */
@@ -509,129 +527,661 @@ export const site = {
 
   /* ---- Careers page ---------------------------------------------------- */
   careers: {
+    tagline: "Think deeply. Build boldly. Engineer what's next.",
+
     hero: {
       headline: [
-        { text: 'We are' },
-        { text: 'hiring', box: true, chip: 'label' },
+        { text: 'Great technology', box: true, chip: 'label' },
+        { text: 'starts with' },
+        { text: 'great people.', box: true, chip: 'tag', break: true },
       ] satisfies HeadlineRun[],
+      subtitle:
+        'We bring together exceptional engineers and builders to create ' +
+        'intelligent products, scalable platforms and technology that moves ' +
+        'businesses forward.',
       layerLabel: 'Header_h1',
       techTag: 'Something techy',
-      cta: { label: 'Email Us', href: 'mailto:hello@untitledbuild.com' },
-      width: '30rem',
+      cta: { label: 'Explore Opportunities', href: '#openings' },
+      secondaryCta: { label: 'Introduce Yourself', href: '#introduce' },
+      width: '44rem',
     },
-    /* Mid-to-senior roles only — everything here asks for 3+ years, so the
-       list doubles as a signal about the level the studio hires at. */
-    openings: [
-      {
-        index: '01',
-        title: 'AI & Agentic Engineering',
-        summary:
-          'AI agents, autonomous workflows, copilots and enterprise AI assistants.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['OpenAI', 'Claude', 'Gemini', 'LangGraph', 'LangChain', 'MCP', 'Python', 'FastAPI'],
+
+    /* In-page sub-nav. Anchors only — every target is a band on this page. */
+    nav: [
+      { label: 'Open Positions', href: '#openings' },
+      { label: 'Engineering', href: '#division-02' },
+      { label: 'Design', href: '#division-07' },
+      { label: 'AI & Data', href: '#division-01' },
+      { label: 'Cloud & Security', href: '#division-04' },
+      { label: 'Working Here', href: '#working' },
+      { label: 'Remote Culture', href: '#remote' },
+    ] satisfies NavLink[],
+
+    intro: {
+      title: 'Build What Comes Next.',
+      body:
+        'We are looking for brilliant engineers, designers, AI builders and ' +
+        'technology thinkers who want to solve ambitious problems and build ' +
+        'products that matter.',
+      lead: 'Join a remote-first engineering organization working across:',
+      disciplines: [
+        'AI', 'Product Engineering', 'Software', 'Mobile', 'Web',
+        'Cloud', 'Data', 'Security', 'UX', 'Advanced Computing',
+      ],
+    },
+
+    lookFor: {
+      label: '_what we look for',
+      title: 'We Look for Builders.',
+      body:
+        'We care more about how you think, learn and build than the number of ' +
+        'keywords on your résumé.',
+      traits: [
+        {
+          title: 'Deep Technical Thinking',
+          body: 'People who understand fundamentals and can solve difficult engineering problems.',
+        },
+        {
+          title: 'Product Mindset',
+          body: 'Engineers who understand that great software solves real customer problems.',
+        },
+        {
+          title: 'AI-Native Thinking',
+          body: 'People who actively explore AI, automation, agents and emerging technologies.',
+        },
+        {
+          title: 'Curiosity',
+          body: 'People who continuously learn and experiment with new technologies.',
+        },
+        {
+          title: 'Ownership',
+          body: 'People who take a problem from idea to architecture to implementation to production.',
+        },
+        {
+          title: 'Craft',
+          body: 'People who care about performance, security, usability, reliability and quality.',
+        },
+        {
+          title: 'Collaboration',
+          body: 'People who communicate clearly and work well across disciplines and time zones.',
+        },
+      ] satisfies Trait[],
+    },
+
+    openings: {
+      label: '_open positions',
+      title: 'Seven divisions. One engineering culture.',
+      body:
+        'Pick the division closest to your work — each lists the roles open ' +
+        'inside it. Not every role needs every technology listed.',
+      divisions: [
+        {
+          index: '01',
+          title: 'AI & Agentic Engineering',
+          summary: 'Production AI: agents, retrieval, and LLM systems that hold up under real use.',
+          tech: ['Python', 'FastAPI', 'OpenAI', 'Claude', 'Gemini', 'LangGraph', 'MCP', 'RAG', 'PyTorch', 'Hugging Face'],
+          roles: [
+            {
+              title: 'AI Engineer',
+              level: 'Mid – Senior',
+              focus: 'AI Agents · LLMs · RAG · Python · Production AI',
+              responsibilities: [
+                'Build production AI applications',
+                'Design agentic workflows',
+                'Integrate LLMs with enterprise systems',
+                'Build reliable RAG pipelines',
+                'Work with product and engineering teams',
+              ],
+            },
+            {
+              title: 'Machine Learning Engineer',
+              level: 'Mid – Senior',
+              focus: 'Training · Evaluation · Inference · MLOps',
+              responsibilities: [
+                'Train and fine-tune models against real data',
+                'Build evaluation harnesses that catch regressions',
+                'Take models from notebook to served endpoint',
+                'Monitor drift and model quality in production',
+              ],
+            },
+            {
+              title: 'Generative AI Engineer',
+              level: 'Mid – Senior',
+              focus: 'Multimodal · Prompt systems · Guardrails',
+              responsibilities: [
+                'Build multimodal generation features',
+                'Design prompt and context systems that scale',
+                'Add guardrails and quality checks around model output',
+              ],
+            },
+            {
+              title: 'AI Agent Engineer',
+              level: 'Mid – Senior',
+              focus: 'Tool use · Planning · Long-running workflows',
+              responsibilities: [
+                'Design agents that use tools reliably',
+                'Build durable, resumable workflows',
+                'Instrument agent runs so failures are debuggable',
+              ],
+            },
+            {
+              title: 'LLM Engineer',
+              level: 'Senior',
+              focus: 'Serving · Fine-tuning · Cost and latency',
+              responsibilities: [
+                'Serve models at production latency and cost',
+                'Fine-tune and distil for specific tasks',
+                'Own the evaluation story end to end',
+              ],
+            },
+            {
+              title: 'AI Solutions Architect',
+              level: 'Senior – Principal',
+              focus: 'Architecture · Integration · Enterprise AI',
+              responsibilities: [
+                'Shape AI architecture across client systems',
+                'Make build-vs-buy and model selection calls',
+                'Lead technical conversations with client teams',
+              ],
+            },
+          ],
+        },
+        {
+          index: '02',
+          title: 'Product & Software Engineering',
+          summary: 'The products themselves — web, SaaS and enterprise systems, built to last.',
+          tech: ['TypeScript', 'React', 'Next.js', 'Node.js', 'Python', 'Go', 'Java', '.NET', 'PostgreSQL'],
+          roles: [
+            {
+              title: 'Senior Software Engineer',
+              level: 'Senior',
+              focus: 'Full-stack · Architecture · Delivery',
+              responsibilities: [
+                'Own features from design through production',
+                'Make architectural decisions and document them',
+                'Raise the engineering bar through review and mentorship',
+              ],
+            },
+            {
+              title: 'Full-Stack Engineer',
+              level: 'Mid – Senior',
+              focus: 'TypeScript · React · Node.js · PostgreSQL',
+              responsibilities: [
+                'Build across the stack, from schema to interface',
+                'Ship iteratively with product and design',
+                'Keep the codebase understandable as it grows',
+              ],
+            },
+            {
+              title: 'Backend Engineer',
+              level: 'Mid – Senior',
+              focus: 'APIs · Data modelling · Performance',
+              responsibilities: [
+                'Design APIs other teams enjoy consuming',
+                'Model data for correctness and speed',
+                'Diagnose and fix production performance problems',
+              ],
+            },
+            {
+              title: 'Frontend Engineer',
+              level: 'Mid – Senior',
+              focus: 'React · Next.js · Accessibility · Performance',
+              responsibilities: [
+                'Build interfaces that stay fast on real devices',
+                'Work from design systems and contribute back to them',
+                'Own accessibility as a requirement, not a pass at the end',
+              ],
+            },
+            {
+              title: 'Software Architect',
+              level: 'Senior – Principal',
+              focus: 'System design · Trade-offs · Technical direction',
+              responsibilities: [
+                'Set architecture across services and teams',
+                'Make and defend trade-offs in writing',
+                'Keep systems simple as requirements multiply',
+              ],
+            },
+            {
+              title: 'Product Engineer',
+              level: 'Mid – Senior',
+              focus: 'Product thinking · Rapid iteration',
+              responsibilities: [
+                'Turn ambiguous problems into shipped features',
+                'Talk to users and act on what you hear',
+                'Prototype quickly, then harden what works',
+              ],
+            },
+          ],
+        },
+        {
+          index: '03',
+          title: 'Mobile Engineering',
+          summary: 'Native and cross-platform apps, from first build through store release.',
+          tech: ['React Native', 'Flutter', 'Swift', 'SwiftUI', 'Kotlin', 'Jetpack Compose', 'TypeScript'],
+          roles: [
+            {
+              title: 'React Native Engineer',
+              level: 'Mid – Senior',
+              focus: 'React Native · TypeScript · Native modules',
+              responsibilities: [
+                'Ship cross-platform apps that feel native',
+                'Bridge to native modules where it matters',
+                'Own release pipelines to both stores',
+              ],
+            },
+            {
+              title: 'Flutter Engineer',
+              level: 'Mid – Senior',
+              focus: 'Flutter · Dart · Cross-platform UI',
+              responsibilities: [
+                'Build Flutter apps with a consistent design language',
+                'Tune rendering and startup performance',
+                'Integrate platform channels and native SDKs',
+              ],
+            },
+            {
+              title: 'iOS Engineer',
+              level: 'Mid – Senior',
+              focus: 'Swift · SwiftUI · Swift Concurrency',
+              responsibilities: [
+                'Build iOS apps in modern Swift and SwiftUI',
+                'Use structured concurrency correctly',
+                'Own App Store submission and release health',
+              ],
+            },
+            {
+              title: 'Android Engineer',
+              level: 'Mid – Senior',
+              focus: 'Kotlin · Jetpack Compose · Coroutines',
+              responsibilities: [
+                'Build Android apps in Kotlin and Compose',
+                'Handle the real fragmentation of the device landscape',
+                'Own Play Store release and crash-free rates',
+              ],
+            },
+            {
+              title: 'Mobile Architect',
+              level: 'Senior – Principal',
+              focus: 'Cross-platform strategy · Offline · Release',
+              responsibilities: [
+                'Set mobile architecture across platforms',
+                'Design offline-first and sync behaviour',
+                'Own the release and observability strategy',
+              ],
+            },
+          ],
+        },
+        {
+          index: '04',
+          title: 'Cloud, Platform & Computing',
+          summary: 'The infrastructure everything else runs on, including AI and GPU workloads.',
+          tech: ['AWS', 'Azure', 'GCP', 'Kubernetes', 'Docker', 'Terraform', 'Linux', 'CI/CD', 'GPU/CUDA'],
+          roles: [
+            {
+              title: 'Cloud Engineer',
+              level: 'Mid – Senior',
+              focus: 'AWS · Azure · GCP · Terraform',
+              responsibilities: [
+                'Build and maintain cloud infrastructure as code',
+                'Design for cost as well as capability',
+                'Automate the things people currently do by hand',
+              ],
+            },
+            {
+              title: 'DevOps Engineer',
+              level: 'Mid – Senior',
+              focus: 'CI/CD · Automation · Developer experience',
+              responsibilities: [
+                'Build pipelines engineers trust',
+                'Shorten the path from commit to production',
+                'Make the safe thing the easy thing',
+              ],
+            },
+            {
+              title: 'Platform Engineer',
+              level: 'Mid – Senior',
+              focus: 'Kubernetes · Internal platforms · Tooling',
+              responsibilities: [
+                'Build the platform other engineers build on',
+                'Run Kubernetes without it running you',
+                'Treat internal tooling as a product',
+              ],
+            },
+            {
+              title: 'Site Reliability Engineer',
+              level: 'Mid – Senior',
+              focus: 'Observability · Incidents · SLOs',
+              responsibilities: [
+                'Define and defend service level objectives',
+                'Lead incident response and write honest postmortems',
+                'Instrument systems so problems surface early',
+              ],
+            },
+            {
+              title: 'Cloud Architect',
+              level: 'Senior – Principal',
+              focus: 'Multi-cloud · Security · Cost architecture',
+              responsibilities: [
+                'Design cloud architecture across environments',
+                'Balance security, resilience and cost deliberately',
+                'Guide migrations without stopping delivery',
+              ],
+            },
+            {
+              title: 'AI/GPU Infrastructure Engineer',
+              level: 'Senior',
+              focus: 'CUDA · GPU scheduling · Inference infrastructure',
+              responsibilities: [
+                'Run GPU fleets efficiently',
+                'Optimise inference throughput and cost',
+                'Build the substrate model workloads depend on',
+              ],
+            },
+          ],
+        },
+        {
+          index: '05',
+          title: 'Data & Intelligent Systems',
+          summary: 'Pipelines, warehouses and the analytics that turn data into decisions.',
+          tech: ['Python', 'SQL', 'Kafka', 'Spark', 'Snowflake', 'Databricks', 'BigQuery', 'PostgreSQL'],
+          roles: [
+            {
+              title: 'Data Engineer',
+              level: 'Mid – Senior',
+              focus: 'Pipelines · Streaming · Warehousing',
+              responsibilities: [
+                'Build pipelines that survive bad input',
+                'Model warehouses analysts can actually use',
+                'Own data quality and freshness',
+              ],
+            },
+            {
+              title: 'Analytics Engineer',
+              level: 'Mid – Senior',
+              focus: 'SQL · Modelling · BI',
+              responsibilities: [
+                'Turn raw tables into trustworthy models',
+                'Build metrics definitions the business agrees on',
+                'Make analysis reproducible',
+              ],
+            },
+            {
+              title: 'Data Scientist',
+              level: 'Mid – Senior',
+              focus: 'Statistics · Experimentation · Prediction',
+              responsibilities: [
+                'Frame business questions as answerable ones',
+                'Design experiments and read them honestly',
+                'Build predictive models that ship',
+              ],
+            },
+            {
+              title: 'ML Engineer',
+              level: 'Mid – Senior',
+              focus: 'Feature pipelines · Serving · Monitoring',
+              responsibilities: [
+                'Productionise models and the data feeding them',
+                'Build feature pipelines that match training and serving',
+                'Monitor model behaviour after launch',
+              ],
+            },
+            {
+              title: 'Data Architect',
+              level: 'Senior – Principal',
+              focus: 'Platform design · Governance · Scale',
+              responsibilities: [
+                'Design the data platform end to end',
+                'Set governance that helps rather than blocks',
+                'Plan for scale before it arrives',
+              ],
+            },
+          ],
+        },
+        {
+          index: '06',
+          title: 'Cybersecurity, Quality & Reliability',
+          summary: 'Security, testing and reliability treated as engineering, not paperwork.',
+          tech: ['IAM', 'Zero Trust', 'OAuth/OIDC', 'SIEM', 'DevSecOps', 'Kubernetes Security', 'OpenTelemetry'],
+          roles: [
+            {
+              title: 'Security Engineer',
+              level: 'Mid – Senior',
+              focus: 'Threat modelling · Hardening · Response',
+              responsibilities: [
+                'Threat-model systems before they ship',
+                'Harden infrastructure and applications',
+                'Lead response when something goes wrong',
+              ],
+            },
+            {
+              title: 'Application Security Engineer',
+              level: 'Mid – Senior',
+              focus: 'AppSec · Code review · SDLC',
+              responsibilities: [
+                'Review code and designs for security flaws',
+                'Build security into the development lifecycle',
+                'Teach engineers to find their own bugs',
+              ],
+            },
+            {
+              title: 'Cloud Security Engineer',
+              level: 'Mid – Senior',
+              focus: 'IAM · Zero Trust · Cloud posture',
+              responsibilities: [
+                'Design least-privilege access across cloud accounts',
+                'Monitor and remediate cloud posture',
+                'Secure Kubernetes and CI/CD supply chains',
+              ],
+            },
+            {
+              title: 'DevSecOps Engineer',
+              level: 'Mid – Senior',
+              focus: 'Pipeline security · Scanning · Supply chain',
+              responsibilities: [
+                'Put security checks in the pipeline, not after it',
+                'Own dependency and supply-chain risk',
+                'Keep signal high and false positives low',
+              ],
+            },
+            {
+              title: 'QA Automation Engineer',
+              level: 'Mid – Senior',
+              focus: 'Test automation · CI · Coverage that matters',
+              responsibilities: [
+                'Build test suites engineers trust and keep green',
+                'Automate the checks that actually catch regressions',
+                'Make failures easy to diagnose',
+              ],
+            },
+            {
+              title: 'Performance Engineer',
+              level: 'Mid – Senior',
+              focus: 'Profiling · Load testing · Optimisation',
+              responsibilities: [
+                'Profile systems and find the real bottleneck',
+                'Design load tests that reflect reality',
+                'Turn measurements into shipped improvements',
+              ],
+            },
+            {
+              title: 'Site Reliability Engineer',
+              level: 'Mid – Senior',
+              focus: 'SLOs · Observability · Resilience',
+              responsibilities: [
+                'Make reliability measurable',
+                'Build observability into systems from the start',
+                'Reduce toil through automation',
+              ],
+            },
+          ],
+        },
+        {
+          index: '07',
+          title: 'UI/UX & Product Design',
+          summary: 'Design that ships — systems, prototypes and interfaces built with engineering.',
+          tech: ['Figma', 'Design Systems', 'Prototyping', 'React', 'Next.js', 'Accessibility', 'Motion'],
+          roles: [
+            {
+              title: 'Product Designer',
+              level: 'Mid – Senior',
+              focus: 'Product thinking · Interaction · Craft',
+              responsibilities: [
+                'Own product design from problem to shipped screen',
+                'Work directly with engineers, not over a wall',
+                'Defend decisions with reasoning and evidence',
+              ],
+            },
+            {
+              title: 'UI/UX Designer',
+              level: 'Mid – Senior',
+              focus: 'Interface design · Systems · Prototyping',
+              responsibilities: [
+                'Design interfaces people can use without a manual',
+                'Build and maintain design systems',
+                'Prototype interactions before they are built',
+              ],
+            },
+            {
+              title: 'UX Researcher',
+              level: 'Mid – Senior',
+              focus: 'Research · Usability · Synthesis',
+              responsibilities: [
+                'Plan and run research that changes decisions',
+                'Synthesise findings into something actionable',
+                'Bring real user evidence into the room',
+              ],
+            },
+            {
+              title: 'Design Systems Designer',
+              level: 'Mid – Senior',
+              focus: 'Tokens · Components · Documentation',
+              responsibilities: [
+                'Own the token and component layer',
+                'Document intent, not just appearance',
+                'Keep design and code in sync',
+              ],
+            },
+            {
+              title: 'Design Engineer',
+              level: 'Mid – Senior',
+              focus: 'React · Motion · Design implementation',
+              responsibilities: [
+                'Build the interfaces you design',
+                'Own motion and interaction detail in code',
+                'Close the gap between Figma and production',
+              ],
+            },
+            {
+              title: 'Creative Technologist',
+              level: 'Mid – Senior',
+              focus: 'Prototyping · Emerging tech · Experimentation',
+              responsibilities: [
+                'Prototype ideas nobody has built yet',
+                'Explore new technology and report back honestly',
+                'Make abstract concepts tangible',
+              ],
+            },
+          ],
+        },
+      ] satisfies Division[],
+    },
+
+    working: {
+      label: '_working models',
+      title: 'Work Your Way.',
+      models: [
+        { title: 'Full-Time', body: 'Join the core team and work on long-term products and technology.' },
+        { title: 'Part-Time', body: 'Contribute specialized expertise with flexible commitments.' },
+        { title: 'Remote', body: 'Work from wherever you do your best work, with a distributed engineering culture.' },
+        { title: 'Contract / Project', body: 'Join specific high-impact projects where your expertise is needed.' },
+        { title: 'Fractional / Advisory', body: 'Experienced architects and technology leaders can contribute at a strategic level.' },
+      ] satisfies Trait[],
+    },
+
+    remote: {
+      label: '_remote culture',
+      title: 'Remote by Design.',
+      body: "Great engineers don't need to sit in the same building to build great things together.",
+      points: [
+        'Remote-first collaboration',
+        'Async communication',
+        'Flexible working hours',
+        'Global engineering teams',
+        'Modern collaboration tools',
+        'Documentation-first culture',
+        'Results over hours online',
+        'Trust and ownership',
+      ],
+    },
+
+    howWeBuild: {
+      label: '_how we build',
+      title: 'Think deeply. Build simply. Ship continuously.',
+      steps: [
+        { index: '01', title: 'Understand', body: 'Start with the problem, not the technology.' },
+        { index: '02', title: 'Explore', body: 'Research, prototype and challenge assumptions.' },
+        { index: '03', title: 'Engineer', body: 'Build secure, maintainable and scalable systems.' },
+        { index: '04', title: 'Ship', body: 'Move from prototype to production quickly.' },
+        { index: '05', title: 'Measure', body: 'Learn from real users and real-world performance.' },
+        { index: '06', title: 'Improve', body: 'Continuously refine the product and the technology.' },
+      ] satisfies BuildStep[],
+    },
+
+    levels: {
+      label: '_experience levels',
+      title: 'We hire at every level.',
+      body:
+        'Strong fundamentals matter more than years served. These are the levels ' +
+        'we hire into across every division.',
+      items: [
+        'Intern / Apprentice',
+        'Junior Engineer',
+        'Mid-Level Engineer',
+        'Senior Engineer',
+        'Staff Engineer',
+        'Principal Engineer',
+        'Architect',
+        'Technology Lead',
+      ],
+      exceptional: {
+        title: 'Exceptional Talent',
+        body:
+          "Don't see your role? If you're exceptionally good at what you do, " +
+          'introduce yourself.',
+        cta: 'Introduce Yourself',
       },
-      {
-        index: '02',
-        title: 'AI-Native Product Engineering',
-        summary:
-          'Complete web, mobile, SaaS and enterprise product development.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['Next.js', 'React', 'TypeScript', 'Python', 'FastAPI', 'Node.js', 'React Native'],
-      },
-      {
-        index: '03',
-        title: 'Enterprise Software & Application Engineering',
-        summary:
-          'High-performance business applications, APIs, microservices and backend systems.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['Java', '.NET', 'Go', 'Python', 'Node.js', 'PostgreSQL', 'Redis', 'Kafka'],
-      },
-      {
-        index: '04',
-        title: 'AI Automation & Intelligent Operations',
-        summary:
-          'Automate sales, support, finance, HR, operations and customer workflows.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['AI Agents', 'n8n', 'Temporal', 'Python', 'APIs', 'RPA', 'MCP'],
-      },
-      {
-        index: '05',
-        title: 'Data, Analytics & AI Intelligence',
-        summary:
-          'Data platforms, predictive analytics, BI and AI-powered decision systems.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['Python', 'SQL', 'Spark', 'Kafka', 'Databricks', 'Snowflake', 'BigQuery', 'Power BI'],
-      },
-      {
-        index: '06',
-        title: 'Cloud, DevOps & Platform Engineering',
-        summary:
-          'Cloud architecture, scalable infrastructure, DevOps and AI/GPU infrastructure.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['AWS', 'Azure', 'GCP', 'Kubernetes', 'Docker', 'Terraform', 'GitHub Actions'],
-      },
-      {
-        index: '07',
-        title: 'Legacy Modernization & Digital Transformation',
-        summary:
-          'Transform legacy applications, databases and infrastructure into modern platforms.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['Java', '.NET', 'Python', 'React', 'Microservices', 'Kubernetes', 'Cloud'],
-      },
-      {
-        index: '08',
-        title: 'Cybersecurity & AI Security',
-        summary: 'Application, cloud, API, identity and AI-system security.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['Zero Trust', 'IAM', 'OAuth', 'SSO', 'SIEM', 'DevSecOps', 'AI Guardrails'],
-      },
-      {
-        index: '09',
-        title: 'Voice, Conversational & Experience AI',
-        summary:
-          'AI voice agents, customer-service systems and intelligent interfaces.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['OpenAI Realtime', 'Gemini', 'ElevenLabs', 'Twilio', 'WebRTC', 'React'],
-      },
-      {
-        index: '10',
-        title: 'Digital Innovation & Emerging Technologies',
-        summary:
-          'Computer vision, IoT, digital twins, robotics and other advanced technology.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['PyTorch', 'OpenCV', 'NVIDIA CUDA', 'IoT', 'MQTT', 'Edge AI', 'Digital Twins'],
-      },
-      {
-        index: '11',
-        title: 'Mobile Development Engineering',
-        summary:
-          'Native and cross-platform mobile apps, from first build to store release.',
-        type: 'Full-time',
-        experience: '3+ years',
-        location: 'Remote',
-        stack: ['Swift', 'SwiftUI', 'Kotlin', 'Jetpack Compose', 'React Native', 'Flutter', 'Fastlane'],
-      },
-    ] satisfies Opening[],
+    },
+
+    signals: {
+      label: '_what makes a great candidate',
+      title: "You Don't Need Every Skill.",
+      body:
+        'Technology changes quickly. We value strong fundamentals, curiosity and ' +
+        'the ability to learn. You may be a great candidate if you show:',
+      items: [
+        'Strong computer science fundamentals',
+        'Excellent problem solving',
+        'Ability to learn quickly',
+        'Strong engineering judgment',
+        'Open-source contributions',
+        'Interesting personal projects',
+        'Technical writing',
+        'Research or experimentation',
+        'Product thinking',
+        'Strong communication',
+      ],
+    },
+
+    closing: {
+      title: 'Build the Future With Us.',
+      body:
+        "If you're the kind of person who looks at a difficult problem and wants " +
+        "to understand how to solve it, we'd like to meet you.",
+      cta: { label: 'Explore Open Roles', href: '#openings' },
+      secondaryCta: { label: 'Introduce Yourself', href: '#introduce' },
+    },
+
     apply: {
       title: 'Apply',
       fields: {
@@ -640,6 +1190,8 @@ export const site = {
         position: { label: 'Position' },
         resume: { label: 'Resume' },
       },
+      /** Shown first in the position list for speculative applications. */
+      openOption: 'Introducing myself — no specific role',
       upload: {
         action: 'Click to upload',
         rest: 'or drag and drop',

@@ -1,0 +1,117 @@
+---
+/**
+ * Open positions — seven divisions, each holding its roles.
+ *
+ * Roles are the applyable unit, so each role is a real <button> that opens the
+ * apply dialog with that title preselected. Tech badges sit on the division
+ * rather than the role: a division spans more technologies than any one role
+ * uses, and the page explicitly says you don't need all of them.
+ *
+ * Role detail (level, focus, responsibilities) lives in a <details> so the list
+ * stays scannable but the full description is one click away — and, because
+ * it's native <details>, it works with JS off and is keyboard-operable.
+ */
+import SectionHead from '@components/primitives/SectionHead.astro';
+import Icon from '@components/primitives/Icon.astro';
+import { site, type Division } from '@data/site';
+
+const { label, title, body, divisions } = site.careers.openings;
+const items = divisions as unknown as Division[];
+---
+
+<section id="openings" class="relative py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <SectionHead label={label} title={title} body={body} />
+
+    <div class="dashed-h -mx-[33px] mt-[1.5rem] hidden sm:block" aria-hidden="true"></div>
+
+    <ul class="mt-[1.5rem] flex flex-col gap-[1.25rem]">
+      {
+        items.map((d) => (
+          <li id={`division-${d.index}`} class="scroll-mt-[5rem]" data-reveal>
+            <article class="dashed-box rounded-[var(--radius-card)] bg-card/70 p-[1.1rem]">
+              <header class="flex items-start gap-[0.9rem]">
+                <span
+                  class="grid h-[2.4rem] w-[2.4rem] shrink-0 place-items-center rounded-[var(--radius-control)] border border-hairline-soft bg-card font-geist-mono text-[0.85rem] tracking-tighter text-label"
+                  aria-hidden="true"
+                >
+                  {d.index}
+                </span>
+                <div class="min-w-0">
+                  <h3 class="font-serif text-[1.25rem] leading-[1.25] tracking-serif text-heading">
+                    {d.title}
+                  </h3>
+                  <p class="mt-[0.2rem] font-geist text-[0.85rem] leading-snug tracking-tight text-body">
+                    {d.summary}
+                  </p>
+                </div>
+              </header>
+
+              <ul class="mt-[0.8rem] flex flex-wrap gap-[0.3rem] pl-[3.3rem]">
+                {d.tech.map((t) => (
+                  <li class="rounded-[3px] bg-plate px-[0.4rem] py-[0.1rem] font-geist-mono text-[0.65rem] tracking-tighter text-faint">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+
+              <ul class="mt-[1rem] flex flex-col gap-[0.5rem] pl-[3.3rem]">
+                {d.roles.map((r) => (
+                  <li>
+                    <details class="group/role rounded-[var(--radius-control)] border border-hairline-soft bg-card">
+                      <summary class="flex cursor-pointer list-none items-center gap-[0.6rem] px-[0.8rem] py-[0.6rem] [&::-webkit-details-marker]:hidden">
+                        <span class="min-w-0 flex-1">
+                          <span class="block font-geist text-[0.95rem] font-medium tracking-tight text-name">
+                            {r.title}
+                          </span>
+                          <span class="mt-[0.1rem] block font-geist text-[0.78rem] tracking-tight text-label">
+                            Remote · Full-Time · {r.level}
+                          </span>
+                        </span>
+                        <span
+                          class="shrink-0 text-gray-400 transition-transform duration-200 group-open/role:rotate-180"
+                          aria-hidden="true"
+                        >
+                          <Icon name="chevron-down" size={16} stroke={2} />
+                        </span>
+                      </summary>
+
+                      <div class="border-t border-hairline-soft px-[0.8rem] py-[0.7rem]">
+                        <p class="font-geist-mono text-[0.72rem] leading-relaxed tracking-tighter text-faint">
+                          Focus: {r.focus}
+                        </p>
+                        <p class="mt-[0.6rem] font-geist text-[0.8rem] font-medium tracking-tight text-name">
+                          You will
+                        </p>
+                        <ul class="mt-[0.25rem] flex flex-col gap-[0.15rem]">
+                          {r.responsibilities.map((item) => (
+                            <li class="flex gap-[0.45rem] font-geist text-[0.82rem] leading-snug tracking-tight text-body">
+                              <span class="text-gray-400" aria-hidden="true">
+                                —
+                              </span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <button
+                          type="button"
+                          class="mt-[0.8rem] inline-flex cursor-pointer items-center gap-[0.45rem] rounded-[var(--radius-control)] bg-ink px-[0.8rem] py-[0.4rem] font-geist text-[0.8rem] font-medium tracking-tight text-white transition-colors duration-200 hover:bg-heading"
+                          data-apply-open
+                          data-position={r.title}
+                        >
+                          View Role
+                          <Icon name="chevron-down" size={13} class="-rotate-90" stroke={2.2} />
+                          <span class="sr-only">— apply for {r.title}</span>
+                        </button>
+                      </div>
+                    </details>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

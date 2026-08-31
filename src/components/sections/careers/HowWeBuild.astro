@@ -1,0 +1,37 @@
+---
+/**
+ * "How We Build" — the six-step loop, numbered and connected by the dashed
+ * rules so it reads as a sequence rather than six unrelated cards.
+ */
+import SectionHead from '@components/primitives/SectionHead.astro';
+import { site, type BuildStep } from '@data/site';
+
+const { label, title, steps } = site.careers.howWeBuild;
+const items = steps as unknown as BuildStep[];
+---
+
+<section id="how-we-build" class="relative scroll-mt-[5rem] py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <SectionHead label={label} title={title} />
+
+    <ol class="mt-[1.5rem] grid grid-cols-1 gap-0 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        items.map((s, i) => (
+          <li
+            class="flex flex-col gap-[0.35rem] border-t border-hairline-soft py-[1rem] pr-[1rem]"
+            data-reveal
+            data-reveal-delay={(i % 3) * 0.06}
+          >
+            <span class="font-geist-mono text-[0.75rem] tracking-tighter text-label" aria-hidden="true">
+              {s.index}
+            </span>
+            <h3 class="font-serif text-[1.15rem] leading-[1.2] tracking-serif text-heading">
+              <span class="sr-only">Step {s.index}: </span>{s.title}
+            </h3>
+            <p class="font-geist text-[0.85rem] leading-snug tracking-tight text-body">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -11,10 +11,13 @@
  * case, and the fallback link at the foot of this form is always available.
  */
 import Icon from '@components/primitives/Icon.astro';
-import { site, type Opening } from '@data/site';
+import { site, type Division } from '@data/site';
 
-const { apply, openings } = site.careers;
-const roles = openings as unknown as Opening[];
+const { apply } = site.careers;
+/* Flatten every division's roles into one list, prefixed by the open option so
+   a speculative "introduce yourself" application has somewhere to land. */
+const divisions = site.careers.openings.divisions as unknown as Division[];
+const roles = divisions.flatMap((d) => d.roles.map((r) => r.title));
 
 const label = 'block font-geist text-[0.8rem] tracking-tight text-name';
 const field =
@@ -88,7 +91,8 @@ const field =
         {apply.fields.position.label} <span class="text-diff-del" aria-hidden="true">*</span>
       </label>
       <select id="ap-position" name="position" required class={field}>
-        {roles.map((r) => <option value={r.title}>{r.title}</option>)}
+        <option value={apply.openOption}>{apply.openOption}</option>
+        {roles.map((r) => <option value={r}>{r}</option>)}
       </select>
     </div>
 
