@@ -1,14 +1,14 @@
 ---
 /**
- * Founder's note — the closing message shown as a handwritten page inside an
- * app window: chrome on top, dotted "paper" holding Caveat text, and a zoom
- * bar along the bottom. All the chrome is decorative; only the note itself is
- * exposed to assistive tech.
+ * Founder's note — the closing message shown as a handwritten page inside a
+ * document card: the same restrained window-chrome + doc-title treatment as
+ * Story.astro, holding Caveat text instead of prose. All the chrome is
+ * decorative; only the note itself is exposed to assistive tech.
  */
 import Icon from '@components/primitives/Icon.astro';
 import { site } from '@data/site';
 
-const { docTitle, body, signature, zoom } = site.about.foundersNote;
+const { docTitle, body, signature } = site.about.foundersNote;
 
 /* Faint dot grid, the same motif the hero frame uses. */
 const paper =
@@ -25,25 +25,17 @@ const paper =
       class="overflow-hidden rounded-[0.9rem] bg-card shadow-[var(--shadow-tile-hero)]"
       data-tilt="5"
     >
-      {/* window chrome */}
-      <div class="flex items-center gap-[0.55rem] px-[0.9rem] py-[0.65rem]" aria-hidden="true">
+      {/* window chrome — same density as Story.astro's document card */}
+      <div class="flex items-center gap-[0.6rem] px-[1rem] py-[0.7rem]" aria-hidden="true">
         <span class="flex shrink-0 gap-[0.28rem]">
           {Array.from({ length: 3 }).map(() => (
             <span class="h-[0.42rem] w-[0.42rem] rounded-full bg-gray-300"></span>
           ))}
         </span>
-        <Icon name="perspective" size={13} class="ml-[0.2rem] text-gray-500" stroke={1.7} />
-        <Icon name="chevron-down" size={12} class="ml-[0.35rem] rotate-90 text-gray-500" stroke={2} />
         <span class="font-geist text-[0.78rem] tracking-tight text-name">{docTitle}</span>
-        <span class="ml-auto flex items-center gap-[0.7rem] text-gray-500">
-          <Icon name="cube" size={13} stroke={1.7} />
-          <Icon name="grid" size={13} stroke={1.7} />
-          <Icon name="info-square" size={13} stroke={1.7} />
-          <Icon name="share" size={13} stroke={1.7} />
-          <span class="ml-[0.5rem] flex items-center gap-[0.7rem] border-l border-hairline-soft pl-[0.7rem]">
-            <Icon name="share" size={13} stroke={1.7} />
-            <Icon name="edit" size={13} stroke={1.7} />
-          </span>
+        <span class="ml-auto flex items-center gap-[0.55rem] text-gray-500">
+          <Icon name="grid" size={12} stroke={1.8} />
+          <Icon name="share" size={12} stroke={1.8} />
         </span>
       </div>
 
@@ -55,25 +47,6 @@ const paper =
         <p class="mt-[1.4rem] font-hand text-[clamp(1.05rem,2.4vw,1.3rem)] leading-[1.85] tracking-tight text-navy">
           {signature}
         </p>
-      </div>
-
-      {/* zoom bar */}
-      <div class="flex items-center gap-[0.6rem] px-[0.9rem] py-[0.6rem] text-gray-500" aria-hidden="true">
-        <span class="flex items-center gap-[0.5rem] rounded-full border border-hairline-soft px-[0.6rem] py-[0.25rem]">
-          <Icon name="plus" size={11} class="rotate-45" stroke={2} />
-          <span class="font-geist text-[0.72rem] tracking-tight text-faint">{zoom}</span>
-          <Icon name="plus" size={11} stroke={2} />
-          <span class="ml-[0.3rem] flex items-center gap-[0.45rem] border-l border-hairline-soft pl-[0.55rem]">
-            <Icon name="chevron-down" size={11} class="rotate-90" stroke={2} />
-            <Icon name="grid" size={11} stroke={1.8} />
-            <Icon name="chevron-down" size={11} class="-rotate-90" stroke={2} />
-          </span>
-          <Icon name="settings" size={11} class="ml-[0.2rem]" stroke={1.8} />
-        </span>
-        <span class="ml-auto flex items-center gap-[0.6rem]">
-          <Icon name="perspective" size={12} stroke={1.7} />
-          <Icon name="grid" size={12} stroke={1.7} />
-        </span>
       </div>
     </article>
     </div>

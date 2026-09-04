@@ -1,9 +1,10 @@
 ---
 /**
  * "People" — leadership grid inside the dashed "blueprint" frame (left/right
- * verticals + horizontals bracketing the grid). Two cards per row; each is a
- * flip card: the front is the pink portrait disc with name/title, the back is
- * the detail panel (avatar, name, title, bio) that turns in on hover/focus.
+ * verticals + horizontals bracketing the grid). Three cards per row on
+ * desktop, two on tablet, one on mobile; each is a flip card: the front is
+ * the pink portrait disc with name/title, the back is the detail panel
+ * (avatar, name, title, bio) that turns in on hover/focus.
  *
  * The flip is pure CSS so it works without JS. It is gated on hover-capable
  * pointers — on touch the two faces stack, so the bio is never hover-only
@@ -21,7 +22,7 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
 
 <section id="people" class="relative py-[var(--section-y)]">
   {/* spine column, no desktop padding so the frame overshoot lands exactly */}
-  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+  <div class="relative mx-auto w-full max-w-[var(--grid)] px-5 md:px-0">
     {/* frame verticals */}
     <div class="pointer-events-none absolute inset-y-[-0.75rem] left-[-21px] right-[-21px] hidden sm:block" aria-hidden="true">
       <span class="dashed-v absolute inset-y-0 left-0"></span>
@@ -41,9 +42,9 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
     <div class:list={[sep, 'mt-[1.3rem]']}></div>
     <div class:list={[sep, 'mt-[1.8rem]']}></div>
 
-    <ul class="mt-[1.6rem] grid grid-cols-1 gap-[1.5rem] sm:grid-cols-2">
+    <ul class="mt-[1.6rem] grid grid-cols-1 gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-3">
       {all.map((m, i) => (
-        <li data-reveal data-reveal-delay={(i % 2) * 0.08}>
+        <li data-reveal data-reveal-delay={(i % 3) * 0.08}>
           <div class="member relative h-full">
             <div class="flip h-full">
               {/* ---- front: portrait disc + name plate ---- */}

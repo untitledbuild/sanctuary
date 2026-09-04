@@ -1,10 +1,6 @@
 ---
 /**
- * Footer (v2) — a language row above a slim utility bar: wordmark left, legal
- * links right, each band separated by a dashed hairline.
- *
- * The language codes are not wired to i18n routes yet, so they render as plain
- * text with the active locale marked, rather than as links that go nowhere.
+ * Footer (v2) — a slim utility bar: wordmark left, legal links right.
  */
 import Wordmark from '@components/primitives/Wordmark.astro';
 import { site } from '@data/site';
@@ -12,52 +8,27 @@ import { site } from '@data/site';
 
 <footer class="relative">
   <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
-
-  {/* language row */}
-  <div class="mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]">
-    <ul class="flex items-center justify-center gap-[1.4rem] py-[clamp(1rem,2vw,1.4rem)]" aria-label="Language">
-      {
-        site.languages.map((l) => (
-          <li>
-            <span
-              class:list={[
-                'font-geist-mono text-[0.85rem] tracking-tighter',
-                l.active ? 'text-heading' : 'text-muted',
-              ]}
-              aria-current={l.active ? 'true' : undefined}
-            >
-              {l.active ? `[${l.code}]` : l.code}
-            </span>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
-
-  <div class="relative">
-    <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
-    <div
-      class="mx-auto flex w-full max-w-[var(--container)] flex-col items-center justify-between gap-3 px-[var(--container-pad)] py-[clamp(1rem,2vw,1.4rem)] sm:flex-row"
-    >
-      <a href="/" aria-label={`${site.name}, home`} class="inline-block">
-        <Wordmark class="text-[1.25rem]" />
-      </a>
-      <nav aria-label="Legal">
-        <ul class="flex items-center gap-[1.5rem]">
-          {
-            site.legal.map((l) => (
-              <li>
-                <a
-                  href={l.href}
-                  class="font-sans text-[0.85rem] tracking-tight text-body transition-colors duration-200 hover:text-heading"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-    </div>
+  <div
+    class="mx-auto flex w-full max-w-[var(--container)] flex-col items-center justify-between gap-3 px-[var(--container-pad)] py-[clamp(1rem,2vw,1.4rem)] sm:flex-row"
+  >
+    <a href="/" aria-label={`${site.name}, home`} class="inline-block">
+      <Wordmark class="text-[1.25rem]" />
+    </a>
+    <nav aria-label="Legal">
+      <ul class="flex items-center gap-[1.5rem]">
+        {
+          site.legal.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="font-sans text-[0.85rem] tracking-tight text-body transition-colors duration-200 hover:text-heading"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
   </div>
 </footer>

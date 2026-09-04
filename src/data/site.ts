@@ -219,7 +219,7 @@ export const site = {
     layerLabel: 'Header_h1',
     /** Chip hanging off the second selection box. */
     techTag: 'Something techy',
-    cta: { label: 'Collaborate', href: '#collaborate' },
+    cta: { label: 'Collaborate', href: '#start' },
     title: 'You need software.\nWe build it.',
     subtitle:
       'Software, AI systems, and digital experiences designed for ' +
@@ -421,12 +421,6 @@ export const site = {
         bio: "The client's go-to throughout every engagement, turning clear communication into consistently great outcomes.",
         image: '/team/joud.JPG',
       },
-      {
-        name: 'Tyler Good',
-        title: 'Growth & Partnerships',
-        bio: 'Builds relationships with companies across the US, uncovering challenges and bringing new opportunities to the team.',
-        image: '/team/tyler.png',
-      },
     ] satisfies TeamMember[],
   },
 
@@ -462,7 +456,7 @@ export const site = {
         'internal tools teams actually run on.',
       layerLabel: 'Header_h1',
       techTag: 'Something techy',
-      cta: { label: 'Collaborate', href: '#collaborate' },
+      cta: { label: 'Collaborate', href: '#start' },
       width: '40rem',
     },
 
@@ -476,28 +470,6 @@ export const site = {
           { label: 'PostgreSQL', tone: 'orange' },
           { label: 'AWS', tone: 'pink' },
           { label: 'Stripe', tone: 'green' },
-        ],
-      },
-      {
-        title: 'AI Real Estate Listing Automation',
-        description:
-          'Turns raw listing input (documents, photos and agent notes) into ' +
-          'structured, publish-ready property records without the manual pass.',
-        tags: [
-          { label: 'OpenAI', tone: 'brand' },
-          { label: 'Python', tone: 'pink' },
-          { label: 'FastAPI', tone: 'green' },
-          { label: 'PostgreSQL', tone: 'orange' },
-        ],
-      },
-      {
-        title: 'AI Sales Platform',
-        description: 'Helping B2B teams automate lead qualification with AI.',
-        tags: [
-          { label: 'Next.js', tone: 'brand' },
-          { label: 'TypeScript', tone: 'pink' },
-          { label: 'OpenAI', tone: 'green' },
-          { label: 'Supabase', tone: 'orange' },
         ],
       },
     ] satisfies Project[],
@@ -552,7 +524,7 @@ export const site = {
         'got here.',
       layerLabel: 'Header_h1',
       techTag: 'Something techy',
-      cta: { label: 'Collaborate', href: '#collaborate' },
+      cta: { label: 'Collaborate', href: '#start' },
       /* Wider than the home hero so "because good software is still rare."
          stays on one line, as in the design. */
       width: '52rem',
@@ -575,7 +547,6 @@ export const site = {
         'who we build them with. If any of this sounds like your kind of team, ' +
         "we'd love to hear from you.",
       signature: 'The untitledbuild team',
-      zoom: '100%',
     },
   },
 
@@ -607,7 +578,6 @@ export const site = {
       { label: 'Engineering', href: '#team-02' },
       { label: 'Mobile', href: '#team-03' },
       { label: 'Cloud & Data', href: '#team-04' },
-      { label: 'Design', href: '#team-05' },
       { label: 'Working Here', href: '#working' },
       { label: 'Remote Culture', href: '#remote' },
     ] satisfies NavLink[],
@@ -619,9 +589,9 @@ export const site = {
         'technology thinkers who want to solve ambitious problems and build ' +
         'products that matter.',
       scale:
-        "We're a team of around thirty, and we intend to stay small enough that " +
-        'every hire changes the room. That means we hire slowly and only where ' +
-        'the work is real.',
+        "We're a founding team of four, hiring our first engineers to help " +
+        'build what comes next. Every early hire changes how this studio ' +
+        'works, so we hire slowly and only where the work is real.',
       lead: 'Join a remote-first engineering team working across:',
       disciplines: [
         'AI', 'Product Engineering', 'Mobile', 'Web',
@@ -669,7 +639,7 @@ export const site = {
 
     openings: {
       label: '_open positions',
-      title: 'Five teams. Eight open roles.',
+      title: 'Four teams. Five open roles.',
       body:
         "Everything we have open is listed here. If a role isn't on this page, " +
         "it isn't open yet. Pick the team closest to your work. You won't need " +
@@ -691,17 +661,6 @@ export const site = {
                 'Integrate LLMs with enterprise systems',
                 'Build reliable RAG pipelines',
                 'Work with product and engineering teams',
-              ],
-            },
-            {
-              title: 'AI Solutions Architect',
-              level: 'Senior',
-              focus: 'Architecture · Integration · Evaluation',
-              responsibilities: [
-                'Shape AI architecture across client systems',
-                'Make build-vs-buy and model selection calls',
-                'Own the evaluation story so quality is measurable',
-                'Lead technical conversations with client teams',
               ],
             },
           ],
@@ -770,36 +729,6 @@ export const site = {
                 'Shorten the path from commit to production',
                 'Own cloud security posture and least-privilege access',
                 'Treat internal tooling as a product',
-              ],
-            },
-            {
-              title: 'Data Engineer',
-              level: 'Mid – Senior',
-              focus: 'Pipelines · Warehousing · Analytics',
-              responsibilities: [
-                'Build pipelines that survive bad input',
-                'Model warehouses analysts can actually use',
-                'Own data quality and freshness',
-                'Support the data layer AI features depend on',
-              ],
-            },
-          ],
-        },
-        {
-          index: '05',
-          title: 'Design & Research',
-          summary: 'Design that ships: systems, prototypes and interfaces built with engineering.',
-          tech: ['Figma', 'Design Systems', 'Prototyping', 'Accessibility', 'React'],
-          roles: [
-            {
-              title: 'Product Designer',
-              level: 'Mid – Senior',
-              focus: 'Product thinking · Interaction · Design systems',
-              responsibilities: [
-                'Own product design from problem to shipped screen',
-                'Work directly with engineers, not over a wall',
-                'Build and maintain the design system',
-                'Bring real user evidence into the room',
               ],
             },
           ],
@@ -922,12 +851,6 @@ export const site = {
   },
 
   /* 9 — Footer ----------------------------------------------------------- */
-  languages: [
-    { code: 'ENG', active: true },
-    { code: 'FRN', active: false },
-    { code: 'ESP', active: false },
-    { code: 'DEU', active: false },
-  ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy' },
     { label: 'Terms', href: '/terms' },
