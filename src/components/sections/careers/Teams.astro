@@ -87,7 +87,7 @@ const items = teams as unknown as Team[];
                           {r.responsibilities.map((item) => (
                             <li class="flex gap-[0.45rem] font-geist text-[0.82rem] leading-snug tracking-tight text-body">
                               <span class="text-gray-400" aria-hidden="true">
-                                —
+                                •
                               </span>
                               <span>{item}</span>
                             </li>
@@ -101,7 +101,7 @@ const items = teams as unknown as Team[];
                         >
                           View Role
                           <Icon name="chevron-down" size={13} class="-rotate-90" stroke={2.2} />
-                          <span class="sr-only">— apply for {r.title}</span>
+                          <span class="sr-only">Apply for {r.title}</span>
                         </button>
                       </div>
                     </details>

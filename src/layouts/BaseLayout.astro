@@ -8,11 +8,12 @@ interface Props {
 }
 
 const {
-  title = `${site.name} — You need software. We build it.`,
+  title = `${site.name}: You need software. We build it.`,
   description = site.description,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL("/og.png", Astro.site).href;
 ---
 
 <!doctype html>
@@ -71,9 +72,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Supabase config for the contact form (PUBLIC anon key — safe to expose;
          see infra/supabase/schema.sql for the INSERT-only RLS that secures it). -->

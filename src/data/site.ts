@@ -193,7 +193,7 @@ export const site = {
   url: 'https://untitledbuild.com',
   description:
     'Fast, scalable software built by senior designers and developers. ' +
-    'One team, one process — from whiteboard to production.',
+    'One team, one process, from whiteboard to production.',
 
   /** Shared primary call-to-action (header, hero, app-dock, CTA band). */
   cta: CTA,
@@ -240,7 +240,7 @@ export const site = {
         'Not sure yet',
       ],
       submit: 'SEND MESSAGE',
-      success: "Got it — we'll be in touch within one business day.",
+      success: "Got it. We'll be in touch within one business day.",
       error: 'Something went wrong. Please email us at hello@untitledbuild.com.',
     },
   },
@@ -260,21 +260,21 @@ export const site = {
     label: 'Recent work',
     items: [
       {
-        label: 'Delivery routing app — live route with stop details',
+        label: 'Delivery routing app: live route with stop details',
         image: '/showcase/delivery.png',
         w: 478,
         h: 1038,
         shape: 'phone',
       },
       {
-        label: 'Peregrin — revenue intelligence dashboard',
+        label: 'Peregrin: revenue intelligence dashboard',
         image: '/showcase/peregrin.png',
         w: 983,
         h: 1038,
         shape: 'wide',
       },
       {
-        label: 'Kaizen Store — mobile sales analytics',
+        label: 'Kaizen Store: mobile sales analytics',
         image: '/showcase/kaizen.png',
         w: 478,
         h: 1038,
@@ -481,7 +481,7 @@ export const site = {
       {
         title: 'AI Real Estate Listing Automation',
         description:
-          'Turns raw listing input — documents, photos and agent notes — into ' +
+          'Turns raw listing input (documents, photos and agent notes) into ' +
           'structured, publish-ready property records without the manual pass.',
         tags: [
           { label: 'OpenAI', tone: 'brand' },
@@ -527,12 +527,12 @@ export const site = {
     date: '8 August 2026 at 3:37 PM',
     title: 'Our Story',
     paragraphs: [
-      'untitledbuild started the way most studios do — a handful of people ' +
+      'untitledbuild started the way most studios do: a handful of people ' +
         'who kept getting hired to fix things other teams had already tried ' +
         'and abandoned. Somewhere along the way we realized we liked building ' +
         'more than fixing, and started taking on our own projects instead.',
       "We're still small on purpose. Every person here works directly with " +
-        'clients, writes real code, and has opinions about the product — not ' +
+        'clients, writes real code, and has opinions about the product, not ' +
         'just the pixels.',
     ],
   },
@@ -571,10 +571,10 @@ export const site = {
       docTitle: "Founder's note",
       body:
         'Thanks for reading this far. We built untitledbuild because we like ' +
-        "making things that work properly — and we're pickier than most about " +
+        "making things that work properly, and we're pickier than most about " +
         'who we build them with. If any of this sounds like your kind of team, ' +
         "we'd love to hear from you.",
-      signature: '— The untitledbuild team',
+      signature: 'The untitledbuild team',
       zoom: '100%',
     },
   },
@@ -671,7 +671,7 @@ export const site = {
       label: '_open positions',
       title: 'Five teams. Eight open roles.',
       body:
-        "Everything we have open is listed here — if a role isn't on this page, " +
+        "Everything we have open is listed here. If a role isn't on this page, " +
         "it isn't open yet. Pick the team closest to your work. You won't need " +
         'every technology listed against it.',
       teams: [
@@ -709,7 +709,7 @@ export const site = {
         {
           index: '02',
           title: 'Product & Software Engineering',
-          summary: 'The products themselves — web, SaaS and enterprise systems, built to last.',
+          summary: 'The products themselves: web, SaaS and enterprise systems, built to last.',
           tech: ['TypeScript', 'React', 'Next.js', 'Node.js', 'Python', 'PostgreSQL'],
           roles: [
             {
@@ -758,7 +758,7 @@ export const site = {
           index: '04',
           title: 'Cloud, Data & Platform',
           summary:
-            'The infrastructure and data everything else runs on — including security and AI workloads.',
+            'The infrastructure and data everything else runs on, including security and AI workloads.',
           tech: ['AWS', 'Kubernetes', 'Terraform', 'CI/CD', 'Python', 'SQL', 'IAM'],
           roles: [
             {
@@ -788,7 +788,7 @@ export const site = {
         {
           index: '05',
           title: 'Design & Research',
-          summary: 'Design that ships — systems, prototypes and interfaces built with engineering.',
+          summary: 'Design that ships: systems, prototypes and interfaces built with engineering.',
           tech: ['Figma', 'Design Systems', 'Prototyping', 'Accessibility', 'React'],
           roles: [
             {
@@ -909,14 +909,14 @@ export const site = {
         resume: { label: 'Resume' },
       },
       /** Shown first in the position list for speculative applications. */
-      openOption: 'Introducing myself — no specific role',
+      openOption: 'Introducing myself, no specific role',
       upload: {
         action: 'Click to upload',
         rest: 'or drag and drop',
         hint: 'PDF, DOCX (max. 10 mb)',
       },
       submit: 'Submit',
-      success: "Application received — we'll be in touch.",
+      success: "Application received. We'll be in touch.",
       error: 'Something went wrong. Please email hello@untitledbuild.com.',
     },
   },

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://untitledbuild.com/sitemap-index.xml
