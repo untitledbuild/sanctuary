@@ -419,7 +419,7 @@ export const site = {
         name: 'Joud Almualem',
         title: 'Client Success',
         bio: "The client's go-to throughout every engagement, turning clear communication into consistently great outcomes.",
-        image: '/team/joud.JPG',
+        image: '/team/joud.png',
       },
     ] satisfies TeamMember[],
   },

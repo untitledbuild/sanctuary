@@ -45,7 +45,6 @@
   --color-field: #fbfbfb;         /* form input fill                         */
   --color-plate: #efefef;         /* name-plate fill                         */
   --color-wordmark: #dcdcdc;      /* oversized footer wordmark               */
-  --color-portrait: #f9d5de;      /* pink disc behind team portraits         */
 
   /* ---- Colour: lines / hairlines (opacities lifted from Figma) -------- */
   --color-line: rgba(0, 0, 0, 0.35);       /* primary blueprint grid line     */

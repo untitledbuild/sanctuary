@@ -49,7 +49,7 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
             <div class="flip h-full">
               {/* ---- front: portrait disc + name plate ---- */}
               <div class="face dashed-box flex flex-col rounded-[var(--radius-card)] p-[1.15rem]">
-                <div class="mx-auto aspect-square w-[86%] overflow-hidden rounded-full bg-portrait">
+                <div class="mx-auto aspect-square w-[86%] overflow-hidden rounded-full">
                   <img
                     src={m.image ?? '/team/programmer.png'}
                     alt=""
@@ -68,7 +68,7 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
                 {/* visual repeat of the front, so it's hidden from AT (and from
                     the stacked touch layout, where the front is right above) */}
                 <div class="detail-head" aria-hidden="true">
-                  <span class="block h-[3.25rem] w-[3.25rem] overflow-hidden rounded-full bg-portrait">
+                  <span class="block h-[3.25rem] w-[3.25rem] overflow-hidden rounded-full">
                     <img src={m.image ?? '/team/programmer.png'} alt="" class="h-full w-full object-cover" loading="lazy" />
                   </span>
                   <p class="mt-[0.9rem] font-serif text-[1.3rem] leading-[1.2] tracking-serif text-heading">{m.name}</p>
