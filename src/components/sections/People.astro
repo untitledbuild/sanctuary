@@ -1,16 +1,14 @@
 ---
 /**
- * "People" — team grid inside a dashed "blueprint" frame (left/right verticals +
- * horizontals below the heading and bracketing the card grid, per Figma). Each
- * card is a circular portrait (LinkedIn badge on the rim) over a mono name-plate
- * that's nudged right (Figma: image x407, plate x425), title, and a short bio.
- * Members without a photo fall back to the generic programmer illustration.
- * Frame shows on the 3-col desktop layout; mobile drops it.
+ * "People" — leadership grid inside the dashed "blueprint" frame (left/right
+ * verticals + horizontals bracketing the grid). Three cards per row on
+ * desktop, two on tablet, one on mobile; each is a flip card: the front is
+ * the pink portrait disc with name/title, the back is the detail panel
+ * (avatar, name, title, bio) that turns in on hover/focus.
  *
- * All members share a single CSS grid (2-up mobile, 3-up desktop) so cards
- * always fill left-to-right regardless of where the desktop dashed separators
- * land — a per-row-of-3 separate list would leave the odd member out (2-up
- * wrapping breaks at each group-of-3 boundary), stacking lone cards on mobile.
+ * The flip is pure CSS so it works without JS. It is gated on hover-capable
+ * pointers — on touch the two faces stack, so the bio is never hover-only
+ * content. Reduced motion swaps the rotation for a crossfade.
  */
 import Icon from '@components/primitives/Icon.astro';
 import { site, type TeamMember } from '@data/site';
@@ -18,23 +16,13 @@ import { site, type TeamMember } from '@data/site';
 const { title, subtitle, members } = site.people;
 const all = members as unknown as TeamMember[];
 
-const n = all.length;
-const cols = Math.min(n, 3) as 1 | 2 | 3;
-
-// Desktop column count class — literal map so Tailwind emits the class.
-const DESKTOP_COLS: Record<1 | 2 | 3, string> = {
-  1: 'sm:grid-cols-1',
-  2: 'sm:grid-cols-2',
-  3: 'sm:grid-cols-3',
-};
-
 // Horizontals overshoot the verticals by 12px each side → corners cross (Figma).
 const sep = 'dashed-h hidden sm:block -mx-[33px]';
 ---
 
 <section id="people" class="relative py-[var(--section-y)]">
   {/* spine column, no desktop padding so the frame overshoot lands exactly */}
-  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+  <div class="relative mx-auto w-full max-w-[var(--grid)] px-5 md:px-0">
     {/* frame verticals */}
     <div class="pointer-events-none absolute inset-y-[-0.75rem] left-[-21px] right-[-21px] hidden sm:block" aria-hidden="true">
       <span class="dashed-v absolute inset-y-0 left-0"></span>
@@ -42,10 +30,10 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
     </div>
 
     <header data-reveal>
-      <h2 class="font-sans text-[2.5rem] font-semibold leading-[1.14] tracking-tight text-heading">
+      <h2 class="font-serif text-[clamp(1.6rem,3.6vw,2.05rem)] leading-[1.2] tracking-serif text-heading">
         {title}
       </h2>
-      <p class="mt-[0.8125rem] max-w-[28.5rem] font-sans text-[1.125rem] font-medium leading-[1.29] tracking-tight text-body">
+      <p class="mt-[0.6rem] max-w-[24rem] font-geist text-[0.9rem] leading-[1.5] tracking-tight text-body">
         {subtitle}
       </p>
     </header>
@@ -54,46 +42,59 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
     <div class:list={[sep, 'mt-[1.3rem]']}></div>
     <div class:list={[sep, 'mt-[1.8rem]']}></div>
 
-    <ul class:list={['mt-[1.6rem] grid grid-cols-2 gap-x-[1.9375rem] gap-y-[1.6rem]', DESKTOP_COLS[cols]]}>
+    <ul class="mt-[1.6rem] grid grid-cols-1 gap-[1.5rem] sm:grid-cols-2 lg:grid-cols-3">
       {all.map((m, i) => (
-        <>
-          {/* row separator every 3 members — hidden (and so excluded from
-              flow) on mobile, so the 2-up grid keeps filling left-to-right */}
-          {i > 0 && i % 3 === 0 && (
-            <li class:list={[sep, 'col-span-full my-[0.2rem] list-none']} aria-hidden="true"></li>
-          )}
-          <li class="flex flex-col" data-reveal data-reveal-delay={(i % cols) * 0.06}>
-            {/* portrait — circular, inset from the card edge */}
-            <div class="relative mx-auto w-[78%]">
-              <div class="aspect-square overflow-hidden rounded-full bg-surface">
-                <img src={m.image ?? '/team/programmer.png'} alt={m.name} class="h-full w-full object-cover" loading="lazy" />
+        <li data-reveal data-reveal-delay={(i % 3) * 0.08}>
+          <div class="member relative h-full">
+            <div class="flip h-full">
+              {/* ---- front: portrait disc + name plate ---- */}
+              <div class="face dashed-box flex flex-col rounded-[var(--radius-card)] p-[1.15rem]">
+                <div class="mx-auto aspect-square w-[86%] overflow-hidden rounded-full bg-portrait">
+                  <img
+                    src={m.image ?? '/team/programmer.png'}
+                    alt=""
+                    class="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div class="mt-[1.1rem]">
+                  <p class="font-serif text-[1.3rem] leading-[1.2] tracking-serif text-heading">{m.name}</p>
+                  <p class="mt-[0.2rem] font-geist text-[0.95rem] tracking-tight text-label">{m.title}</p>
+                </div>
               </div>
-              {m.linkedin && (
-                <a
-                  href={m.linkedin}
-                  class="absolute bottom-[2%] right-[2%] grid h-[1.875rem] w-[1.875rem] place-items-center rounded-full bg-[#0A66C2] text-white ring-2 ring-card transition-colors hover:bg-[#084e94]"
-                  aria-label={`${m.name} on LinkedIn`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon name="linkedin" size={15} />
-                </a>
-              )}
+
+              {/* ---- back: detail panel ---- */}
+              <div class="face face--back flex flex-col rounded-[var(--radius-card)] border border-hairline bg-card p-[1.15rem] shadow-[var(--shadow-control)]">
+                {/* visual repeat of the front, so it's hidden from AT (and from
+                    the stacked touch layout, where the front is right above) */}
+                <div class="detail-head" aria-hidden="true">
+                  <span class="block h-[3.25rem] w-[3.25rem] overflow-hidden rounded-full">
+                    <img src={m.image ?? '/team/programmer.png'} alt="" class="h-full w-full object-cover" loading="lazy" />
+                  </span>
+                  <p class="mt-[0.9rem] font-serif text-[1.3rem] leading-[1.2] tracking-serif text-heading">{m.name}</p>
+                  <p class="mt-[0.2rem] font-geist text-[0.95rem] tracking-tight text-label">{m.title}</p>
+                </div>
+                <p class="mt-auto pt-[1.5rem] font-geist text-[0.875rem] leading-snug tracking-tight text-body">
+                  {m.bio}
+                </p>
+              </div>
             </div>
-            {/* name-plate + title + bio, nudged right of the image (Figma offset) */}
-            <div class="ml-[8.78%] mt-[0.75rem] w-[97.07%]">
-              <div class="bg-plate px-[0.814rem] py-[0.465rem]">
-                <span class="font-geist-mono text-[1.1625rem] font-medium tracking-tighter text-name">{m.name}</span>
-              </div>
-              <div class="px-[0.814rem] py-[0.465rem]">
-                <span class="font-geist text-[1.046rem] tracking-tighter text-label">{m.title}</span>
-              </div>
-              <p class="px-[0.814rem] pb-[0.465rem] font-geist text-[0.875rem] leading-snug tracking-tight text-body">
-                {m.bio}
-              </p>
-            </div>
-          </li>
-        </>
+
+            {/* Sits outside the flipper so it stays visible and keyboard-usable
+                in both states (focusing it is what flips the card). */}
+            {m.linkedin && (
+              <a
+                href={m.linkedin}
+                class="absolute right-[0.9rem] top-[0.9rem] z-10 grid h-[1.875rem] w-[1.875rem] place-items-center rounded-[6px] bg-ink text-white transition-colors duration-200 hover:bg-brand"
+                aria-label={`${m.name} on LinkedIn`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name="linkedin" size={15} />
+              </a>
+            )}
+          </div>
+        </li>
       ))}
     </ul>
 
@@ -101,3 +102,107 @@ const sep = 'dashed-h hidden sm:block -mx-[33px]';
     <div class:list={[sep, 'mt-[1.6rem]']}></div>
   </div>
 </section>
+
+<style>
+  .member {
+    perspective: 1400px;
+  }
+
+  .flip {
+    display: grid;
+  }
+
+  .face {
+    grid-area: 1 / 1;
+  }
+
+  /* Keep the 30px badge but give it a 44px tap target. */
+  .member a::after {
+    content: '';
+    position: absolute;
+    inset: -7px;
+  }
+
+  /* Flip only where a real pointer can hover; elsewhere the faces stack so the
+     bio is reachable by tap-free reading. */
+  @media (hover: hover) and (pointer: fine) {
+    .flip {
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .face {
+      backface-visibility: hidden;
+    }
+
+    .face--back {
+      transform: rotateY(180deg);
+    }
+
+    .member:hover .flip,
+    .member:focus-within .flip {
+      transform: rotateY(180deg);
+    }
+
+    /* Notion-style lift: the whole card rises a hair as it turns. */
+    .member {
+      transition: transform 0.3s ease-out;
+    }
+
+    .member:hover,
+    .member:focus-within {
+      transform: translateY(-3px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .flip,
+      .member {
+        transform: none !important;
+        transition: none;
+      }
+
+      .face {
+        backface-visibility: visible;
+        transition: opacity 0.2s ease;
+      }
+
+      .face--back {
+        transform: none;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .member:hover .face--back,
+      .member:focus-within .face--back {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .member:hover .face:not(.face--back),
+      .member:focus-within .face:not(.face--back) {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+  }
+
+  /* Touch / no-hover: the panel stacks under the portrait card, so it carries
+     the bio alone — the front already shows the portrait, name and title. */
+  @media not all and (hover: hover) and (pointer: fine) {
+    .flip {
+      display: block;
+    }
+
+    .face--back {
+      margin-top: 0.75rem;
+    }
+
+    .detail-head {
+      display: none;
+    }
+
+    .face--back > p {
+      padding-top: 0;
+    }
+  }
+</style>

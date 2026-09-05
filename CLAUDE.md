@@ -4,13 +4,14 @@ Guidance for working in this repo. Keep changes consistent with the conventions 
 
 ## What this is
 
-The **untitled build** marketing landing page — a single-page, fully **static** site
+The **untitled build** marketing site (home, /works, /about, /careers) — a fully **static** site
 (no runtime server) built from a Figma design and deployed to GitHub Pages /
 any CDN at `untitledbuild.com`.
 
 - **Astro** (static output) · **Tailwind CSS v4** (CSS-first tokens) · **GSAP + ScrollTrigger** (motion) · self-hosted Fontsource fonts.
-- **Contact form → Supabase**, direct from the browser with the PUBLIC anon key,
-  secured by an INSERT-only RLS policy. No server; the site stays fully static.
+- **Forms → Supabase** (contact, and careers applications), direct from the
+  browser with the PUBLIC anon key, secured by INSERT-only RLS policies. No
+  server; the site stays fully static.
   Setup + schema in [`infra/supabase/`](infra/supabase/).
 
 ## Commands
@@ -35,17 +36,89 @@ Always run `npm run check` and `npm run build` before considering a change done.
   (width variants: `spine`/`grid`/`container`/`wide`), `Button`, `Badge`,
   `Avatar`, `Tooltip`, `Wordmark`, `Icon` (UI line icons; names in
   `icon-names.ts`), `BrandIcon` (logos), `BlueprintGrid`, `StickyNote`,
-  `CollabCursor`. Scroll-reveal is a plain `data-reveal` attribute (no wrapper).
-- **Sections** (`src/components/sections/`) — one component per page band
-  (`Header`, `Hero` + `ContactForm`, `Testimonial`, `AppDock`, `Whiteboard`,
-  `People`, `TechLogos`, `Work`, `CallToAction`, `Footer`); composed in
-  [`src/pages/index.astro`](src/pages/index.astro) inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro).
+  `CollabCursor`, `HatchBand` (diagonal section separator), `CapabilityMockup`
+  (the four hand-built UI mockups in the "_what we build" cards),
+  `WireframePlaceholder` (the animated line sketch that stands in for a missing
+  screenshot), `SectionHead`.
+  Scroll-reveal is a plain `data-reveal` attribute (no wrapper).
+- **Dashed-line utilities** live in `global.css`: `.dashed-h` / `.dashed-v` for
+  single rules, `.dashed-box` for all four sides of one element, `.hatch` for the
+  45° ribbon. Use these rather than `border-dashed`, which renders browser dashes
+  that don't match the Figma rhythm.
+- **Sections** (`src/components/sections/`) — one component per page band.
+  - **Home** ([`src/pages/index.astro`](src/pages/index.astro)): `Header`, `Hero`,
+    `Testimonial`, `Showcase`, `Manifesto`, `WhatWeBuild`, `People`, `Story`, `Footer`.
+  - **Work** ([`src/pages/works.astro`](src/pages/works.astro)): `Header`, `Hero`
+    (work copy), `Works` — one band per `site.work.projects[]` entry, so adding
+    a project is a data change. Entries with no `image` render the same
+    placeholder frame the showcase band uses.
+  - **About** ([`src/pages/about.astro`](src/pages/about.astro)): `Header`, `Hero`
+    (about copy), `Story`, `HowWeWork`, `People`, `FoundersNote`, `Footer`.
+  - **Careers** ([`src/pages/careers.astro`](src/pages/careers.astro)): `Header`,
+    `Hero` (careers copy), then the bands in
+    `src/components/sections/careers/` — `CareersNav`, `CareersIntro`,
+    `LookFor`, `Teams`, `WorkingModels`, `RemoteCulture`, `HowWeBuild`,
+    `ExperienceLevels`, `CandidateSignals`, `CareersCta` — plus `Footer` and
+    `ApplyDialog`. They live in their own folder because the page has ten of
+    them and only this page uses them.
+  - All three compose inside [`BaseLayout.astro`](src/layouts/BaseLayout.astro),
+    with `HatchBand` between bands.
+  - **Kept but no longer composed:** `AppDock`, `Whiteboard`, `TechLogos`, `Work`
+    (the old home band — not to be confused with the new `Works` page section),
+    `CallToAction`, `ContactForm`. They still type-check and still read their
+    `site.ts` data — don't delete that data. The Supabase-wired `ContactForm` is
+    the one to reinstate if the page needs a lead-gen path again.
+- **`Hero` is shared** by all three pages. Pass `content` (a `HeroContent`) to override
+  the default home copy. Its headline is an array of `HeadlineRun`s — each run
+  optionally `box`ed (the dashed Figma-selection rectangle) with a `chip`, and
+  optionally `break`ing the line above `sm`. `width` widens the column when a
+  longer headline needs it (boxed runs can't break mid-phrase); `subtitle` and
+  `secondaryCta` are both optional.
 - **Motion** → [`src/scripts/motion.ts`](src/scripts/motion.ts):
   `data-reveal` reveals, `data-parallax` z-depth (front layers use a
   small/negative factor), the app-dock pop-in (`data-dock-dist`), sticky-note
-  fly-in (`data-from`), and collaborator-cursor `data-pendulum` sway.
-- **Form** → [`src/scripts/form.ts`](src/scripts/form.ts) posts to Supabase
-  (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout).
+  fly-in (`data-from`), collaborator-cursor `data-pendulum` sway, and
+  `data-tilt` pointer-tracking card tilt (value = max degrees).
+- **`data-tilt` is CSS-driven on purpose.** `motion.ts` only writes
+  `--tilt-x/y/scale`; the easing is a CSS transition in `global.css`, so it runs
+  on the compositor and its target values stay synchronously readable (which is
+  what makes it testable — GSAP tweens can't be observed in a headless run).
+  **Never put `data-tilt` and `data-reveal` on the same element** — the reveal
+  tween writes an inline `transform` that silently overrides the tilt's. Put
+  `data-reveal` on a wrapper instead (see `Story`/`FoundersNote`).
+- **Forms** → [`src/scripts/form.ts`](src/scripts/form.ts) (contact) and
+  [`src/scripts/apply.ts`](src/scripts/apply.ts) (careers) post to Supabase
+  (config via `PUBLIC_SUPABASE_*` → `<meta>` in BaseLayout). Both no-op toward a
+  mailto: fallback when unconfigured rather than faking success. `apply.ts`
+  uploads the résumé to a **private** `resumes` Storage bucket first, then
+  records the object key on the row — so a failed upload never files an
+  application with no CV. Both scripts end in `export {}`: without a top-level
+  import/export TS treats them as global scripts and their declarations collide.
+- **Careers content is team-shaped.** `site.careers.openings.teams[]` holds the
+  roles; tech badges sit on the *team*, not the role, because a team spans more
+  technologies than any one role uses (the page says as much). `ApplyDialog`
+  flattens every team's roles into its position select, behind an "introducing
+  myself" option — a `[data-apply-open]` trigger with no `data-position` resets
+  to that rather than inheriting the last role. Role detail is a native
+  `<details>`, so it opens with JS off.
+- **Keep the careers list honest to headcount.** The studio is ~30 people, so
+  the page carries 5 teams and 8 roles, and says outright that anything not
+  listed isn't open. If you add roles, add them because they're real — a list
+  longer than the team is the fastest way to make the page read as fake. The
+  sub-nav anchors point at `#team-NN`, so renumbering teams means updating
+  `careers.nav` too.
+- **The apply modal is a native `<dialog>`** — `showModal()` gives focus
+  trapping, Esc-to-close, background inertness and `::backdrop` for free. It
+  needs `m-auto`, because Tailwind's preflight zeroes the UA `margin: auto` a
+  dialog relies on to centre itself.
+- **`WireframePlaceholder` uses `pathLength="1"`** on every shape, which
+  normalises path length regardless of geometry — so a single
+  `stroke-dashoffset: 1 → 0` keyframe draws a circle, a line and a rounded rect
+  alike, with no per-shape measuring. Its resting state is the *finished*
+  sketch, so if the animation never runs it degrades to a static wireframe
+  rather than an empty box. Note the draw keyframe starts at `opacity: 0`, so a
+  headless screenshot (where animation time is pinned at 0) captures it blank —
+  freeze the animation to inspect it.
 - **The "What" whiteboard** is a proportional CSS **container** (`cqw` sizes + `%`
   positions, widened to ~1430px to mirror the Figma): the whole scene scales as
   one locked unit on desktop, and falls back to a plain note stack under `md`.
@@ -87,7 +160,22 @@ serve path:**
 
 - A small dark pill at bottom-center in dev is Astro's dev toolbar (dev-only, not in `dist/`).
 - Known placeholders pending real assets, all swappable via `site.ts`:
-  - **People**: 5 cards with random `pravatar` images / `TITLE` / `#` LinkedIn links.
-  - **Work**: project cards render a "UI MOCKUP" panel until `image` is set.
-  - **Supabase**: form no-ops gracefully until `PUBLIC_SUPABASE_*` are configured.
+  - **Showcase**: all three mockups are in (`public/showcase/`). Their corners
+    are transparent — the rounded corners and background tint are baked into
+    the PNGs — so they render bare, with a `drop-shadow` (which follows alpha)
+    rather than a CSS frame and `box-shadow`. They also share a pixel height,
+    which is what lets the desktop row sit at one height with natural widths.
+    They're PNGs totalling ~715 KB; converting to WebP would roughly halve that
+    (no `cwebp` on this machine, and this `sips` build can't emit WebP).
+  - **Team portraits are inconsistent** and need a background pass: only
+    `runanka.png` and `programmer.png` have alpha, so the `--color-portrait` pink
+    disc shows through for those two. `adil.png` has pink baked in (matches by
+    luck), `bipratip.png` is yellow, and `tyler.png` / `joud.JPG` carry full
+    photographic backgrounds.
+  - **`Collaborate` CTA** points at `#collaborate`, which nothing defines on
+    either page yet.
+  - **Supabase**: form no-ops gracefully until `PUBLIC_SUPABASE_*` are configured
+    (only relevant if `ContactForm` is composed back in).
   - **Brand logos** (`BrandIcon.astro`) are hand-built; refine against Figma exports if needed.
+- **Figma MCP access:** the connected Figma account can't open the v2 design file,
+  so v2 work has been built from screenshots rather than pulled node-by-node.

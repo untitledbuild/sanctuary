@@ -1,0 +1,16 @@
+---
+/**
+ * Diagonal hatch ribbon used between bands (Figma: a thin strip of 45° rules
+ * bracketed by dashed hairlines). Decorative only.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<div class:list={['relative w-full', className]} aria-hidden="true">
+  <span class="dashed-h absolute inset-x-0 top-0"></span>
+  <span class="hatch block h-[0.9rem] w-full opacity-70"></span>
+  <span class="dashed-h absolute inset-x-0 bottom-0"></span>
+</div>

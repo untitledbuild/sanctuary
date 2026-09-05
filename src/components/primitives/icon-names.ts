@@ -7,4 +7,4 @@ export type IconName =
   | 'search' | 'bell' | 'info-square' | 'cursor' | 'perspective'
   | 'keyboard' | 'cube' | 'arrow-up-right' | 'eraser' | 'pencil'
   | 'message' | 'grid' | 'git-branch' | 'star' | 'quote' | 'linkedin'
-  | 'arrow-right';
+  | 'arrow-right' | 'scale' | 'droplet' | 'browser';

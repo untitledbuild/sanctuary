@@ -1,0 +1,73 @@
+---
+/**
+ * Work — one entry per project: a large frame holding the screenshot, with the
+ * name and description beneath it, separated by hatch ribbons.
+ *
+ * Projects without an `image` get the animated wireframe placeholder, so an
+ * entry can go live before its screenshot exists without looking broken.
+ */
+import HatchBand from '@components/primitives/HatchBand.astro';
+import WireframePlaceholder from '@components/primitives/WireframePlaceholder.astro';
+import { site, type Project } from '@data/site';
+
+/* `site` is `as const`, which narrows away the optional `image`/`href`. */
+const projects = site.work.projects as unknown as Project[];
+---
+
+<section id="works" class="relative">
+  {
+    projects.map((p, i) => (
+      <>
+        {i > 0 && <HatchBand />}
+        <article class="relative py-[clamp(1.5rem,3vw,2.25rem)]">
+          <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+            {/* frame verticals, matching the other blueprint bands */}
+            <div
+              class="pointer-events-none absolute inset-y-[-1.5rem] left-[-21px] right-[-21px] hidden sm:block"
+              aria-hidden="true"
+            >
+              <span class="dashed-v absolute inset-y-0 left-0"></span>
+              <span class="dashed-v absolute inset-y-0 right-0"></span>
+            </div>
+
+            <div data-reveal>
+              <div
+                class="aspect-[4/3] w-full overflow-hidden rounded-[0.9rem] bg-card shadow-[var(--shadow-tile-hero)]"
+                data-tilt="4"
+              >
+                {p.image ? (
+                  <img
+                    src={p.image}
+                    alt={`${p.title}, product screenshot`}
+                    class="h-full w-full object-cover"
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                ) : (
+                  <WireframePlaceholder variant="wide" />
+                )}
+              </div>
+            </div>
+
+            <div class="dashed-h -mx-[33px] mt-[1.4rem] hidden sm:block" aria-hidden="true"></div>
+
+            <div class="mt-[1.1rem]" data-reveal data-reveal-delay="0.06">
+              <h2 class="font-serif text-[1.4rem] leading-[1.2] tracking-serif text-heading">
+                {p.href ? (
+                  <a href={p.href} class="underline-offset-4 hover:underline" target="_blank" rel="noopener noreferrer">
+                    {p.title}
+                  </a>
+                ) : (
+                  p.title
+                )}
+              </h2>
+              <p class="mt-[0.3rem] max-w-[34rem] font-geist text-[0.9rem] leading-[1.55] tracking-tight text-body">
+                {p.description}
+              </p>
+              {!p.image && <span class="sr-only">Screenshot pending.</span>}
+            </div>
+          </div>
+        </article>
+      </>
+    ))
+  }
+</section>

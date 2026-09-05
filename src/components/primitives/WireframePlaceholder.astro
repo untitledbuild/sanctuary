@@ -1,0 +1,154 @@
+---
+/**
+ * Animated wireframe placeholder — stands in for a product screenshot that
+ * doesn't exist yet. Rather than a flat "UI MOCKUP" label, it sketches a UI in
+ * thin lines: the strokes draw themselves in sequence, hold, fade, and repeat,
+ * so an empty frame reads as "being drawn" rather than broken.
+ *
+ * Every stroked shape carries `pathLength="1"`, which normalises its length
+ * regardless of geometry — so one `stroke-dashoffset: 1 → 0` animation draws a
+ * circle, a line and a rounded rect alike, with no per-shape measuring.
+ *
+ * Decorative: the caller supplies the real label (see Works/Showcase, which
+ * both keep an sr-only "screenshot pending" note).
+ */
+interface Props {
+  /** `wide` sketches a dashboard, `phone` a mobile app. */
+  variant?: 'wide' | 'phone';
+  class?: string;
+}
+const { variant = 'wide', class: className = '' } = Astro.props;
+---
+
+<div class:list={['wire grid h-full w-full place-items-center overflow-hidden p-[6%]', className]} aria-hidden="true">
+  {
+    variant === 'wide' ? (
+      <svg viewBox="0 0 400 300" fill="none" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
+        {/* window chrome */}
+        <circle cx="18" cy="22" r="3.5" pathLength="1" />
+        <circle cx="31" cy="22" r="3.5" pathLength="1" />
+        <circle cx="44" cy="22" r="3.5" pathLength="1" />
+        <path d="M0 44 H400" pathLength="1" />
+        {/* sidebar */}
+        <path d="M110 44 V300" pathLength="1" />
+        <path d="M24 72 H88" pathLength="1" />
+        <path d="M24 96 H78" pathLength="1" />
+        <path d="M24 120 H90" pathLength="1" />
+        <path d="M24 144 H70" pathLength="1" />
+        <path d="M24 168 H84" pathLength="1" />
+        {/* search + hero card */}
+        <rect x="126" y="58" width="254" height="20" rx="6" pathLength="1" />
+        <rect x="126" y="92" width="254" height="92" rx="7" pathLength="1" />
+        {/* bars inside the hero card */}
+        <path d="M146 168 V140" pathLength="1" />
+        <path d="M168 168 V122" pathLength="1" />
+        <path d="M190 168 V150" pathLength="1" />
+        <path d="M212 168 V130" pathLength="1" />
+        <path d="M234 168 V112" pathLength="1" />
+        <path d="M256 168 V146" pathLength="1" />
+        <path d="M278 168 V126" pathLength="1" />
+        {/* stat cards */}
+        <rect x="126" y="196" width="122" height="54" rx="7" pathLength="1" />
+        <rect x="258" y="196" width="122" height="54" rx="7" pathLength="1" />
+        {/* footer text lines */}
+        <path d="M126 268 H300" pathLength="1" />
+        <path d="M126 282 H236" pathLength="1" />
+      </svg>
+    ) : (
+      <svg viewBox="0 0 200 420" fill="none" class="h-full w-full" preserveAspectRatio="xMidYMid meet">
+        {/* status bar + notch */}
+        <rect x="76" y="12" width="48" height="12" rx="6" pathLength="1" />
+        <path d="M0 40 H200" pathLength="1" />
+        {/* header */}
+        <circle cx="28" cy="64" r="11" pathLength="1" />
+        <path d="M48 58 H120" pathLength="1" />
+        <path d="M48 70 H96" pathLength="1" />
+        {/* hero card with bars */}
+        <rect x="14" y="90" width="172" height="96" rx="9" pathLength="1" />
+        <path d="M34 168 V140" pathLength="1" />
+        <path d="M56 168 V124" pathLength="1" />
+        <path d="M78 168 V152" pathLength="1" />
+        <path d="M100 168 V132" pathLength="1" />
+        <path d="M122 168 V114" pathLength="1" />
+        <path d="M144 168 V146" pathLength="1" />
+        {/* two stat tiles */}
+        <rect x="14" y="198" width="82" height="52" rx="8" pathLength="1" />
+        <rect x="104" y="198" width="82" height="52" rx="8" pathLength="1" />
+        {/* list rows */}
+        <rect x="14" y="262" width="26" height="26" rx="6" pathLength="1" />
+        <path d="M50 270 H150" pathLength="1" />
+        <path d="M50 282 H118" pathLength="1" />
+        <rect x="14" y="300" width="26" height="26" rx="6" pathLength="1" />
+        <path d="M50 308 H160" pathLength="1" />
+        <path d="M50 320 H108" pathLength="1" />
+        {/* tab bar */}
+        <path d="M0 356 H200" pathLength="1" />
+        <circle cx="40" cy="382" r="6" pathLength="1" />
+        <circle cx="80" cy="382" r="6" pathLength="1" />
+        <circle cx="120" cy="382" r="6" pathLength="1" />
+        <circle cx="160" cy="382" r="6" pathLength="1" />
+      </svg>
+    )
+  }
+</div>
+
+<style>
+  .wire :global(svg) {
+    stroke: var(--color-line-guide, #c9c6c2);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+
+  /* pathLength="1" normalises every shape, so one offset animation draws a
+     circle, a line and a rounded rect identically. */
+  /* Resting state is the *finished* sketch, so if the animation never runs the
+     placeholder is still a visible wireframe rather than an empty box. The
+     keyframes start from the undrawn state and draw toward this. */
+  .wire :global(svg > *) {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    opacity: 0.95;
+    animation: wire-draw 6s ease-in-out infinite;
+  }
+
+  @keyframes wire-draw {
+    0% {
+      stroke-dashoffset: 1;
+      opacity: 0;
+    }
+    8% {
+      opacity: 0.95;
+    }
+    45%,
+    78% {
+      stroke-dashoffset: 0;
+      opacity: 0.95;
+    }
+    96%,
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
+  }
+
+  /* Stagger so the sketch builds up rather than appearing at once. The cycle is
+     long enough that the tail still finishes well before the fade. */
+  .wire :global(svg > *:nth-child(n + 2)) { animation-delay: 0.08s; }
+  .wire :global(svg > *:nth-child(n + 4)) { animation-delay: 0.16s; }
+  .wire :global(svg > *:nth-child(n + 6)) { animation-delay: 0.26s; }
+  .wire :global(svg > *:nth-child(n + 9)) { animation-delay: 0.36s; }
+  .wire :global(svg > *:nth-child(n + 12)) { animation-delay: 0.46s; }
+  .wire :global(svg > *:nth-child(n + 15)) { animation-delay: 0.56s; }
+  .wire :global(svg > *:nth-child(n + 18)) { animation-delay: 0.66s; }
+  .wire :global(svg > *:nth-child(n + 21)) { animation-delay: 0.76s; }
+
+  /* Reduced motion: show the finished sketch, hold it still. */
+  @media (prefers-reduced-motion: reduce) {
+    .wire :global(svg > *) {
+      animation: none;
+      stroke-dashoffset: 0;
+      opacity: 0.95;
+    }
+  }
+</style>

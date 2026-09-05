@@ -1,0 +1,65 @@
+---
+/**
+ * Product showcase — the three mockups under the testimonial.
+ *
+ * The exports already carry their rounded corners, background tint and shadow
+ * in the alpha channel (their corner pixels are fully transparent), so they're
+ * rendered bare. Wrapping them in a CSS frame would paint square corners and a
+ * rectangular shadow behind a rounded image.
+ *
+ * All three are the same pixel height, so on desktop the row is laid out at one
+ * common height with each image at its natural width — which reproduces the
+ * Figma proportions exactly without hard-coding column ratios. Intrinsic
+ * width/height are set on every <img> so the band reserves its space before the
+ * images land.
+ *
+ * The lift uses `drop-shadow`, not `box-shadow`: it follows the alpha, so the
+ * shadow hugs each mockup's rounded corners instead of a rectangle around it.
+ */
+import WireframePlaceholder from '@components/primitives/WireframePlaceholder.astro';
+import { site, type ShowcaseItem } from '@data/site';
+
+/* `site` is `as const`, which narrows away the optional image fields. */
+const items = site.showcase.items as unknown as ShowcaseItem[];
+---
+
+<section aria-label="Recent work" class="relative py-[clamp(1.5rem,3vw,2.5rem)]">
+  {/* dashed rules bracketing the band, as in the Figma */}
+  <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
+  <div class="dashed-h absolute inset-x-0 bottom-0" aria-hidden="true"></div>
+
+  <div class="mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]">
+    <ul
+      class="flex flex-col items-center gap-[clamp(1rem,2vw,1.5rem)] sm:flex-row sm:items-center sm:justify-center"
+    >
+      {
+        items.map((it, i) => (
+          <li class="w-full max-w-[22rem] sm:w-auto sm:max-w-none" data-reveal data-reveal-delay={i * 0.08}>
+            {it.image ? (
+              <img
+                src={it.image}
+                alt={it.label}
+                width={it.w}
+                height={it.h}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding="async"
+                class="h-auto w-full [filter:drop-shadow(0_16px_26px_rgba(10,13,18,0.14))] sm:h-[clamp(14rem,26vw,21rem)] sm:w-auto"
+              />
+            ) : (
+              <div
+                class:list={[
+                  'rounded-[0.75rem] bg-card shadow-[var(--shadow-tile)]',
+                  'w-full sm:h-[clamp(14rem,26vw,21rem)] sm:w-auto',
+                  it.shape === 'wide' ? 'aspect-[983/1038]' : 'aspect-[478/1038]',
+                ]}
+              >
+                <WireframePlaceholder variant={it.shape} />
+                <span class="sr-only">{it.label}, screenshot pending</span>
+              </div>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

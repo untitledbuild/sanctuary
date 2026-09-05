@@ -1,0 +1,30 @@
+---
+/**
+ * "You Don't Need Every Skill" — the signals we actually read for, as a plain
+ * two-column list. Deliberately unstyled-looking: it's a list of evidence, not
+ * a feature grid.
+ */
+import SectionHead from '@components/primitives/SectionHead.astro';
+import { site } from '@data/site';
+
+const { label, title, body, items } = site.careers.signals;
+---
+
+<section class="relative py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <SectionHead label={label} title={title} body={body} />
+
+    <ul class="mt-[1.25rem] grid grid-cols-1 gap-x-[1.5rem] gap-y-[0.1rem] sm:grid-cols-2" data-reveal>
+      {
+        items.map((s, i) => (
+          <li class="flex gap-[0.6rem] border-b border-hairline-soft py-[0.5rem]">
+            <span class="font-geist-mono text-[0.7rem] text-gray-400" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="font-geist text-[0.88rem] tracking-tight text-body">{s}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

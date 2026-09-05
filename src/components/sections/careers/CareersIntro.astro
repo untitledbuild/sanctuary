@@ -1,0 +1,37 @@
+---
+/**
+ * Positioning band — the statement of intent, then the disciplines strip. The
+ * disciplines are a plain list (not links); they name the surface area rather
+ * than navigating anywhere.
+ */
+import { site } from '@data/site';
+
+const { title, body, scale, lead, disciplines } = site.careers.intro;
+---
+
+<section class="relative py-[clamp(2.5rem,5vw,4rem)]">
+  <div class="mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <div data-reveal>
+      <h2 class="font-serif text-[clamp(1.8rem,4vw,2.4rem)] leading-[1.2] tracking-serif text-heading">
+        {title}
+      </h2>
+      <p class="mt-[0.9rem] max-w-[34rem] font-geist text-[0.95rem] leading-[1.6] tracking-tight text-body">
+        {body}
+      </p>
+      <p class="mt-[0.7rem] max-w-[34rem] font-geist text-[0.95rem] leading-[1.6] tracking-tight text-body">
+        {scale}
+      </p>
+      <p class="mt-[1.4rem] font-geist text-[0.85rem] tracking-tight text-label">{lead}</p>
+    </div>
+
+    <ul class="mt-[0.8rem] flex flex-wrap gap-[0.4rem]" data-reveal data-reveal-delay="0.08">
+      {
+        disciplines.map((d) => (
+          <li class="rounded-[4px] border border-hairline-soft bg-card px-[0.6rem] py-[0.3rem] font-geist-mono text-[0.75rem] tracking-tighter text-faint">
+            {d}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

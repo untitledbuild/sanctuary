@@ -1,0 +1,31 @@
+---
+/**
+ * In-page careers sub-nav. Anchors only — every target is a band on this page,
+ * so it works without JS and doesn't need scroll-spy to be useful.
+ */
+import { site, type NavLink } from '@data/site';
+
+const links = site.careers.nav as unknown as NavLink[];
+---
+
+<nav aria-label="Careers sections" class="relative">
+  <div class="dashed-h absolute inset-x-0 top-0" aria-hidden="true"></div>
+  <div class="mx-auto w-full max-w-[var(--container)] px-[var(--container-pad)]">
+    {/* scrolls on narrow screens rather than wrapping into a tall block */}
+    <ul class="flex gap-[1.25rem] overflow-x-auto py-[0.85rem] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      {
+        links.map((l) => (
+          <li class="shrink-0">
+            <a
+              href={l.href}
+              class="font-geist-mono text-[0.8rem] tracking-tighter text-label transition-colors duration-200 hover:text-heading"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <div class="dashed-h absolute inset-x-0 bottom-0" aria-hidden="true"></div>
+</nav>

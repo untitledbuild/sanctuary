@@ -1,0 +1,52 @@
+---
+/**
+ * "_what we build" — mono section label, a two-line serif statement, then the
+ * four capability cards in a 2×2 blueprint grid (dashed frame with dashed
+ * gutters between the cells, matching the People section's framing).
+ */
+import CapabilityMockup from '@components/primitives/CapabilityMockup.astro';
+import { site } from '@data/site';
+
+const { label, title, items } = site.build;
+---
+
+<section id="what" class="relative py-[clamp(3rem,6vw,5rem)]">
+  <div class="relative mx-auto w-full max-w-[43.125rem] px-5 md:px-0">
+    <header data-reveal>
+      <p class="font-geist-mono text-[0.85rem] tracking-tighter text-label">{label}</p>
+      <h2
+        class="mt-[0.9rem] max-w-[30rem] font-serif text-[clamp(1.6rem,3.6vw,2.05rem)] leading-[1.24] tracking-serif text-heading"
+      >
+        {title}
+      </h2>
+    </header>
+
+    <div class="dashed-h mt-[1.5rem] -mx-[33px] hidden sm:block" aria-hidden="true"></div>
+
+    <ul class="mt-[1.5rem] grid grid-cols-1 gap-[1.25rem] sm:grid-cols-2">
+      {
+        items.map((c, i) => (
+          <li data-reveal data-reveal-delay={(i % 2) * 0.08}>
+            <article class="flex h-full flex-col">
+              <div
+                class="dashed-box aspect-[16/10] w-full overflow-hidden rounded-[var(--radius-card)] bg-card/60"
+                aria-hidden="true"
+                data-tilt="7"
+              >
+                <CapabilityMockup kind={c.mockup} />
+              </div>
+              <h3 class="mt-[0.9rem] font-serif text-[1.2rem] leading-[1.2] tracking-serif text-heading">
+                {c.title}
+              </h3>
+              <p class="mt-[0.35rem] font-geist text-[0.85rem] leading-snug tracking-tight text-body">
+                {c.description}
+              </p>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="dashed-h mt-[1.5rem] -mx-[33px] hidden sm:block" aria-hidden="true"></div>
+  </div>
+</section>

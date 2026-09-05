@@ -1,63 +1,113 @@
 ---
 /**
- * Hero — headline + lead on the left inside a dashed "blueprint" frame (dotted
- * fill + diagonal hatch strip near the bottom), with the contact-form card on
- * the right overlapping the frame and poking above/below it.
+ * Hero — a centred serif headline treated like a selected layer on a Figma
+ * canvas: dashed "selection" boxes bracket individual runs of the line, one
+ * carrying a layer-name chip, another a small tag. Lead copy and the black
+ * Collaborate button sit underneath.
  *
- * Geometry is lifted from Figma (732px frame centred on the canvas), authored in
- * rem (px ÷ 16) so it scales with the fluid root. Origin = the form's top edge.
- * Desktop only; mobile stacks with no frame.
+ * Shared by the home and about pages: pass `content` to override the default
+ * (home) copy. The boxes are decoration only — the heading reads as one
+ * continuous sentence to assistive tech, and the chips are aria-hidden.
  */
-import ContactForm from './ContactForm.astro';
-import { site } from '@data/site';
+import Icon from '@components/primitives/Icon.astro';
+import { site, type HeroContent, type HeadlineRun } from '@data/site';
 
-const { hero } = site;
+interface Props {
+  content?: HeroContent;
+}
+/* `site` is `as const`, so widen back to the declared shape. */
+const { content = site.hero as unknown as HeroContent } = Astro.props;
+const { headline, subtitle, layerLabel, techTag, cta, secondaryCta, width = '38rem' } = content;
+const runs = headline as HeadlineRun[];
 
-const dots =
-  'background-image:radial-gradient(rgba(0,0,0,0.16) 0.07rem, transparent 0.106rem);background-size:1.5rem 1.5rem';
-const hatch =
-  'background-image:repeating-linear-gradient(45deg, rgba(0,0,0,0.16) 0, rgba(0,0,0,0.16) 0.0625rem, transparent 0.0625rem, transparent 0.844rem)';
+const chip =
+  'rounded-[3px] bg-ink px-[0.4rem] py-[0.16rem] font-geist-mono ' +
+  'text-[0.6rem] font-medium leading-[1.35] tracking-tighter text-white';
 ---
 
-<section id="top" class="relative pt-[clamp(1.5rem,3.5vw,2.5rem)]">
-  <div class="relative mx-auto w-full max-w-[45.75rem] px-5 md:px-0">
-    {/* ---- Decoration (desktop only), origin = form top ---- */}
-    <div class="pointer-events-none absolute inset-0 hidden md:block" aria-hidden="true">
-      {/* tall vertical dashed lines at the frame edges */}
-      <span class="dashed-v absolute left-0 top-[-2.9375rem] h-[31.375rem]"></span>
-      <span class="dashed-v absolute right-0 top-[-2.9375rem] h-[31.375rem]"></span>
-      {/* top edge */}
-      <span class="dashed-h absolute left-[-1rem] right-[-1rem] top-[1.6875rem]"></span>
-      {/* dotted fill (732×262) */}
-      <div class="absolute inset-x-0 top-[2.4375rem] h-[16.375rem]" style={dots}></div>
-      {/* diagonal hatch strip + the dashed lines bracketing it */}
-      <span class="dashed-h absolute left-[-1rem] right-[-1rem] top-[18.8125rem]"></span>
-      <div class="absolute inset-x-0 top-[18.8125rem] h-[1.25rem]" style={hatch}></div>
-      <span class="dashed-h absolute left-[-1rem] right-[-1rem] top-[20.0625rem]"></span>
-      <span class="dashed-h absolute left-[-1rem] right-[-1rem] top-[21.125rem]"></span>
-    </div>
+<section id="top" class="relative pt-[clamp(2rem,5vw,4rem)] pb-[clamp(1.5rem,3vw,2.5rem)]">
+  <div class="mx-auto w-full px-[var(--container-pad)] text-center" style={`max-width:${width}`}>
+    <h1
+      class="font-serif text-[clamp(2rem,5.2vw,3rem)] leading-[1.16] tracking-serif text-heading"
+      data-reveal
+    >
+      {
+        runs.map((run, i) => (
+          <>
+            {i > 0 && ' '}
+            {run.break && <br class="hidden sm:inline" />}
+            {run.box ? (
+              <span class="relative inline-block">
+                <span class="dashed-box relative inline-block px-[0.28em] py-[0.02em]">{run.text}</span>
+                {run.chip === 'label' && (
+                  <span class:list={['absolute -top-[1.15em] left-0 whitespace-nowrap', chip]} aria-hidden="true">
+                    {layerLabel}
+                  </span>
+                )}
+                {run.chip === 'tag' && (
+                  <span
+                    class:list={[
+                      'absolute -bottom-[1.1em] right-0 inline-flex items-center gap-[0.3em] whitespace-nowrap',
+                      chip,
+                    ]}
+                    aria-hidden="true"
+                  >
+                    <Icon name="cursor" size={8} class="shrink-0" />
+                    {techTag}
+                  </span>
+                )}
+              </span>
+            ) : (
+              <span>{run.text}</span>
+            )}
+          </>
+        ))
+      }
+    </h1>
 
-    {/* ---- Content ---- */}
-    <div class="relative grid grid-cols-1 gap-y-9 md:grid-cols-[1fr_19.3125rem] md:gap-x-[2.5625rem] md:items-start">
-      <div class="md:pl-[1.625rem] md:pt-[3.9375rem]">
-        <h1
-          class="font-sans text-hero font-medium leading-[var(--text-hero--line-height)] tracking-tight text-heading"
-          data-reveal
-        >
-          {hero.title.split('\n').map((line) => <span class="block whitespace-nowrap">{line}</span>)}
-        </h1>
+    {
+      subtitle && (
         <p
-          class="mt-3.5 max-w-[16.1rem] font-sans text-lead font-medium leading-[var(--text-lead--line-height)] tracking-tight text-body"
+          class="mx-auto mt-[clamp(1.75rem,3.5vw,2.5rem)] max-w-[26rem] font-sans text-[1rem] font-medium leading-[1.5] tracking-tight text-body"
           data-reveal
           data-reveal-delay="0.08"
         >
-          {hero.subtitle}
+          {subtitle}
         </p>
-      </div>
+      )
+    }
 
-      <div data-reveal data-reveal-delay="0.16">
-        <ContactForm />
-      </div>
+    <div
+      class:list={[
+        'flex flex-wrap items-center justify-center gap-[0.75rem]',
+        subtitle ? 'mt-[clamp(1.25rem,2.5vw,1.75rem)]' : 'mt-[clamp(1.75rem,3.5vw,2.5rem)]',
+      ]}
+      data-reveal
+      data-reveal-delay="0.16"
+    >
+      <a
+        href={cta.href}
+        class="group inline-flex items-center gap-[0.7rem] rounded-[var(--radius-field)] bg-ink py-[0.55rem] pl-[0.95rem] pr-[0.5rem] font-geist-mono text-[0.95rem] font-medium tracking-tighter text-white transition-colors duration-200 hover:bg-heading"
+      >
+        {cta.label}
+        <span
+          class="grid h-[1.35rem] w-[1.35rem] place-items-center rounded-[3px] border border-white/25 transition-transform duration-200 group-hover:translate-x-[2px]"
+          aria-hidden="true"
+        >
+          <Icon name="chevron-down" size={13} class="-rotate-90" stroke={2.4} />
+        </span>
+      </a>
+
+      {
+        secondaryCta && (
+          <a
+            href={secondaryCta.href}
+            class="inline-flex items-center rounded-[var(--radius-field)] border border-hairline px-[0.95rem] py-[0.55rem] font-geist-mono text-[0.95rem] font-medium tracking-tighter text-heading transition-colors duration-200 hover:border-heading hover:bg-card"
+          >
+            {secondaryCta.label}
+          </a>
+        )
+      }
     </div>
   </div>
 </section>

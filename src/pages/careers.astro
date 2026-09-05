@@ -1,0 +1,61 @@
+---
+/**
+ * Careers page.
+ *
+ * Positioned for engineers choosing where to do their best work, not for
+ * candidates browsing job boards — so the page leads with what the work is and
+ * how the team thinks, and puts the role list after that context.
+ *
+ * The hero's primary CTA is an in-page anchor and the apply dialog needs JS, so
+ * the mailto: in the dialog footer stays the no-JS path.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/sections/Header.astro';
+import Hero from '@components/sections/Hero.astro';
+import CareersNav from '@components/sections/careers/CareersNav.astro';
+import CareersIntro from '@components/sections/careers/CareersIntro.astro';
+import LookFor from '@components/sections/careers/LookFor.astro';
+import Teams from '@components/sections/careers/Teams.astro';
+import WorkingModels from '@components/sections/careers/WorkingModels.astro';
+import RemoteCulture from '@components/sections/careers/RemoteCulture.astro';
+import HowWeBuild from '@components/sections/careers/HowWeBuild.astro';
+import ExperienceLevels from '@components/sections/careers/ExperienceLevels.astro';
+import CandidateSignals from '@components/sections/careers/CandidateSignals.astro';
+import CareersCta from '@components/sections/careers/CareersCta.astro';
+import ApplyDialog from '@components/sections/ApplyDialog.astro';
+import Footer from '@components/sections/Footer.astro';
+import HatchBand from '@components/primitives/HatchBand.astro';
+import { site, type HeroContent } from '@data/site';
+
+const hero = site.careers.hero as unknown as HeroContent;
+---
+
+<BaseLayout
+  title={`Careers | ${site.name}`}
+  description="Think deeply. Build boldly. Engineer what's next. We bring together exceptional engineers, designers and AI builders across AI, product, mobile, cloud, data, security and design."
+>
+  <Header />
+  <main>
+    <Hero content={hero} />
+    <CareersNav />
+    <CareersIntro />
+    <HatchBand />
+    <LookFor />
+    <HatchBand />
+    <Teams />
+    <HatchBand />
+    <WorkingModels />
+    <RemoteCulture />
+    <HatchBand />
+    <HowWeBuild />
+    <ExperienceLevels />
+    <HatchBand />
+    <CandidateSignals />
+    <CareersCta />
+  </main>
+  <Footer />
+  <ApplyDialog />
+  <script>
+    import '../scripts/apply.ts';
+  </script>
+</BaseLayout>

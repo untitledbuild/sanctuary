@@ -1,0 +1,47 @@
+---
+/**
+ * Closing band — the final ask, plus the careers tagline set as a quiet mono
+ * line beneath it.
+ */
+import SectionHead from '@components/primitives/SectionHead.astro';
+import Icon from '@components/primitives/Icon.astro';
+import { site } from '@data/site';
+
+const { closing, tagline } = site.careers;
+---
+
+<section class="relative py-[clamp(3rem,6vw,5rem)]">
+  <div class="mx-auto w-full max-w-[43.125rem] px-5 text-center md:px-0">
+    <SectionHead title={closing.title} body={closing.body} center />
+
+    <div
+      class="mt-[1.5rem] flex flex-wrap items-center justify-center gap-[0.75rem]"
+      data-reveal
+      data-reveal-delay="0.08"
+    >
+      <a
+        href={closing.cta.href}
+        class="group inline-flex items-center gap-[0.7rem] rounded-[var(--radius-field)] bg-ink py-[0.55rem] pl-[0.95rem] pr-[0.5rem] font-geist-mono text-[0.95rem] font-medium tracking-tighter text-white transition-colors duration-200 hover:bg-heading"
+      >
+        {closing.cta.label}
+        <span
+          class="grid h-[1.35rem] w-[1.35rem] place-items-center rounded-[3px] border border-white/25 transition-transform duration-200 group-hover:translate-x-[2px]"
+          aria-hidden="true"
+        >
+          <Icon name="chevron-down" size={13} class="-rotate-90" stroke={2.4} />
+        </span>
+      </a>
+      <button
+        type="button"
+        class="inline-flex cursor-pointer items-center rounded-[var(--radius-field)] border border-hairline px-[0.95rem] py-[0.55rem] font-geist-mono text-[0.95rem] font-medium tracking-tighter text-heading transition-colors duration-200 hover:border-heading hover:bg-card"
+        data-apply-open
+      >
+        {closing.secondaryCta.label}
+      </button>
+    </div>
+
+    <p class="mt-[1.75rem] font-geist-mono text-[0.8rem] tracking-tighter text-muted" data-reveal data-reveal-delay="0.12">
+      {tagline}
+    </p>
+  </div>
+</section>

@@ -105,3 +105,7 @@ function initForm(form: HTMLFormElement): void {
 document
   .querySelectorAll<HTMLFormElement>('[data-contact-form]')
   .forEach(initForm);
+
+/* Marks this file a module so its top-level names are scoped to it rather
+   than merged into the global script scope (they collide otherwise). */
+export {};

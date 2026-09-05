@@ -10,6 +10,7 @@
  *   • app-dock pop-in         [data-dock] / [data-dock-tile][data-dock-dist]
  *   • sticky-note fly-in      [data-note][data-from][data-rotate]
  *   • cursor Y-pendulum       [data-pendulum]
+ *   • pointer-tracking tilt   [data-tilt] (value = max degrees)
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -115,6 +116,73 @@ function initNotes(): void {
   });
 }
 
+/* ---------------------------------------------------------------- tilt ---- */
+/** Cards lean toward the pointer.
+ *
+ *  This writes only three custom properties (`--tilt-x/y/scale`); the easing
+ *  is a CSS transition on the composed transform (see global.css). Keeping the
+ *  damping in CSS means the motion runs on the compositor rather than a
+ *  per-frame JS tween, and the target values stay readable synchronously —
+ *  which is also what makes the effect testable.
+ *
+ *  The feel comes from that damping, not from the angle: each move retargets
+ *  the transition, so the surface trails the pointer and settles on its own.
+ *  Angles stay small (≈5–7°); past that it reads as a gimmick rather than
+ *  depth. Leaving swaps in a longer, slightly springy ease.
+ *
+ *  Pointer-fine only, and `main()` skips this entirely under reduced motion,
+ *  so the properties are never set and the transform stays identity.
+ */
+function initTilt(): void {
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
+    const max = Number(card.dataset.tilt) || 6;
+
+    let rect: DOMRect | null = null;
+    let measuredAt = 0;
+
+    const measure = (): void => {
+      rect = card.getBoundingClientRect();
+      measuredAt = window.scrollY;
+    };
+
+    card.addEventListener('pointerenter', () => {
+      measure();
+      card.classList.remove('is-returning');
+      card.style.willChange = 'transform';
+      card.style.setProperty('--tilt-scale', '1.015');
+    });
+
+    card.addEventListener('pointermove', (e) => {
+      // The cached box goes stale if the page scrolls under a held pointer.
+      if (!rect || window.scrollY !== measuredAt) measure();
+      if (!rect || !rect.width || !rect.height) return;
+      // −0.5 … 0.5 from the card's centre
+      const dx = (e.clientX - rect.left) / rect.width - 0.5;
+      const dy = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty('--tilt-x', `${(-dy * max * 2).toFixed(2)}deg`);
+      card.style.setProperty('--tilt-y', `${(dx * max * 2).toFixed(2)}deg`);
+    });
+
+    card.addEventListener('pointerleave', () => {
+      rect = null;
+      // swap to the longer, slightly springy ease for the settle
+      card.classList.add('is-returning');
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+      card.style.setProperty('--tilt-scale', '1');
+      card.addEventListener(
+        'transitionend',
+        () => {
+          card.style.willChange = '';
+        },
+        { once: true },
+      );
+    });
+  });
+}
+
 /* ------------------------------------------------------------ pendulum ---- */
 /** Collaborator cursors sway on Y (~30px), each slightly out of phase. */
 function initPendulum(): void {
@@ -143,6 +211,7 @@ function main(): void {
   initDock();
   initNotes();
   initPendulum();
+  initTilt();
 
   ScrollTrigger.refresh();
 }
