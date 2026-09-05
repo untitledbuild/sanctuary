@@ -576,8 +576,6 @@ export const site = {
       { label: 'Open Positions', href: '#openings' },
       { label: 'AI', href: '#team-01' },
       { label: 'Engineering', href: '#team-02' },
-      { label: 'Mobile', href: '#team-03' },
-      { label: 'Cloud & Data', href: '#team-04' },
       { label: 'Working Here', href: '#working' },
       { label: 'Remote Culture', href: '#remote' },
     ] satisfies NavLink[],
@@ -639,7 +637,7 @@ export const site = {
 
     openings: {
       label: '_open positions',
-      title: 'Four teams. Five open roles.',
+      title: 'Nothing open today, a couple of roles landing soon.',
       body:
         "Everything we have open is listed here. If a role isn't on this page, " +
         "it isn't open yet. Pick the team closest to your work. You won't need " +
@@ -680,55 +678,6 @@ export const site = {
                 'Build across the stack, from schema to interface',
                 'Make architectural decisions and write them down',
                 'Raise the bar through review and mentorship',
-              ],
-            },
-            {
-              title: 'Backend Engineer',
-              level: 'Mid – Senior',
-              focus: 'APIs · Data modelling · Performance',
-              responsibilities: [
-                'Design APIs other teams enjoy consuming',
-                'Model data for correctness and speed',
-                'Diagnose and fix production performance problems',
-              ],
-            },
-          ],
-        },
-        {
-          index: '03',
-          title: 'Mobile Engineering',
-          summary: 'Native and cross-platform apps, from first build through store release.',
-          tech: ['React Native', 'Swift', 'SwiftUI', 'Kotlin', 'TypeScript'],
-          roles: [
-            {
-              title: 'Mobile Engineer',
-              level: 'Mid – Senior',
-              focus: 'React Native · Swift / SwiftUI · Release engineering',
-              responsibilities: [
-                'Ship apps that feel native on both platforms',
-                'Bridge to native modules where it matters',
-                'Own release pipelines and crash-free rates',
-                'Design offline and sync behaviour that holds up',
-              ],
-            },
-          ],
-        },
-        {
-          index: '04',
-          title: 'Cloud, Data & Platform',
-          summary:
-            'The infrastructure and data everything else runs on, including security and AI workloads.',
-          tech: ['AWS', 'Kubernetes', 'Terraform', 'CI/CD', 'Python', 'SQL', 'IAM'],
-          roles: [
-            {
-              title: 'Platform Engineer',
-              level: 'Mid – Senior',
-              focus: 'AWS · Kubernetes · Terraform · CI/CD',
-              responsibilities: [
-                'Build and maintain infrastructure as code',
-                'Shorten the path from commit to production',
-                'Own cloud security posture and least-privilege access',
-                'Treat internal tooling as a product',
               ],
             },
           ],
