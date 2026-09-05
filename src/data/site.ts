@@ -639,9 +639,9 @@ export const site = {
       label: '_open positions',
       title: 'Nothing open today, a couple of roles landing soon.',
       body:
-        "Everything we have open is listed here. If a role isn't on this page, " +
-        "it isn't open yet. Pick the team closest to your work. You won't need " +
-        'every technology listed against it.',
+        "Nothing is open today, but two roles are close: AI Engineer and Senior " +
+        "Full-Stack Engineer, listed below. If neither fits, introduce yourself " +
+        "and we'll reach out when something does.",
       teams: [
         {
           index: '01',
