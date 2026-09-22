@@ -389,17 +389,17 @@ export const site = {
       'We think like product owners, design like users, and build like engineers.',
     members: [
       {
+        name: 'Tyler Good',
+        title: 'Growth & Partnerships',
+        bio: 'Builds relationships with companies across the US, uncovering challenges and bringing new opportunities to the team.',
+        image: '/team/tyler.png',
+      },
+      {
         name: 'Runanka Roy',
         title: 'Full-Stack Engineer',
         bio: 'Architects and ships scalable systems end-to-end, turning ambitious ideas into dependable, production-ready products.',
         image: '/team/runanka.png',
         linkedin: 'https://www.linkedin.com/in/runanka/',
-      },
-      {
-        name: 'Abir Armany',
-        title: 'Mobile Engineer',
-        bio: 'Crafts polished, high-performance mobile experiences built to last, with an obsessive eye for detail.',
-        linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316',
       },
       {
         name: 'Adil Bin Bhutto',
@@ -414,6 +414,12 @@ export const site = {
         bio: 'Shapes product direction through sharp design instincts, strategic thinking, and genuinely user-centered craft.',
         image: '/team/bipratip.png',
         linkedin: 'https://www.linkedin.com/in/bipratip-biswas-3bb51b250/',
+      },
+      {
+        name: 'Abir Armany',
+        title: 'Mobile Engineer',
+        bio: 'Crafts polished, high-performance mobile experiences built to last, with an obsessive eye for detail.',
+        linkedin: 'https://www.linkedin.com/in/abir-armany-25ba80316',
       },
       {
         name: 'Joud Almualem',
