@@ -122,6 +122,8 @@ Where we rely on consent, you may withdraw it at any time without affecting the 
 
 We use the following categories of cookies and similar technologies on the Site. You can manage your preferences at any time through the **Usercentrics consent banner** that appears when you first visit the Site, or by clearing your browser's cookies.
 
+The Analytics category (Google Analytics 4 and Google Tag Manager) is not loaded at all until you grant consent through that banner - not merely hidden or paused, but not requested from Google's servers in the first place.
+
 | Category | Purpose | Tools |
 | --- | --- | --- |
 | Strictly necessary | Remembering your cookie consent choices | Usercentrics |
@@ -272,5 +274,5 @@ This document was drafted from the Site's actual, verified technical configurati
 6. **Minimum age for Products** - confirm the company's actual policy.
 7. **AI sub-processor disclosure** - confirm whether any AI vendor (OpenAI, Anthropic, Google, or others) processes personal data as part of a Product or Service where the company is controller/Data Fiduciary, and name it if so.
 8. **Supabase hosting region** - confirm and disclose, since it determines the international-transfer analysis in Section 8.
-9. **Consent-before-cookies implementation** - the Site currently loads Google Analytics and Google Tag Manager via inline scripts in `<head>` alongside the Usercentrics loader; confirm with engineering whether GA4/GTM firing is actually gated on Usercentrics consent (e.g. via Google Consent Mode) before this policy's cookie-consent claims are published, since GDPR requires consent *before* non-essential cookies are set, not just a visible banner.
+9. **Consent-before-cookies implementation** - as of `src/scripts/consent.ts`, GA4 and GTM are no longer loaded at all until Usercentrics reports analytics consent granted (Google Consent Mode v2, set to denied by default). Counsel should confirm the *matching logic* is correct for this account: it identifies the relevant Usercentrics service by checking whether its configured name contains "google", which matches Usercentrics' default template naming but should be checked against the actual service names configured in the Usercentrics dashboard.
 10. **Brevo's scope of use** - confirm whether only the live-chat widget is in use, or whether Brevo's email/CRM tools also process personal data, since that changes Sections 3, 5, and 7.
