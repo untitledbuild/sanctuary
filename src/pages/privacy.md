@@ -56,7 +56,7 @@ By using the Site, applying for a role, or using a Product, you acknowledge this
 | --- | --- |
 | Legal entity | Untitled Build Private Limited |
 | Corporate Identification Number (CIN) | U62011AS2026PTC030913 |
-| Registered / principal business address | H.No. 6, Anurag Complex, Satgaon, PO- Udayan Vihar, Kamrup Metro, Assam - 781171, India |
+| Registered / principal business address | India, Asia |
 | Website | [https://untitledbuild.com](https://untitledbuild.com) |
 | General contact | `hello@untitledbuild.com` |
 | Privacy contact | `hello@untitledbuild.com` |
@@ -65,7 +65,7 @@ We are the **Data Fiduciary** (under India's Digital Personal Data Protection Ac
 
 ### Grievance Officer
 
-Under the Information Technology Act, 2000 and the Digital Personal Data Protection Act, 2023, grievances relating to this policy may be directed to our Grievance Officer at `hello@untitledbuild.com`, or by post to our registered address above.
+Under the Information Technology Act, 2000 and the Digital Personal Data Protection Act, 2023, grievances relating to this policy may be directed to our Grievance Officer at `hello@untitledbuild.com`.
 
 ## 3. Personal data we collect
 
