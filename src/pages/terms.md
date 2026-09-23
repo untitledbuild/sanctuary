@@ -2,7 +2,7 @@
 layout: ../layouts/LegalLayout.astro
 title: Terms and Conditions
 description: The terms that govern use of untitledbuild.com, our client services, and our products.
-lastUpdated: "[PLACEHOLDER: insert effective date, e.g. 1 October 2026]"
+lastUpdated: "23 September 2026"
 ---
 
 # Terms and Conditions
@@ -46,7 +46,7 @@ lastUpdated: "[PLACEHOLDER: insert effective date, e.g. 1 October 2026]"
 
 By accessing [untitledbuild.com](https://untitledbuild.com) (the "**Site**"), engaging Untitled Build Private Limited ("**we**", "**us**", "**our**", trading as "**untitled build**") for services (our "**Services**"), or creating an account with any product we operate (our "**Products**"), you agree to these Terms and Conditions ("**Terms**").
 
-You must be at least `[PLACEHOLDER: e.g. 18 years old, or the age of majority in your jurisdiction]` and capable of forming a binding contract to use our Products or engage our Services. If you're accepting these Terms on behalf of an organisation, you confirm you have authority to bind that organisation.
+You must be at least 18 years old and capable of forming a binding contract to use our Products or engage our Services. If you're accepting these Terms on behalf of an organisation, you confirm you have authority to bind that organisation.
 
 ## 2. Definitions
 
@@ -84,18 +84,18 @@ We may suspend or restrict your access to the Site if we reasonably believe you'
 
 - **Proposals are non-binding** until reflected in a signed MSA and/or SOW.
 - **Change requests.** Any change to an agreed SOW's scope, timeline, or fees must be agreed in writing (including by email) before we proceed with the changed work.
-- **Client responsibilities.** Timely delivery depends on the client providing timely feedback, access, credentials, content, and decisions as reasonably requested. Delays caused by the client extend our delivery timelines accordingly.
-- **Acceptance testing.** Where an SOW defines acceptance criteria, the client has the review period stated in that SOW (or, if none is stated, `[PLACEHOLDER: default acceptance window, e.g. 10 business days]`) to review Deliverables and report any material non-conformance. Deliverables are deemed accepted if no such report is made within that window.
+- **Client responsibilities.** Timely delivery depends on the client providing timely feedback, access, credentials, content, and decisions as reasonably requested. Delays caused by the client extend our delivery timelines accordingly, and may result in additional fees to cover idle or re-scheduled resourcing, charged at our then-current rates.
+- **Acceptance testing.** Where an SOW defines acceptance criteria, the client has the review period stated in that SOW (or, if none is stated, 7 business days) to review Deliverables and report any material non-conformance. Deliverables are deemed accepted if no such report is made within that window.
 - **Timelines are estimates.** Unless an SOW expressly states a date is a fixed, binding deadline, all timelines are good-faith estimates based on information available at the time, and are not guarantees.
 
 ## 6. Fees, invoicing, and taxes
 
 - Fees, payment schedule, and currency are set out in the applicable SOW.
-- Invoices are payable within `[PLACEHOLDER: e.g. 15 or 30 days]` of the invoice date, unless the SOW states otherwise.
+- Invoices are payable within 15 days of the invoice date, unless the SOW states otherwise.
 - Fees are exclusive of applicable taxes (including Goods and Services Tax, GST, in India) unless stated otherwise; taxes are added where legally required.
 - For international clients, invoices are issued in the currency stated in the SOW; any bank or currency-conversion charges are the client's responsibility unless agreed otherwise.
 - Where Indian tax law requires us to withhold tax (TDS) from payments we receive, or requires a client outside India to withhold tax from payments to us, the paying party will provide the corresponding tax deduction/withholding certificate promptly.
-- **Late payment.** Overdue invoices accrue interest at `[PLACEHOLDER: e.g. 1.5% per month or the maximum permitted by law, whichever is lower]`, and we may suspend work on any active engagement until overdue amounts are paid.
+- **Late payment.** Overdue invoices accrue interest at 24% per annum (2% per month), or the maximum permitted by applicable law, whichever is lower, and we may suspend work on any active engagement until overdue amounts are paid. We may also recover our reasonable costs of collection, including legal fees, for any invoice more than 30 days overdue.
 
 ## 7. Intellectual property
 
@@ -116,7 +116,7 @@ Where you create an account with, or otherwise use, one of our Products:
 - **User Content.** You retain ownership of User Content you submit to a Product. You grant us a licence to host, store, process, and display that User Content solely as necessary to operate the Product for you.
 - **Suspension and termination.** We may suspend or terminate your access to a Product for a material breach of these Terms, non-payment, or as required by law, generally with notice where practicable.
 - **Free trials and betas.** Free trials, beta, or pre-release features are provided "as is", may be changed or withdrawn at any time, and are excluded from any uptime or support commitments unless we state otherwise in writing.
-- `[PLACEHOLDER: as specific Products launch, publish product-specific terms (subscription tiers, SLAs, data export rights, etc.) and link them from here]`
+- As specific Products launch, we will publish product-specific terms (covering matters such as subscription tiers, service levels, and data export rights) and link them from this section.
 
 ## 9. AI-generated output
 
@@ -144,31 +144,30 @@ The Site and our Products may link to, or integrate with, third-party services (
 
 To the maximum extent permitted by applicable law:
 
-- **Liability cap.** Our total aggregate liability arising out of or relating to an engagement, the Site, or a Product, whether in contract, tort, or otherwise, is limited to the total fees paid by the client or user to us in the **12 months preceding** the event giving rise to the claim (or, for the Site and any free-tier Product use, `[PLACEHOLDER: e.g. INR 10,000]`).
+- **Liability cap.** Our total aggregate liability arising out of or relating to an engagement, the Site, or a Product, whether in contract, tort, or otherwise, is limited to the total fees paid by the client or user to us in the **12 months preceding** the event giving rise to the claim (or, for the Site and any free-tier Product use, INR 10,000).
 - **Exclusion of indirect loss.** Neither party is liable to the other for indirect, incidental, special, consequential, or punitive damages, or for loss of profits, revenue, data, or goodwill, even if advised of the possibility of such loss.
 - **Carve-outs.** Nothing in these Terms limits or excludes either party's liability for fraud, wilful misconduct, death or personal injury caused by negligence, or any other liability that cannot be limited or excluded under applicable law.
 
 ## 14. Indemnification
 
-Each party agrees to indemnify, defend, and hold harmless the other party from third-party claims, damages, and reasonable legal costs arising from:
+**The client indemnifies us.** The client agrees to indemnify, defend, and hold us harmless from and against any third-party claims, damages, liabilities, and reasonable legal costs arising from or relating to: (a) Client Data or any other content, instructions, or materials the client provides; (b) the client's use of a Deliverable or Product in combination with any product, service, or data not supplied by us, where the claim would not have arisen but for that combination; (c) the client's breach of these Terms or the applicable MSA/SOW; or (d) the client's own products, services, or business.
 
-- a breach of this Section 14's party's obligations under these Terms or the applicable MSA/SOW;
-- that party's gross negligence or wilful misconduct; or
-- (for the client) Client Data or content provided by the client that infringes a third party's intellectual property or other rights; or
-- (for us) our infringement of a third party's intellectual property rights in Pre-existing IP we've represented as our own.
+**Our indemnification is narrower.** We agree to indemnify, defend, and hold the client harmless from third-party claims that a Deliverable, as delivered by us and used strictly in accordance with the applicable SOW and without modification, directly infringes a third party's registered intellectual property rights - excluding, in every case, any claim arising from (i) modifications made by the client or a third party, (ii) combination with other products or services not supplied by us, (iii) open-source or third-party components (which remain governed by their own licences under [Section 7](#7-intellectual-property)), or (iv) the client's own instructions, specifications, or Client Data.
 
-Each party's indemnification obligations are subject to the liability cap in [Section 13](#13-limitation-of-liability), except for the carve-outs stated there.
+Each party's indemnification obligations under this section are subject to the liability cap in [Section 13](#13-limitation-of-liability), except for the carve-outs stated there. The indemnified party must give the indemnifying party prompt written notice of the claim, and reasonable cooperation and control over its defence and settlement, to be entitled to indemnification.
 
 ## 15. Non-solicitation
 
-`[PLACEHOLDER: decide whether to include a non-solicitation clause. If included, a typical version: "During an engagement and for 12 months after its conclusion, the client agrees not to directly solicit for hire any of our employees or contractors who were materially involved in delivering that engagement, without our prior written consent." Confirm the duration and scope with counsel, since enforceability varies by jurisdiction.]`
+During an engagement and for 12 months after its conclusion, the client agrees not to directly or indirectly solicit for hire, hire, or engage as a contractor, any of our employees or contractors who were materially involved in delivering that engagement, without our prior written consent. If the client breaches this section, the client agrees to pay us, as a genuine pre-estimate of our resourcing and replacement costs rather than a penalty, a sum equal to 30% of that individual's first-year total compensation with the client.
 
 ## 16. Term, termination, and effect
 
 - **Website and Product terms** apply for as long as you use the Site or hold an active Product account.
 - **Services** run for the term stated in the applicable MSA/SOW.
-- Either party may terminate an MSA/SOW for the other party's uncured material breach, on `[PLACEHOLDER: e.g. 15 or 30 days']` written notice, or as otherwise stated in the MSA/SOW.
-- **Effect of termination.** On termination, the client pays for all work performed and expenses reasonably incurred up to the termination date. We will hand over then-current Deliverables and reasonably assist with an orderly transition, subject to payment of outstanding fees. Sections that by their nature should survive termination (including confidentiality, IP ownership as already assigned, limitation of liability, and dispute resolution) survive.
+- **We may terminate or suspend an engagement immediately** on written notice if the client fails to pay any undisputed amount when due and does not cure that failure within 7 days of our notice, or on 15 days' written notice for any other uncured material breach by the client.
+- **The client may terminate an MSA/SOW for our uncured material breach**, on 30 days' written notice, giving us a reasonable opportunity to cure.
+- **Termination for convenience.** If the client terminates an active SOW other than for our uncured material breach, the client remains liable for all fees for work performed to the date of termination, plus a wind-down fee equal to 20% of the remaining unbilled fees under that SOW, to cover resourcing already committed.
+- **Effect of termination.** On termination, the client pays for all work performed and expenses reasonably incurred up to the termination date, plus any amount due under the termination-for-convenience provision above. We will hand over then-current Deliverables and reasonably assist with an orderly transition, subject to payment in full of all outstanding amounts. Sections that by their nature should survive termination (including confidentiality, IP ownership as already assigned, limitation of liability, non-solicitation, and dispute resolution) survive.
 
 ## 17. Force majeure
 
@@ -177,9 +176,9 @@ Neither party is liable for delay or failure to perform caused by circumstances 
 ## 18. Governing law and dispute resolution
 
 - These Terms, and any dispute arising out of or relating to the Site, our Services, or our Products, are governed by the **laws of India**, without regard to conflict-of-laws principles.
-- **Good-faith negotiation.** Before commencing formal proceedings, the parties will first attempt in good faith to resolve any dispute through negotiation between their respective senior representatives, for a period of `[PLACEHOLDER: e.g. 30 days]`.
-- **Arbitration.** Any dispute not resolved through negotiation will be referred to and finally resolved by arbitration under the **Arbitration and Conciliation Act, 1996**, seated in `[PLACEHOLDER: seat/city of arbitration, e.g. Guwahati, Assam — matches the company's registered state per its CIN and trade licence, but this is a deliberate business choice and should be confirmed]`, conducted in the English language, by a sole arbitrator appointed by mutual agreement of the parties (or, failing agreement, as provided under the Act).
-- **Exclusive jurisdiction.** Subject to the arbitration agreement above, the courts at `[PLACEHOLDER: same city as the arbitration seat, unless a different court is chosen]` have exclusive jurisdiction over any matter not subject to arbitration (for example, applications for interim relief).
+- **Good-faith negotiation.** Before commencing formal proceedings, the parties will first attempt in good faith to resolve any dispute through negotiation between their respective senior representatives, for a period of 30 days.
+- **Arbitration.** Any dispute not resolved through negotiation will be referred to and finally resolved by arbitration under the **Arbitration and Conciliation Act, 1996**, seated in **Guwahati, Assam** (the company's registered state), conducted in the English language, by a sole arbitrator appointed by mutual agreement of the parties (or, failing agreement, as provided under the Act).
+- **Exclusive jurisdiction.** Subject to the arbitration agreement above, the courts at **Guwahati, Assam** have exclusive jurisdiction over any matter not subject to arbitration (for example, applications for interim relief).
 
 ## 19. Export controls and sanctions
 
@@ -187,12 +186,12 @@ Where our Services or Products involve international clients or users, each part
 
 ## 20. Miscellaneous
 
-- **Assignment.** Neither party may assign these Terms, or an MSA/SOW, without the other's prior written consent, except to a successor in a merger, acquisition, or sale of substantially all assets.
+- **Assignment.** We may assign these Terms, or an MSA/SOW, without the client's consent, including to an affiliate or to a successor in a merger, acquisition, or sale of substantially all assets. The client may not assign these Terms, or an MSA/SOW, without our prior written consent.
 - **Severability.** If any provision of these Terms is held unenforceable, the remaining provisions continue in full force, and the unenforceable provision will be interpreted to best reflect the parties' original intent.
 - **Waiver.** No failure or delay in exercising a right under these Terms operates as a waiver of that right.
 - **Entire agreement.** For Services, the applicable MSA and SOW, together with these Terms (to the extent not superseded), constitute the entire agreement between the parties for that engagement, superseding prior discussions or proposals on the same subject matter.
 - **Notices.** Legal notices to us should be sent to the contact details in [Section 21](#21-contact). We may send notices to you at the email address you've provided to us.
-- **Amendments.** We may update these Terms from time to time by posting a revised version on the Site with an updated "Last updated" date. Material changes affecting an active MSA/SOW require the client's written agreement to take effect for that engagement.
+- **Amendments.** We may update these Terms from time to time by posting a revised version on the Site with an updated "Last updated" date. Your continued use of the Site or a Product after a revised version is posted constitutes acceptance of it. Material changes affecting an active MSA/SOW require the client's written agreement to take effect for that engagement.
 
 ## 21. Contact
 
@@ -200,20 +199,4 @@ Questions about these Terms can be sent to `hello@untitledbuild.com`, or to:
 
 **Untitled Build Private Limited**
 CIN: U62011AS2026PTC030913
-H.No. 6, Anurag Complex, Satgaon, PO- Udayan Vihar, Kamrup Metro, Assam - 781171, India `[PLACEHOLDER: confirm this is the correct address for legal notices]`
-
----
-
-## Lawyer review checklist
-
-This document was drafted from the Site's actual configuration plus the company's Trade Licence and CIN, and has **not** been reviewed by qualified counsel. Before publication, please have counsel confirm or complete:
-
-1. **Arbitration seat and governing courts (Section 18)** - currently defaults to Guwahati/Assam based on the company's CIN state code, but the seat of arbitration and choice of court are business decisions, not automatic consequences of where a company is registered. Confirm deliberately.
-2. **Liability cap figures (Section 13)** - the 12-months-of-fees formulation is standard, but the flat cap for Site/free-tier use is a placeholder figure and needs a real number.
-3. **Non-solicitation clause (Section 15)** - decide whether to include it at all, and if so, confirm the duration is enforceable under Indian law and under the law of any major client jurisdiction (e.g. some US states restrict non-solicits).
-4. **Payment terms (Section 6)** - invoice due date, late-interest rate, and any TDS/withholding mechanics should be confirmed against actual practice and against the Income Tax Act provisions that apply.
-5. **Indemnification (Section 14)** - the mutual structure here is a common starting point, but many clients will negotiate this heavily; confirm it matches the company's risk appetite before it's presented as a take-it-or-leave-it default.
-6. **Acceptance testing and change-request defaults (Section 5)** - the bracketed default windows should be replaced with whatever the company actually practises, or removed in favour of "as stated in the SOW" if there's no consistent default.
-7. **Product terms (Section 8)** - this section is deliberately generic since no product name/URL was provided. Once a Product ships, it likely needs its own supplementary terms (SLA, data export, subscription cancellation mechanics).
-8. **Export controls (Section 19)** - confirm this is the level of detail needed given the company's actual client base, versus a fuller sanctions-compliance clause if regulated-industry or defense-adjacent clients are in scope.
-9. **Minimum age (Section 1)** and **entity address for notices (Section 21)** - same placeholders flagged in the Privacy Policy checklist; keep both documents consistent once filled in.
+H.No. 6, Anurag Complex, Satgaon, PO- Udayan Vihar, Kamrup Metro, Assam - 781171, India *(per GMC Trade Licence No. 1788600916243129)*
