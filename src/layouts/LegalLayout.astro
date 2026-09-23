@@ -1,0 +1,191 @@
+---
+/**
+ * Legal document layout — wraps a Markdown page (privacy.md / terms.md) with
+ * the site chrome and long-form reading styles.
+ *
+ * Astro's Markdown pages pass frontmatter as a single `frontmatter` prop
+ * rather than spreading each key, so `title`/`description`/`lastUpdated` are
+ * read from there rather than as individual Props.
+ *
+ * The prose rules below are scoped (not global) and target plain semantic
+ * HTML — the compiled output of the Markdown body — using the same colour and
+ * type tokens the rest of the site uses, rather than a typography plugin the
+ * project doesn't have installed.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Header from '@components/sections/Header.astro';
+import Footer from '@components/sections/Footer.astro';
+import Container from '@components/primitives/Container.astro';
+
+interface Frontmatter {
+  title: string;
+  description?: string;
+  lastUpdated?: string;
+}
+interface Props {
+  frontmatter: Frontmatter;
+}
+const { frontmatter } = Astro.props as Props;
+---
+
+<BaseLayout title={`${frontmatter.title} | untitled build`} description={frontmatter.description}>
+  <Header />
+  <main>
+    <article class="relative py-[clamp(2.5rem,6vw,4.5rem)]">
+      <Container width="spine">
+        {
+          frontmatter.lastUpdated && (
+            <p class="font-geist-mono text-[0.8rem] tracking-tighter text-label">
+              Last updated: {frontmatter.lastUpdated}
+            </p>
+          )
+        }
+        <div class="legal-prose">
+          <slot />
+        </div>
+      </Container>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Scoped to this wrapper only — semantic-element rules matching the
+     compiled Markdown output, using the site's existing design tokens. */
+  .legal-prose :global(h1) {
+    margin-top: 0;
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 4.5vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--color-heading);
+  }
+
+  .legal-prose :global(h2) {
+    margin-top: 2.75rem;
+    margin-bottom: 0.75rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-hairline-soft);
+    font-family: var(--font-serif);
+    font-size: clamp(1.3rem, 2.6vw, 1.6rem);
+    line-height: 1.25;
+    color: var(--color-heading);
+    scroll-margin-top: 5rem;
+  }
+
+  .legal-prose :global(h3) {
+    margin-top: 1.75rem;
+    margin-bottom: 0.5rem;
+    font-family: var(--font-geist);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-name);
+    scroll-margin-top: 5rem;
+  }
+
+  .legal-prose :global(p),
+  .legal-prose :global(li) {
+    font-family: var(--font-geist);
+    font-size: 0.95rem;
+    line-height: 1.65;
+    letter-spacing: -0.005em;
+    color: var(--color-body);
+  }
+
+  .legal-prose :global(p) {
+    margin: 0.9rem 0;
+  }
+
+  .legal-prose :global(strong) {
+    color: var(--color-name);
+    font-weight: 600;
+  }
+
+  .legal-prose :global(a) {
+    color: var(--color-brand);
+    text-underline-offset: 2px;
+  }
+  .legal-prose :global(a:hover) {
+    text-decoration: none;
+  }
+
+  .legal-prose :global(ul),
+  .legal-prose :global(ol) {
+    margin: 0.9rem 0;
+    padding-left: 1.25rem;
+  }
+  .legal-prose :global(ul) {
+    list-style: disc;
+  }
+  .legal-prose :global(ol) {
+    list-style: decimal;
+  }
+  .legal-prose :global(li) {
+    margin: 0.3rem 0;
+  }
+  .legal-prose :global(li > ul),
+  .legal-prose :global(li > ol) {
+    margin: 0.3rem 0;
+  }
+
+  .legal-prose :global(hr) {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid var(--color-hairline-soft);
+  }
+
+  /* Summary / callout box — a blockquote is repurposed for it rather than a
+     bespoke syntax, so the Markdown stays plain and portable. */
+  .legal-prose :global(blockquote) {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-hairline-soft);
+    background: var(--color-card);
+    box-shadow: var(--shadow-tile);
+  }
+  .legal-prose :global(blockquote > p:first-child) {
+    margin-top: 0;
+  }
+  .legal-prose :global(blockquote > p:last-child) {
+    margin-bottom: 0;
+  }
+
+  /* Placeholders read as a flagged to-do, not finished copy. */
+  .legal-prose :global(code) {
+    padding: 0.05em 0.35em;
+    border-radius: 4px;
+    background: var(--color-badge-brand-bg, var(--color-brand-tint));
+    color: var(--color-brand);
+    font-family: var(--font-geist-mono);
+    font-size: 0.85em;
+  }
+
+  .legal-prose :global(table) {
+    width: 100%;
+    margin: 1.25rem 0;
+    border-collapse: collapse;
+    font-family: var(--font-geist);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .legal-prose :global(th),
+  .legal-prose :global(td) {
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--color-hairline-soft);
+    text-align: left;
+    vertical-align: top;
+    color: var(--color-body);
+  }
+  .legal-prose :global(th) {
+    background: var(--color-plate, var(--color-card));
+    color: var(--color-name);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .legal-prose :global(table) {
+    display: block;
+    overflow-x: auto;
+  }
+</style>
